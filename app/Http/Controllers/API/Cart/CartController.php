@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API\Cart;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\API\CartRequest;
+use App\Services\CartService;
 
 class CartController extends Controller
 {
@@ -22,22 +23,44 @@ class CartController extends Controller
         $cart = $this->cartService->addToCart($data);
 
         return response()->json([
-            'message' => 'Cart',
-        ]);
+            'message' => 'Cart created successfully',
+            'cart' => $cart
+        ], 201);
+
     }
 
     public function update(CartRequest $request)
     {
+        $data = $request->validated();
+        $cart = $this->cartService->updateCart($data);
+
         return response()->json([
-            'message' => 'Cart',
-        ]);
+            'message' => 'Cart updated successfully',
+            'cart' => $cart
+        ], 200);
+
     }
 
     public function destroy(CartRequest $request)
     {
+        $data = $request->validated();
+        $cart = $this->cartService->removeFromCart($data);
+
         return response()->json([
-            'message' => 'Cart',
-        ]);
+            'message' => 'Cart removed successfully',
+            'cart' => $cart
+        ], 200);
     }
-    
+
+    public function get(Request $request)
+    {
+        $data = $request->all();
+        $cart = $this->cartService->getCart($data);
+
+        return response()->json([
+            'message' => 'Cart retrieved successfully',
+            'cart' => $cart
+        ], 200);
+    }
+
 }
