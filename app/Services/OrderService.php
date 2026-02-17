@@ -9,7 +9,9 @@ use App\Models\Order;
 use App\Models\OrderDetail;
 use App\Models\Admin;
 use App\Models\Invoice;
+use App\Models\Transaction;
 use App\Notifications\OrderPlacedNotification;
+use App\Notifications\PaymentSuccessNotification;
 use App\Jobs\GenerateInvoiceJob;
 
 
@@ -20,7 +22,6 @@ class OrderService
     {
         try {
 
-            //Log::info('Order data: ' . json_encode($data));
             
             DB::beginTransaction();
 
@@ -60,14 +61,16 @@ class OrderService
                 'amount' => $order->total_amount,
             ]);
 
-            
+
             // Order Created
             // Event Fired
             // Queued Listener
             // Send Email (Background)
+            /*if ($order->user) {
+                $order->user->notify(new OrderPlacedNotification($order));
+            }*/
 
-
-            //GenerateInvoiceJob::dispatch($order);
+            GenerateInvoiceJob::dispatch($order);
 
 
             DB::commit();
@@ -160,6 +163,40 @@ class OrderService
             return $query->paginate($perPage);
             
         } catch (Throwable $e) {
+            Log::error($e->getMessage());
+            throw new Exception($e->getMessage());
+        }
+    }
+
+    public function handlePaymentSuccess($orderId, array $paymentData)
+    {
+        try {
+            DB::beginTransaction();
+
+            $order = Order::findOrFail($orderId);
+            
+            // Update order status
+            $order->update(['status' => 'paid']);
+
+            // Create or update transaction record
+            $transaction = Transaction::updateOrCreate(
+                ['order_id' => $order->id, 'transaction_id' => $paymentData['transaction_id']],
+                [
+                    'amount' => $paymentData['amount'] ?? $order->total_amount,
+                    'payment_method' => $paymentData['payment_method'] ?? $order->payment_method,
+                    'status' => 'completed'
+                ]
+            );
+
+            // Send notification to user
+            if ($order->user) {
+                $order->user->notify(new PaymentSuccessNotification($order, $transaction));
+            }
+
+            DB::commit();
+            return $order;
+        } catch (Throwable $e) {
+            DB::rollBack();
             Log::error($e->getMessage());
             throw new Exception($e->getMessage());
         }

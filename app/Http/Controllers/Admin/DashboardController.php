@@ -16,7 +16,7 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        echo $unreadCount = auth()->guard('admin')->user()->unreadNotifications()->count();
+        //echo $unreadCount = auth()->guard('admin')->user()->unreadNotifications()->count();
 
         $totalOrders = Order::count();
         $totalRevenue = Order::where('status', 'paid')->orWhere('status', 'shipped')->sum('total_amount');
