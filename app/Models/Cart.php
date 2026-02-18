@@ -24,5 +24,11 @@ class Cart extends Model
         return $this->belongsTo(User::class);
     }
 
-    
+    public function scopeForUserSession($query, $userId, $sessionId)
+{
+       return $query->where('user_id', $userId)
+                 ->where('session_id', $sessionId);
+}
+
+
 }
