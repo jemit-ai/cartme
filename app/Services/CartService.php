@@ -24,7 +24,7 @@ class CartService
         $userId     = $userId ?? 0;
         // Create or Update Cart if not exists
 
-        if (!$productId || !$quantity) {
+        if (!$product_id || !$quantity) {
          return null;
         }
 
@@ -56,7 +56,7 @@ class CartService
         $product_id = $data['product_id'] ?? null;
         $quantity   = $data['quantity'] ?? null;
 
-        if (!$productId || !$quantity) {
+        if (!$product_id || !$quantity) {
          return null;
         }
 
@@ -66,7 +66,7 @@ class CartService
             return null;
         }
 
-        $cartItem = $cart->items()->where('product_id', $productId)->first();
+        $cartItem = $cart->items()->where('product_id', $product_id)->first();
 
         if ($cartItem) {
             $cartItem->update(['quantity' => $quantity]);
@@ -81,11 +81,7 @@ class CartService
 
         $product_id = $data['product_id'] ?? null;
         $quantity   = $data['quantity'] ?? null;
-
-        if (!$productId || !$quantity) {
-         return null;
-        }
-
+        
         $cart = Cart::forUserSession($userId, $authId)->first();
 
         if (!$cart) {
@@ -101,9 +97,6 @@ class CartService
     {
         $userId = $userId ?? 0;
 
-        return Cart::where('user_id', $userId)
-            ->where('session_id', $authId)
-            ->with(['items.product'])
-            ->first();
+        return Cart::forUserSession($userId, $authId)->with(['items.product'])->first();
     }
 }
