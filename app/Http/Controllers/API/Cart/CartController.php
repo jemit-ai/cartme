@@ -1,13 +1,15 @@
 <?php
-
 namespace App\Http\Controllers\API\Cart;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\API\CartRequest;
 use App\Services\CartService;
+use Illuminate\Support\Facades\Log;
+use App\Http\Controllers\API\BaseApiController;
+use Exception;
 
-class CartController extends Controller
+class CartController extends BaseApiController
 {
 
     protected $cartService;
@@ -19,48 +21,81 @@ class CartController extends Controller
     
     public function store(CartRequest $request)
     {
-        $data = $request->validated();
-        $cart = $this->cartService->addToCart($data);
+        $data   = $request->validated();
+        $authId = $request->header('authid'); // Guest User 
+        $userId = $request->user()?->id ?? 0; // login User
 
-        return response()->json([
-            'message' => 'Cart created successfully',
-            'cart' => $cart
-        ], 201);
+        try {
 
+            $cart = $this->cartService->addToCart($data, $authId, $userId);
+
+            return $this->successResponse(
+                $cart,
+                'Cart item added successfully',
+                201
+            );
+
+        } catch (Exception $e) {
+
+            return $this->errorResponse(
+                'Failed to create cart',
+                $e->getMessage(),
+                500
+            );
+        }
     }
 
     public function update(CartRequest $request)
     {
         $data = $request->validated();
-        $cart = $this->cartService->updateCart($data);
+        $authId = $request->header('authid');
+        $userId = $request->user()?->id ?? 0;
 
-        return response()->json([
-            'message' => 'Cart updated successfully',
-            'cart' => $cart
-        ], 200);
+        try {
+
+            $cart = $this->cartService->updateCart($data, $authId, $userId);
+            return $this->successResponse($cart, 'Cart updated successfully');
+
+        } catch (Exception $e) {
+
+            return $this->errorResponse('Failed to update cart', $e->getMessage(), 500);
+
+        }
 
     }
 
     public function destroy(CartRequest $request)
     {
         $data = $request->validated();
-        $cart = $this->cartService->removeFromCart($data);
+        $authId = $request->header('authid');
+        $userId = $request->user()?->id ?? 0;
 
-        return response()->json([
-            'message' => 'Cart removed successfully',
-            'cart' => $cart
-        ], 200);
+        try {
+
+            $cart = $this->cartService->removeFromCart($data, $authId, $userId);
+            return $this->successResponse($cart, 'Item removed from cart successfully');
+
+        } catch (Exception $e) {
+
+            return $this->errorResponse('Failed to remove item from cart', $e->getMessage(), 500);
+
+        }
     }
 
     public function get(Request $request)
     {
-        $data = $request->all();
-        $cart = $this->cartService->getCart($data);
+        $authId = $request->header('authid');
+        $userId = $request->user()?->id ?? 0;
 
-        return response()->json([
-            'message' => 'Cart retrieved successfully',
-            'cart' => $cart
-        ], 200);
+        try {
+
+            $cart = $this->cartService->getCart($authId, $userId);
+            return $this->successResponse($cart, 'Cart retrieved successfully');
+
+        } catch (Exception $e) {
+
+            return $this->errorResponse('Failed to retrieve cart', $e->getMessage(), 500);
+            
+        }
     }
-
 }

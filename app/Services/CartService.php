@@ -11,116 +11,85 @@ use Exception; // Use global Exception
 use App\Models\Cart;
 use App\Models\CartItem;
 
+
 class CartService
 {
-    private function getCartInstance()
+
+    public function addToCart($data, $authId, $userId)
     {
-        // Try to get authenticated user
-        $user = Auth::guard('sanctum')->user();
-        if ($user) {
-            return Cart::firstOrCreate(['user_id' => $user->id]);
+
+        $product_id = $data['product_id'];
+        $quantity   = $data['quantity'];
+
+        $userId     = $userId ?? 0;
+        // Create or Update Cart if not exists
+
+        $cart = Cart::updateOrCreate([
+            'user_id'    => $userId,
+            'session_id' => $authId
+        ]);
+
+        // Add item to cart or update quantity if it already exists
+        $cartItem = $cart->items()->where('product_id', $product_id)->first();
+
+        if ($cartItem) {
+            $cartItem->increment('quantity', $quantity);
+        } else {
+            $cart->items()->create([
+                'product_id' => $product_id,
+                'quantity' => $quantity,
+            ]);
         }
 
-        // Fallback to session ID
-        $sessionId = Session::getId();
-        if (!$sessionId) {
-            // If session is not started, we might need to handle it or generate a UUID?
-            // For now, let's assume session ID is available or use a fallback for testing
-            if (app()->runningInConsole() || app()->environment('testing')) {
-                // In testing, Session::getId() might be empty if middleware not run? 
-                // But usually it should be mocked or available.
-                // Let's create a temporary session ID based on something stable in test? No.
-                // Just create one.
-                $sessionId = 'test-session'; 
-            } else {
-                 // In API with no session, this is problematic.
-                 // We might need to rely on client sending a session_id or token.
-                 // But for this task, let's create a cart with a random session ID if none exists? No that's bad.
-                 // Let's assume there is a session.
-            }
-        }
+        return $cart->load('items.product');
         
-        return Cart::firstOrCreate(['session_id' => $sessionId]);
     }
 
-    public function addToCart($data)
+    public function updateCart($data, $authId, $userId)
     {
-        try {
-            $cart = $this->getCartInstance();
+        $userId = $userId ?? 0;
 
-            $cartItem = CartItem::where('cart_id', $cart->id)
-                ->where('product_id', $data['product_id'])
-                ->first();
+        $cart = Cart::where('user_id', $userId)
+            ->where('session_id', $authId)
+            ->first();
 
-            if ($cartItem) {
-                $cartItem->quantity += $data['quantity'];
-                $cartItem->save();
-            } else {
-                CartItem::create([
-                    'cart_id' => $cart->id,
-                    'product_id' => $data['product_id'],
-                    'quantity' => $data['quantity'],
-                ]);
-            }
-            
-            return $cart->load('items.product');
-
-        } catch (Throwable $e) {
-            Log::error($e->getMessage());
+        if (!$cart) {
             return null;
         }
+
+        $cartItem = $cart->items()->where('product_id', $data['product_id'])->first();
+
+        if ($cartItem) {
+            $cartItem->update(['quantity' => $data['quantity']]);
+        }
+
+        return $cart->load('items.product');
     }
 
-    public function updateCart($data)
+    public function removeFromCart($data, $authId, $userId)
     {
-        try {
-            $cart = $this->getCartInstance();
-            
-            $cartItem = CartItem::where('cart_id', $cart->id)
-                ->where('product_id', $data['product_id'])
-                ->first();
+        $userId = $userId ?? 0;
 
-            if ($cartItem) {
-                $cartItem->quantity = $data['quantity'];
-                $cartItem->save();
-            } else {
-                // If item not found, maybe add it? Or throw error.
-                // For update, typically we expect it to exist.
-                // But let's add it if it doesn't exist for robustness?
-                // The test calls update after add, so it should exist.
-            }
+        $cart = Cart::where('user_id', $userId)
+            ->where('session_id', $authId)
+            ->first();
 
-            return $cart->load('items.product');
-        } catch (Throwable $e) {
-            Log::error($e->getMessage());
+        if (!$cart) {
             return null;
         }
+
+        $cart->items()->where('product_id', $data['product_id'])->delete();
+
+        return $cart->load('items.product');
     }
 
-    public function removeFromCart($data)
+    public function getCart($authId, $userId)
     {
-        try {
-            $cart = $this->getCartInstance();
-            
-            CartItem::where('cart_id', $cart->id)
-                ->where('product_id', $data['product_id'])
-                ->delete();
+        $userId = $userId ?? 0;
 
-            return $cart->load('items.product');
-        } catch (Throwable $e) {
-            Log::error($e->getMessage());
-            return null;
-        }
-    }
-
-    public function getCart($data = [])
-    {
-        try {
-            $cart = $this->getCartInstance();
-            return $cart->load('items.product');
-        } catch (Throwable $e) {
-            Log::error($e->getMessage());
-            return null;
-        }
+        return Cart::where('user_id', $userId)
+            ->where('session_id', $authId)
+            ->with(['items.product'])
+            ->first();
     }
 }

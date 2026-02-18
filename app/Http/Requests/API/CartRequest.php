@@ -3,6 +3,8 @@
 namespace App\Http\Requests\API;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class CartRequest extends FormRequest
 {
@@ -25,6 +27,18 @@ class CartRequest extends FormRequest
             'product_id' => 'required|exists:products,id',
             'quantity' => 'required|integer|min:1',
         ];
-        
+    }
+
+    /**
+     * Handle a failed validation attempt.
+     * Always return JSON for API requests instead of redirecting.
+     */
+    protected function failedValidation(Validator $validator)
+    {
+        throw new HttpResponseException(response()->json([
+            'message' => 'Validation failed',
+            'errors' => $validator->errors(),
+        ], 422));
+
     }
 }

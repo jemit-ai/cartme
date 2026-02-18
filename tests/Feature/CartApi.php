@@ -9,6 +9,9 @@ use App\Models\Cart;
 use App\Models\CartItem;
 use App\Models\Product;
 use App\Models\Category;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Session;
+
 
 class CartApi extends TestCase
 {
@@ -35,14 +38,23 @@ class CartApi extends TestCase
         ]);
 
         $response->assertStatus(201);
+        
+        $cartId = $response->json('cart.id');
+        $this->assertNotNull($cartId, "Cart ID should not be null in response");
 
+        // Verify Cart entry
+        $this->assertDatabaseHas('carts', [
+            'id' => $cartId,
+        ]);
+
+        // Verify CartItem entry
         $this->assertDatabaseHas('cart_items', [
+            'cart_id' => $cartId,
             'product_id' => $this->product->id,
             'quantity' => 1,
         ]);
     }
 
-    /*
     public function test_update_cart()
     {
         // First add to cart
@@ -72,6 +84,7 @@ class CartApi extends TestCase
             'product_id' => $this->product->id,
             'quantity' => 1,
         ]);
+
         $response = $this->postJson('/api/cart/remove', [
             'product_id' => $this->product->id,
             'quantity' => 1,
@@ -88,11 +101,21 @@ class CartApi extends TestCase
 
     public function test_get_cart()
     {
+        // Add something so it's not empty
+        $this->postJson('/api/cart/add', [
+            'product_id' => $this->product->id,
+            'quantity' => 1,
+        ]);
+
         $response = $this->getJson('/api/cart');
 
         $response->assertStatus(200);
+        $response->assertJsonStructure([
+            'message',
+            'cart' => [
+                'id',
+                'items'
+            ]
+        ]);
     }
-        
-    */
-
 }
