@@ -6,6 +6,8 @@ use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Database\Seeders\CountriesSeeder;
+use Database\Seeders\CurrencySeeder;
+use Database\Seeders\AdminSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -26,6 +28,8 @@ class DatabaseSeeder extends Seeder
         $this->call([
             CountriesSeeder::class,
             CurrencySeeder::class,
+            AdminSeeder::class,
+            CategorySeeder::class,
         ]);
 
     }

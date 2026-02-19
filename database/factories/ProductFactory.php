@@ -25,7 +25,6 @@ class ProductFactory extends Factory
         ];
     }
 
-
     public function configure()
     {
         return $this->afterCreating(function (Product $product) {
@@ -58,6 +57,5 @@ class ProductFactory extends Factory
 
         });
     }
-
 
 }
