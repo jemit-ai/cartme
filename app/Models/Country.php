@@ -13,14 +13,21 @@ class Country extends Model
     use HasFactory;
 
     protected $fillable = [
+      
         'name',
         'iso2',
         'iso3',
         'phone_code',
         'currency',
         'currency_symbol',
+
     ];
 
+    public function products()
+    {
+        return $this->belongsToMany(Product::class, 'product_country')
+            ->withPivot('price', 'currency_code', 'status')->withTimestamps();
+    }
         
   
 }

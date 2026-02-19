@@ -13,7 +13,15 @@ class CountriesSeeder extends Seeder
     public function run(): void
     {
         // Truncate first to avoid duplicates on re-seed
+
+
+
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
         DB::table('countries')->truncate();
+        DB::table('product_country')->truncate();
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+
+
 
         $countries = [
             ['name' => 'Afghanistan',                      'iso2' => 'AF', 'iso3' => 'AFG', 'phone_code' => '93',  'currency' => 'AFN', 'currency_symbol' => '؋'],
@@ -176,6 +184,8 @@ class CountriesSeeder extends Seeder
         foreach (array_chunk($rows, 50) as $chunk) {
             DB::table('countries')->insert($chunk);
         }
+
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
         $this->command->info('Countries seeded: ' . count($countries));
     }

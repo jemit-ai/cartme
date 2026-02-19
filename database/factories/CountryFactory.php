@@ -22,7 +22,9 @@ class CountryFactory extends Factory
         return [
 
             'name' => $this->faker->country,
-            'code' => $this->faker->countryCode,
+            'iso2' => $this->faker->countryCode,
+            'iso3' => $this->faker->countryISOAlpha3,
+            'phone_code' => $this->faker->numerify('+##'),
             'currency' => $this->faker->currencyCode,
             'currency_symbol' => $this->faker->randomElement(['$', '€', '£', '¥']),
 

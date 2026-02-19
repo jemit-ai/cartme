@@ -3,17 +3,15 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use App\Models\Country;
+use App\Models\Product;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\product>
  */
 class ProductFactory extends Factory
 {
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
+    
     public function definition(): array
     {
         return [
@@ -26,4 +24,40 @@ class ProductFactory extends Factory
             'status' => true
         ];
     }
+
+
+    public function configure()
+    {
+        return $this->afterCreating(function (Product $product) {
+
+            $countries = Country::whereIn('iso2', ['IN', 'US', 'GB'])->get();
+
+            foreach ($countries as $country) {
+
+                if($country->currency=='USD'){
+
+                    $price=$product->price*91.16;
+
+                }elseif($country->currency=='GBP'){
+
+                    $price=$product->price*123.02;
+                    
+                }else{
+
+                    $price=$product->price;
+                }
+
+                $product->countries()->attach($country->id, [
+                    'price' => $price,
+                    'currency_code' => $country->currency,
+                    'status' => true
+                ]);
+
+            }
+
+
+        });
+    }
+
+
 }
