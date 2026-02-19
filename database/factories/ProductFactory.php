@@ -5,6 +5,7 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\Country;
 use App\Models\Product;
+use App\Models\Category;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\product>
@@ -54,6 +55,27 @@ class ProductFactory extends Factory
 
             }
 
+
+        });
+    }
+
+
+    public function categoryAttachment()
+    {
+        return $this->afterCreating(function (Product $product) {
+
+            $categories = Category::inRandomOrder()->first();
+
+            foreach ($categories as $category) {
+
+                $product->category()->attach($category->id, [
+                   
+                    'category_id' => $category->id,
+                    'product_id' => $product->id,
+
+                ]);
+
+            }
 
         });
     }

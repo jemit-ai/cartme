@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 use App\Models\Country;
+use App\Models\Category;
 
 class Product extends Model
 {
@@ -23,7 +24,10 @@ class Product extends Model
     
     public function category()
     {
-        return $this->belongsTo(Category::class);
+        //return $this->belongsTo(Category::class);
+
+        return $this->belongsToMany(Category::class, 'category_product')
+            ->withPivot('category_id', 'product_id')->withTimestamps();
     }    
 
     public function countries()
