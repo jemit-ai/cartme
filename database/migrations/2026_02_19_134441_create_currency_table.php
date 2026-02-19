@@ -19,9 +19,6 @@ return new class extends Migration
             $table->boolean('is_base')->default(false);
             $table->timestamps();
 
-            $table->unique(['code']);
-
-
         });
     }
 
