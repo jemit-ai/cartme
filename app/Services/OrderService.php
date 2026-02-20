@@ -41,13 +41,22 @@ class OrderService
             $order = Order::create($data);
 
             foreach ($items as $item) {
+
                 $product = Product::find($item['product_id']);
-                OrderDetail::create([
+
+                $order->products()->attach($product->id, [
+                    'quantity' => $item['quantity'],
+                    'price' => $product->price,
+                    'order_id' => $order->id,
+                    'product_id' => $product->id,
+                ]);
+
+                /*OrderDetail::create([
                     'order_id' => $order->id,
                     'product_id' => $item['product_id'],
                     'quantity' => $item['quantity'],
                     'price' => $product->price, // Current price
-                ]);
+                ]);*/
             }
 
             $latest = Invoice::latest()->first();
