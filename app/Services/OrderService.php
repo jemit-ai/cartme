@@ -50,13 +50,7 @@ class OrderService
                     'order_id' => $order->id,
                     'product_id' => $product->id,
                 ]);
-
-                /*OrderDetail::create([
-                    'order_id' => $order->id,
-                    'product_id' => $item['product_id'],
-                    'quantity' => $item['quantity'],
-                    'price' => $product->price, // Current price
-                ]);*/
+               
             }
 
             $latest = Invoice::latest()->first();
