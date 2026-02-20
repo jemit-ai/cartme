@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 use App\Models\Country;
 use App\Models\Category;
+use App\Models\Order;
 
 class Product extends Model
 {
@@ -36,5 +37,9 @@ class Product extends Model
             ->withPivot('price', 'currency_code', 'status')->withTimestamps();
     }
 
+    public function orders()
+    {
+        return $this->belongsToMany(Order::class, 'order_details_product')->withPivot('order_id','product_id','quantity','price')->withTimestamps();
+    }
     
 }

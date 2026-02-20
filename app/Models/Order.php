@@ -5,6 +5,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use App\Models\User;
 use App\Models\Invoice;
 use App\Models\Transaction;
+use App\Models\Product;
 
 
 class Order extends Model
@@ -27,11 +28,6 @@ class Order extends Model
         'payment_method',
     ];
 
-    /*protected $casts = [
-        'order_items' => 'array',
-    ];*/
-
-    
     public function user()
     {
         return $this->belongsTo(User::class);
@@ -50,6 +46,11 @@ class Order extends Model
     public function transactions()
     {
         return $this->hasMany(Transaction::class);
+    }
+
+    public function products()
+    {
+        return $this->belongsToMany(Product::class,'order_details_product')->withPivot('order_id','product_id','quantity','price')->withTimestamps();
     }
 
 }
