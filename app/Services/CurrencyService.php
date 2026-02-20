@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session; // Ensure session is available if possible
 use Throwable;
 use Exception; // Use global Exception
+use App\Models\Currency;
 
 class CurrencyService
 {

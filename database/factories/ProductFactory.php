@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\Country;
 use App\Models\Product;
 use App\Models\Category;
-
+use App\Services\CurrencyService;
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\product>
  */
@@ -36,15 +36,19 @@ class ProductFactory extends Factory
 
                 if($country->currency=='USD'){
 
-                    $price=$product->price*91.16;
+                    //$price=$product->price*91.16;
+                    $price = (new CurrencyService)->convert($product->price, 'INR', 'USD');
+
 
                 }elseif($country->currency=='GBP'){
 
-                    $price=$product->price*123.02;
+                    //$price=$product->price*123.02;
+                    $price = (new CurrencyService)->convert($product->price, 'INR', 'GBP');
                     
                 }else{
 
-                    $price=$product->price;
+                    //$price=$product->price;
+                    $price = (new CurrencyService)->convert($product->price, 'INR', 'INR');
                 }
 
                 $product->countries()->attach($country->id, [
@@ -64,17 +68,10 @@ class ProductFactory extends Factory
     {
         return $this->afterCreating(function (Product $product) {
 
-            $categories = Category::inRandomOrder()->first();
+            $category = Category::inRandomOrder()->first();
 
-            foreach ($categories as $category) {
-
-                $product->category()->attach($category->id, [
-                   
-                    'category_id' => $category->id,
-                    'product_id' => $product->id,
-
-                ]);
-
+            if ($category) {
+                $product->category()->attach($category->id);
             }
 
         });

@@ -30,6 +30,7 @@ class DatabaseSeeder extends Seeder
             CurrencySeeder::class,
             AdminSeeder::class,
             CategorySeeder::class,
+            ProductSeeder::class,
         ]);
 
     }
