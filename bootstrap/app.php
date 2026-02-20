@@ -17,6 +17,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'admin.auth' => \App\Http\Middleware\AdminAuth::class,
             'seller.auth' => \App\Http\Middleware\SellerAuth::class,
             'supplier.auth' => \App\Http\Middleware\SupplierAuth::class,
+            'territory' => \App\Http\Middleware\API\TerritoryMiddleware::class,
         ]);
 
     })

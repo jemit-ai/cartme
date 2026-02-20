@@ -11,7 +11,7 @@ class UserRegisterRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -28,7 +28,7 @@ class UserRegisterRequest extends FormRequest
             'email' => [
                 'required',
                 'email',
-                new UniqueEmailPerCountry($this->country_id, $this->user?->id),
+                new UniqueEmailPerCountry($this->country_id),
             ],
             'password' => 'required|string|min:6',
             'country_id' => 'required|exists:countries,id',
