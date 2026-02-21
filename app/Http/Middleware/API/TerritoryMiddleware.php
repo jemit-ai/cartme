@@ -17,9 +17,11 @@ class TerritoryMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
+        Log::info('RAJ'.$request->header('X-Country'));
         $countryCode = $request->header('X-Country') ?? 'IN';
         $country = Country::query()->select(['id', 'name', 'iso2'])->where('iso2', strtoupper($countryCode))->first();
 
+        Log::info('RAJ'.$country);
         $request->merge([
             'country_id' => $country->id,
         ]);

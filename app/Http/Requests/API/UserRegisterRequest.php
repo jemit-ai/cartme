@@ -3,6 +3,8 @@ namespace App\Http\Requests\API;
 
 use Illuminate\Foundation\Http\FormRequest;
 use App\Rules\UniqueEmailPerCountry;
+use App\Models\Country;
+use Illuminate\Support\Facades\Log;
 
 class UserRegisterRequest extends FormRequest
 {
@@ -21,18 +23,21 @@ class UserRegisterRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            
-            'name' => 'required|string|max:255',
-            //'email' => 'required|email|unique:users,email',
+        $countryCode = $this->header('X-Country');
+        //Log::info('RAJ'.$countryCode);
+        $countryId = Country::where('iso2', $countryCode)->value('id');
+
+        return [         
+            'name' => 'required|string|max:250',
             'email' => [
                 'required',
                 'email',
-                new UniqueEmailPerCountry($this->country_id),
+                 new UniqueEmailPerCountry($countryId),
             ],
             'password' => 'required|string|min:6',
             'country_id' => 'required|exists:countries,id',
-
         ];
+
     }
+
 }

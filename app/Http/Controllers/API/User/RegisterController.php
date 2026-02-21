@@ -5,7 +5,7 @@ namespace App\Http\Controllers\API\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Services\UserService;
-use App\Http\Requests\UserRegisterRequest;
+use App\Http\Requests\API\UserRegisterRequest;
 use App\Http\Controllers\API\BaseApiController;
 use Exception;
 use Illuminate\Support\Facades\Log;
@@ -25,6 +25,7 @@ class RegisterController extends BaseApiController
       try {
         
         $data = $request->validated();
+        //Log::info('Tim'.$data);
         $user = $this->userService->register($data);
         return $this->successResponse($user, 'User registered successfully',201);
 
