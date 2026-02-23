@@ -79,4 +79,33 @@ class UserService
     {
         return User::findOrFail($id);
     }
+
+    public function updateProfile(int $id, array $data): User
+    {
+        $user = User::findOrFail($id);
+        $user->update($data);
+        return $user;
+    }
+
+    public function changePassword(int $id, array $data): User
+    {
+        $user = User::findOrFail($id);
+        $user->update($data);
+        return $user;
+    }
+
+    public function disableUser(int $id): User
+    {
+        $user = User::findOrFail($id);
+        $user->update(['status' => 'disabled']);
+        return $user;
+    }
+
+    public function enableUser(int $id): User
+    {
+        $user = User::findOrFail($id);
+        $user->update(['status' => 'enabled']);
+        return $user;
+    }
+
 }

@@ -3,7 +3,8 @@
 namespace App\Http\Requests\API\User;
 
 use Illuminate\Foundation\Http\FormRequest;
-use App\Rules\EmailwithCountry;
+use App\Rules\User\EmailwithCountry;
+
 use App\Models\Country;
 use Illuminate\Support\Facades\Log;
 

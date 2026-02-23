@@ -4,14 +4,26 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\Order\OrderController;
 use App\Http\Controllers\Api\Auth\AuthController;
 use App\Http\Controllers\API\Cart\CartController;
-use App\Http\Controllers\API\User\RegisterController;
-
-
+use App\Http\Controllers\API\User\UserController;
 
 Route::group(['middleware' => 'territory'], function () {
+    
 
-    Route::post('/register', [RegisterController::class, 'register']);
-    Route::post('/login', [RegisterController::class, 'login']);
+    Route::post('/register', [UserController::class, 'register']);
+    Route::post('/login', [UserController::class, 'login']);
+
+
+    Route::middleware('auth:sanctum')->group(function () {
+
+        Route::post('/update-profile', [UserController::class, 'updateProfile']);
+        Route::post('/change-password', [UserController::class, 'changePassword']);
+        Route::post('/disable-user', [UserController::class, 'disableUser']);
+        Route::post('/enable-user', [UserController::class, 'enableUser']);
+        Route::get('/get-user', [UserController::class, 'getUser']);
+        Route::post('/logout', [UserController::class, 'logout']);
+
+    });
+
 
     Route::post('/orders', [OrderController::class, 'store']);
     Route::post('/cart/add', [CartController::class, 'store']);
