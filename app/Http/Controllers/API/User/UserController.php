@@ -6,6 +6,7 @@ use App\Services\UserService;
 
 use App\Http\Requests\API\User\UserRegisterRequest;
 use App\Http\Requests\API\User\UserLoginRequest;
+use App\Http\Requests\API\User\UserProfileUpdateRequest;
 
 
 use App\Http\Controllers\API\BaseApiController;
@@ -39,7 +40,7 @@ class UserController extends BaseApiController
       }
        
     }
-
+    
     public function login(UserLoginRequest $request)
     {
         try {
@@ -55,7 +56,7 @@ class UserController extends BaseApiController
         }
     }
 
-    public function updateProfile(Request $request)
+    public function updateProfile(UserProfileUpdateRequest $request)
     {
         try {
             $data = $request->validated();
