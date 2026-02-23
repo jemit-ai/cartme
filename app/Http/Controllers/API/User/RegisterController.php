@@ -39,22 +39,19 @@ class RegisterController extends BaseApiController
        
     }
 
-    function login(UserLoginRequest $request){
+    public function login(UserLoginRequest $request): \Illuminate\Http\JsonResponse
+    {
+        try {
+            $data = $request->validated();
+            $result = $this->userService->login($data);
 
-      try {
-        
-        $data = $request->validated();
-        //Log::info('Tim'.$data);
-        $user = $this->userService->login($data);
-        return $this->successResponse($user, 'User logged in successfully',200);
-
-      } catch (Throwable $th) {
-
-        Log::error($th->getMessage());
-        return $this->errorResponse('Failed to login user', $th->getMessage(), 500);
-
-      }
-       
+            return $this->successResponse($result, 'User logged in successfully', 200);
+        } catch (\Illuminate\Auth\AuthenticationException $e) {
+            return $this->errorResponse('Invalid credentials', $e->getMessage(), 401);
+        } catch (Throwable $th) {
+            Log::error($th->getMessage());
+            return $this->errorResponse('Failed to login user', $th->getMessage(), 500);
+        }
     }
     
 }

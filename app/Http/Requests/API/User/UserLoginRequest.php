@@ -1,11 +1,13 @@
 <?php
 
-namespace App\Http\Requests\API;
+namespace App\Http\Requests\API\User;
 
 use Illuminate\Foundation\Http\FormRequest;
-use App\Rules\UniqueEmailPerCountry;
+use App\Rules\EmailwithCountry;
 use App\Models\Country;
 use Illuminate\Support\Facades\Log;
+
+
 
 class UserLoginRequest extends FormRequest
 {
@@ -14,7 +16,7 @@ class UserLoginRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -26,11 +28,11 @@ class UserLoginRequest extends FormRequest
     {
         $countryCode = $this->header('X-Country');
         //Log::info('RAJ'.$countryCode);
-        $countryId = Country::where('iso2', $countryCode)->value('id');
+        $countryId   = Country::where('iso2', $countryCode)->value('id');
 
-        return [ 
-            'email' => ['required', 'email', new UniqueEmailPerCountry($countryId)],
-            'password' => 'required|string|min:6',
+        return [
+            'email'    => ['required', 'email', new EmailwithCountry($countryId)],
+            'password' => ['required', 'string', 'min:6'],
         ];
     }
 }
