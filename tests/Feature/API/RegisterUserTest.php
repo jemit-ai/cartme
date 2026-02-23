@@ -18,7 +18,7 @@ class RegisterUserTest extends TestCase
      * A basic feature test example.
      */
 
-    use RefreshDatabase;
+    //use RefreshDatabase;
 
     public function test_user_can_register()
     {
@@ -26,7 +26,7 @@ class RegisterUserTest extends TestCase
 
         $data = [
             'name' => 'John Doe',
-            'email' => 'john.doedave@example.com',
+            'email' => 'john.doe@example.com',
             'password' => 'password',
         ];
 
@@ -41,6 +41,13 @@ class RegisterUserTest extends TestCase
 
         $response->assertStatus(201);
         
+        $countryId = Country::where('iso2', 'IN')->value('id');
+
+        $this->assertDatabaseHas('users', [
+            'email' => $data['email'],
+            'name' => $data['name'],
+            'country_id' => $countryId,
+        ]);
     }
 
     
