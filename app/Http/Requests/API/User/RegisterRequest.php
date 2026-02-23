@@ -7,7 +7,7 @@ use App\Rules\User\UniqueEmailPerCountry;
 use App\Models\Country;
 use Illuminate\Support\Facades\Log;
 
-class UserRegisterRequest extends FormRequest
+class RegisterRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

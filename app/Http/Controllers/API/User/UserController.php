@@ -4,9 +4,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Services\UserService;
 
-use App\Http\Requests\API\User\UserRegisterRequest;
-use App\Http\Requests\API\User\UserLoginRequest;
-use App\Http\Requests\API\User\UserProfileUpdateRequest;
+use App\Http\Requests\API\User\RegisterRequest;
+use App\Http\Requests\API\User\LoginRequest;
+use App\Http\Requests\API\User\ProfileUpdateRequest;
 
 
 use App\Http\Controllers\API\BaseApiController;
@@ -23,7 +23,7 @@ class UserController extends BaseApiController
         $this->userService = $userService;
     }
 
-    public function register(UserRegisterRequest $request){
+    public function register(RegisterRequest $request){
 
       try {
         
@@ -40,8 +40,8 @@ class UserController extends BaseApiController
       }
        
     }
-    
-    public function login(UserLoginRequest $request)
+
+    public function login(LoginRequest $request)
     {
         try {
             $data = $request->validated();
@@ -56,7 +56,7 @@ class UserController extends BaseApiController
         }
     }
 
-    public function updateProfile(UserProfileUpdateRequest $request)
+    public function updateProfile(ProfileUpdateRequest $request)
     {
         try {
             $data = $request->validated();
@@ -69,5 +69,28 @@ class UserController extends BaseApiController
             return $this->errorResponse('Failed to update profile', $th->getMessage(), 500);
         }
     }
+
+    public function logout(Request $request)
+    {
+        try {
+            $this->userService->logout($request->user()->id);
+            return $this->successResponse(null, 'User logged out successfully', 200);
+        } catch (Throwable $th) {
+            Log::error($th->getMessage());
+            return $this->errorResponse('Failed to logout user', $th->getMessage(), 500);
+        }
+    }
+
+    public function getUser(Request $request)
+    {
+        try {
+            $user = $this->userService->getUser($request->user()->id);
+            return $this->successResponse($user, 'User retrieved successfully', 200);
+        } catch (Throwable $th) {
+            Log::error($th->getMessage());
+            return $this->errorResponse('Failed to retrieve user', $th->getMessage(), 500);
+        }
+    }
+
     
 }

@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Log;
 
 
 
-class UserLoginRequest extends FormRequest
+class LoginRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

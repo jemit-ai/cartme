@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Exception;
+use Illuminate\Support\Facades\DB;
 
 class UserService
 {
@@ -26,7 +27,20 @@ class UserService
      */
     public function register(array $data): User
     {
-        return User::create($data);
+        
+        return DB::transaction(function () use ($data) {
+
+                $user = User::create($data);
+
+                $token = $user->createToken('auth_token')->plainTextToken;
+
+                return [
+                    'user'  => $user,
+                    'token' => $token,
+                ];
+
+        });
+
     }
 
     /**
@@ -94,6 +108,7 @@ class UserService
         return $user;
     }
 
+    /*
     public function disableUser(int $id): User
     {
         $user = User::findOrFail($id);
@@ -106,6 +121,6 @@ class UserService
         $user = User::findOrFail($id);
         $user->update(['status' => 'enabled']);
         return $user;
-    }
+    }*/
 
 }
