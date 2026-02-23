@@ -11,6 +11,7 @@ use App\Http\Controllers\API\User\RegisterController;
 Route::group(['middleware' => 'territory'], function () {
 
     Route::post('/register', [RegisterController::class, 'register']);
+    Route::post('/login', [RegisterController::class, 'login']);
 
     Route::post('/orders', [OrderController::class, 'store']);
     Route::post('/cart/add', [CartController::class, 'store']);

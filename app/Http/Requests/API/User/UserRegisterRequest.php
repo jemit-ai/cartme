@@ -35,7 +35,7 @@ class UserRegisterRequest extends FormRequest
                  new UniqueEmailPerCountry($countryId),
             ],
             'password' => 'required|string|min:6',
-            'country_id' => 'required|exists:countries,id',
+            //'country_id' => 'required|exists:countries,id',
         ];
 
     }

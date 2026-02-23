@@ -1,37 +1,82 @@
 <?php
+
 namespace App\Services;
 
 use App\Models\User;
-use Throwable;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Auth\AuthenticationException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Exception;
-
 
 class UserService
 {
-    public $user;
-
-    public function __construct(User $user){
-        $this->user = $user;
+    /**
+     * Create a new UserService instance.
+     */
+    public function __construct(protected User $user) {
     }
 
-    public function register($data){
-        try{
-            return User::create($data);
-        }catch(Exception $e){
-            return $e;
+    /**
+     * Register a new user.
+     *
+     * @param  array<string, mixed>  $data
+     * @return User
+     *
+     * @throws Exception
+     */
+    public function register(array $data): User
+    {
+        return User::create($data);
+    }
+
+    /**
+     * Authenticate a user and generate an API token.
+     *
+     * @param  array{email: string, password: string}  $data
+     * @return array{user: User, token: string}
+     *
+     * @throws AuthenticationException
+     */
+    public function login(array $data): array
+    {
+        $user = User::where('email', $data['email'])->first();
+
+        if (! $user || ! Hash::check($data['password'], $user->password)) {
+            throw new AuthenticationException('Invalid credentials.');
         }
+
+        // Revoke all existing tokens before issuing a new one
+        $user->tokens()->delete();
+
+        $token = $user->createToken('auth_token')->plainTextToken;
+
+        return [
+            'user'  => $user,
+            'token' => $token,
+        ];
     }
 
-    public function login($data){
-    
+    /**
+     * Revoke all tokens for the currently authenticated user.
+     *
+     * @param  User  $user
+     * @return void
+     */
+    public function logout(User $user): void
+    {
+        $user->tokens()->delete();
     }
 
-    public function logout(){
-    
+    /**
+     * Retrieve a user by their ID.
+     *
+     * @param  int  $id
+     * @return User
+     *
+     * @throws ModelNotFoundException
+     */
+    public function getUser(int $id): User
+    {
+        return User::findOrFail($id);
     }
-    
-    public function getUser($id){
-    
-    }
-    
 }
