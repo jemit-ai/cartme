@@ -15,16 +15,26 @@ Route::group(['middleware' => 'territory'], function () {
 
         Route::post('/update-profile', [UserController::class, 'updateProfile']);
         Route::post('/change-password', [UserController::class, 'changePassword']);
-       // Route::post('/disable-user', [UserController::class, 'disableUser']);
-       // Route::post('/enable-user', [UserController::class, 'enableUser']);
-        Route::get('/get-user', [UserController::class, 'getUser']);
+
+        //Route::post('/disable-user', [UserController::class, 'disableUser']);
+        //Route::post('/enable-user', [UserController::class, 'enableUser']);
+
+        Route::get('/user', [UserController::class, 'getUser']);
         Route::post('/logout', [UserController::class, 'logout']);
 
     });
 
-    Route::post('/orders', [OrderController::class, 'store']);
-    Route::post('/cart/add', [CartController::class, 'store']);
-    Route::post('/cart/update', [CartController::class, 'update']);
+    Route::middleware(['auth:sanctum', 'guest.token'])->group(function () { 
+        
+        Route::post('/cart/add', [CartController::class, 'store']);
+        Route::post('/cart/update', [CartController::class, 'update']);
+        Route::post('/orders', [OrderController::class, 'store']);
+
+    });
+
+    //Route::post('/orders', [OrderController::class, 'store']);
+    //Route::post('/cart/add', [CartController::class, 'store']);
+    //Route::post('/cart/update', [CartController::class, 'update']);
 
 });
 

@@ -18,16 +18,29 @@ class OrderController extends Controller
 
     public function store(OrderRequest $request)
     {
-        $data = $request->validated();
+        
 
         //event fire
+        //$order = $this->orderService->createOrder($data);
 
-        $order = $this->orderService->createOrder($data);
-
-        return response()->json([
+        /*return response()->json([
             'message' => 'Order created successfully',
             'order' => $order
-        ], 201);
+        ], 201);*/
+
+        $data = $request->validated();
+
+        try{
+
+            $order = $this->orderService->createOrder($data);
+            return $this->successResponse($order, 'Order created successfully', 201);
+
+        }catch(Exception $e){
+
+            Log::error($e->getMessage());
+            return $this->errorResponse($e->getMessage(), $e->getMessage(), 500);
+
+        }
     
     }
     

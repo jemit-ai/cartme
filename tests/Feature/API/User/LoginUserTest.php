@@ -1,11 +1,12 @@
 <?php
 
-namespace Tests\Feature\API;
+namespace Tests\Feature\API\User;
 
 use App\Models\Country;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
+use Illuminate\Support\Facades\Log;
 
 class LoginUserTest extends TestCase
 {
@@ -49,6 +50,8 @@ class LoginUserTest extends TestCase
                 'success' => true,
                 'message' => 'User logged in successfully',
             ]);
+        
+        Log::info('Login User Test'.$response->getContent());
     }
 
     

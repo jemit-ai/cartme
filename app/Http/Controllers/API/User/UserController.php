@@ -6,8 +6,8 @@ use App\Services\UserService;
 
 use App\Http\Requests\API\User\RegisterRequest;
 use App\Http\Requests\API\User\LoginRequest;
-use App\Http\Requests\API\User\ProfileUpdateRequest;
-
+use App\Http\Requests\API\User\GetProfileRequest;
+use App\Http\Requests\API\User\UpdateProfileRequest;
 
 use App\Http\Controllers\API\BaseApiController;
 use Exception;
@@ -56,7 +56,7 @@ class UserController extends BaseApiController
         }
     }
 
-    public function updateProfile(ProfileUpdateRequest $request)
+    public function updateProfile(UpdateProfileRequest $request)
     {
         try {
             $data = $request->validated();
@@ -84,13 +84,22 @@ class UserController extends BaseApiController
     public function getUser(Request $request)
     {
         try {
+ 
+            //Log::info('Get Profile Before Request', $request->all());
+            
+            if (!$request->user()) {
+                return $this->errorResponse('Unauthorized', 'User not authenticated', 401);
+            }
+
             $user = $this->userService->getUser($request->user()->id);
             return $this->successResponse($user, 'User retrieved successfully', 200);
+
         } catch (Throwable $th) {
+
             Log::error($th->getMessage());
             return $this->errorResponse('Failed to retrieve user', $th->getMessage(), 500);
+
         }
     }
-
-    
+  
 }

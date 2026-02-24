@@ -22,7 +22,7 @@ class CartController extends BaseApiController
     public function store(CartRequest $request)
     {
         $data   = $request->validated();
-        $authId = $request->header('authid'); // Guest User 
+        $authId = $request->header('X-Guest-Token'); // Guest User 
         $userId = $request->user()?->id ?? 0; // login User
 
         try {
@@ -48,13 +48,13 @@ class CartController extends BaseApiController
     public function update(CartRequest $request)
     {
         $data = $request->validated();
-        $authId = $request->header('authid');
+        $authId = $request->header('X-Guest-Token');
         $userId = $request->user()?->id ?? 0;
 
         try {
 
             $cart = $this->cartService->updateCart($data, $authId, $userId);
-            return $this->successResponse($cart, 'Cart updated successfully');
+            return $this->successResponse($cart, 'Cart updated successfully', 200);
 
         } catch (Exception $e) {
 
@@ -67,13 +67,13 @@ class CartController extends BaseApiController
     public function destroy(CartRequest $request)
     {
         $data = $request->validated();
-        $authId = $request->header('authid');
+        $authId = $request->header('X-Guest-Token');
         $userId = $request->user()?->id ?? 0;
 
         try {
 
             $cart = $this->cartService->removeFromCart($data, $authId, $userId);
-            return $this->successResponse($cart, 'Item removed from cart successfully');
+            return $this->successResponse($cart, 'Item removed from cart successfully', 200);
 
         } catch (Exception $e) {
 
@@ -84,13 +84,13 @@ class CartController extends BaseApiController
 
     public function get(Request $request)
     {
-        $authId = $request->header('authid');
+        $authId = $request->header('X-Guest-Token');
         $userId = $request->user()?->id ?? 0;
 
         try {
 
             $cart = $this->cartService->getCart($authId, $userId);
-            return $this->successResponse($cart, 'Cart retrieved successfully');
+            return $this->successResponse($cart, 'Cart retrieved successfully', 200);
 
         } catch (Exception $e) {
 

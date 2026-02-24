@@ -3,21 +3,17 @@
 namespace App\Http\Requests\API\User;
 
 use Illuminate\Foundation\Http\FormRequest;
+use App\Models\Country;
 use App\Rules\User\EmailwithCountry;
 
-use App\Models\Country;
-use Illuminate\Support\Facades\Log;
-
-
-
-class LoginRequest extends FormRequest
+class GetProfileRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -28,12 +24,11 @@ class LoginRequest extends FormRequest
     public function rules(): array
     {
         $countryCode = $this->header('X-Country');
-        //Log::info('RAJ'.$countryCode);
         $countryId   = Country::where('iso2', $countryCode)->value('id');
 
         return [
-            'email'    => ['required', 'email', new EmailwithCountry($countryId)],
-            'password' => ['required', 'string', 'min:6'],
+            'email' => ['required', 'email', 'max:255', new EmailwithCountry($countryId)],
         ];
+
     }
 }
