@@ -3,7 +3,7 @@ namespace App\Http\Controllers\API\Cart;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Http\Requests\API\CartRequest;
+use App\Http\Requests\API\Cart\CartRequest;
 use App\Services\CartService;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\API\BaseApiController;

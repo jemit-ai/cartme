@@ -4,16 +4,16 @@ namespace App\Http\Requests\API\User;
 
 use Illuminate\Foundation\Http\FormRequest;
 use App\Models\Country;
-use App\Rules\User\EmailwithCountry;
+use Illuminate\Support\Facades\Log;
 
-class GetProfileRequest extends FormRequest
+class VerifyOtpRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return true;
+        return false;
     }
 
     /**
@@ -23,12 +23,13 @@ class GetProfileRequest extends FormRequest
      */
     public function rules(): array
     {
-        $countryCode = $this->header('X-Country');
-        $countryId   = Country::where('iso2', $countryCode)->value('id');
-
         return [
-            'email' => ['required', 'email', 'max:255', new EmailwithCountry($countryId)],
+            'email' => [
+                'required',
+                'email',
+                 new UniqueEmailPerCountry($countryId),
+            ],
+            'otp'   => 'required|digits:6',
         ];
-
     }
 }

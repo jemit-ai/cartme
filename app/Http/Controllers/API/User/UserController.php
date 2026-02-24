@@ -8,6 +8,8 @@ use App\Http\Requests\API\User\RegisterRequest;
 use App\Http\Requests\API\User\LoginRequest;
 use App\Http\Requests\API\User\GetProfileRequest;
 use App\Http\Requests\API\User\UpdateProfileRequest;
+use App\Http\Requests\API\User\SendOtpRequest;
+use App\Http\Requests\API\User\VerifyOtpRequest;
 
 use App\Http\Controllers\API\BaseApiController;
 use Exception;
@@ -102,4 +104,28 @@ class UserController extends BaseApiController
         }
     }
   
+    public function sendOtp(SendOtpRequest $request)
+    {
+        try {
+            $data = $request->validated();
+            $user = $this->userService->sendOtp($data);
+            return $this->successResponse($user, 'OTP sent successfully', 200);
+        } catch (Throwable $th) {
+            Log::error($th->getMessage());
+            return $this->errorResponse('Failed to send OTP', $th->getMessage(), 500);
+        }
+    }
+
+    public function verifyOtp(VerifyOtpRequest $request)
+    {
+        try {
+            $data = $request->validated();
+            $user = $this->userService->verifyOtp($data);
+            return $this->successResponse($user, 'OTP verified successfully', 200);
+        } catch (Throwable $th) {
+            Log::error($th->getMessage());
+            return $this->errorResponse('Failed to verify OTP', $th->getMessage(), 500);
+        }
+    }
+    
 }

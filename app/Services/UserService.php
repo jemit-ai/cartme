@@ -32,6 +32,8 @@ class UserService
 
                 $user = User::create($data);
 
+
+
                 $token = $user->createToken('auth_token')->plainTextToken;
 
                 return [

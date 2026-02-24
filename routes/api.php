@@ -11,6 +11,10 @@ Route::group(['middleware' => 'territory'], function () {
     Route::post('/register', [UserController::class, 'register']);
     Route::post('/login', [UserController::class, 'login']);
 
+    Route::post('/send-otp', [UserController::class, 'sendOtp']);
+    Route::post('/verify-otp', [UserController::class, 'verifyOtp']);
+
+
     Route::middleware('auth:sanctum')->group(function () {
 
         Route::post('/update-profile', [UserController::class, 'updateProfile']);
