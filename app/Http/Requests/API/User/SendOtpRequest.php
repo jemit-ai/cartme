@@ -4,6 +4,8 @@ namespace App\Http\Requests\API\User;
 
 use Illuminate\Foundation\Http\FormRequest;
 use App\Models\Country;
+//use App\Rules\User\UniqueEmailPerCountry;
+use App\Rules\User\EmailwithCountry;
 use Illuminate\Support\Facades\Log;
 
 class SendOtpRequest extends FormRequest
@@ -13,7 +15,7 @@ class SendOtpRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -30,7 +32,7 @@ class SendOtpRequest extends FormRequest
             'email' => [
                 'required',
                 'email',
-                 new UniqueEmailPerCountry($countryId),
+                 new EmailwithCountry($countryId),
             ],
         ];
     }

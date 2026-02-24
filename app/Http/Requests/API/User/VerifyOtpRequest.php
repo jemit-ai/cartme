@@ -1,9 +1,10 @@
 <?php
-
 namespace App\Http\Requests\API\User;
 
 use Illuminate\Foundation\Http\FormRequest;
 use App\Models\Country;
+//use App\Rules\User\UniqueEmailPerCountry;
+use App\Rules\User\EmailwithCountry;
 use Illuminate\Support\Facades\Log;
 
 class VerifyOtpRequest extends FormRequest
@@ -13,7 +14,7 @@ class VerifyOtpRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -23,11 +24,14 @@ class VerifyOtpRequest extends FormRequest
      */
     public function rules(): array
     {
+        $countryCode = $this->header('X-Country');
+        $countryId = Country::where('iso2', $countryCode)->value('id');
+
         return [
             'email' => [
                 'required',
                 'email',
-                 new UniqueEmailPerCountry($countryId),
+                 new EmailwithCountry($countryId),
             ],
             'otp'   => 'required|digits:6',
         ];

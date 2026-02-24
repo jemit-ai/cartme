@@ -30,7 +30,7 @@ class UserController extends BaseApiController
       try {
         
         $data = $request->validated();
-        //Log::info('Tim'.$data);
+        $data['country_id'] = $request->country_id;
         $user = $this->userService->register($data);
         return $this->successResponse($user, 'User registered successfully',201);
 
@@ -106,12 +106,18 @@ class UserController extends BaseApiController
   
     public function sendOtp(SendOtpRequest $request)
     {
+        Log::info('Entering sendOtp controller method');
         try {
             $data = $request->validated();
+            $data['country_id'] = $request->country_id;
+
+            $dataString = json_encode($data);
+            Log::info('Send OTP Request Function:'.$dataString);
+
             $user = $this->userService->sendOtp($data);
             return $this->successResponse($user, 'OTP sent successfully', 200);
-        } catch (Throwable $th) {
-            Log::error($th->getMessage());
+        } catch (Throwable $th) {   
+            //Log::error($th->getMessage());
             return $this->errorResponse('Failed to send OTP', $th->getMessage(), 500);
         }
     }
@@ -120,6 +126,8 @@ class UserController extends BaseApiController
     {
         try {
             $data = $request->validated();
+            $data['country_id'] = $request->country_id;
+            
             $user = $this->userService->verifyOtp($data);
             return $this->successResponse($user, 'OTP verified successfully', 200);
         } catch (Throwable $th) {

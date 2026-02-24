@@ -8,6 +8,8 @@ use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Exception;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Carbon\Carbon;
 
 class UserService
 {
@@ -25,14 +27,12 @@ class UserService
      *
      * @throws Exception
      */
-    public function register(array $data): User
+    public function register(array $data): array
     {
         
         return DB::transaction(function () use ($data) {
 
                 $user = User::create($data);
-
-
 
                 $token = $user->createToken('auth_token')->plainTextToken;
 
@@ -125,4 +125,46 @@ class UserService
         return $user;
     }*/
 
+    public function sendOtp(array $data) 
+    {
+        $country_id = $data['country_id'];
+
+        Log::info('Country ID:'.$country_id);
+        Log::info('Email:'.$data['email']);
+
+        $user = User::where(['country_id' => $country_id, 'email' => $data['email']])->first();
+
+        if ($user) {
+            // Generate 6-digit OTP
+            $otp = random_int(100000, 999999);
+
+            $user->update([
+                'otp_code' => Hash::make($otp),
+                'otp_expires_at' => Carbon::now()->addMinutes(5),
+                'otp_verified_at' => null,
+            ]);
+
+            // Add the plain OTP to the object for testing/debugging purposes if needed
+            // (In production, you'd send this via SMS/Email)
+            $user->otp_plain = $otp;
+        }
+
+        return $user;
+    }
+
+    public function verifyOtp(array $data)
+    {
+      
+        $country_id = $data['country_id'];
+        $user = User::where(['country_id' => $country_id, 'email' => $data['email']])->first();
+
+        
+        if (Hash::check($data['otp_code'], $user->otp_code)) {
+            $user->update([
+                'otp_verified_at' => Carbon::now(),
+            ]);
+            return $user;
+        }
+        
+    }
 }
