@@ -32,9 +32,6 @@ Route::group(['middleware' => 'territory'], function () {
 
     });
 
-    //Route::post('/orders', [OrderController::class, 'store']);
-    //Route::post('/cart/add', [CartController::class, 'store']);
-    //Route::post('/cart/update', [CartController::class, 'update']);
 
 });
 
