@@ -124,14 +124,22 @@ class UserController extends BaseApiController
 
     public function verifyOtp(VerifyOtpRequest $request)
     {
+        Log::info('Entering verifyOtp controller method');
         try {
+
             $data = $request->validated();
             $data['country_id'] = $request->country_id;
             
+            Log::info('Verify OTP Data: ' . json_encode($data));
+
             $user = $this->userService->verifyOtp($data);
+
+            Log::info('Verify OTP Success for User: ' . $user->email);
             return $this->successResponse($user, 'OTP verified successfully', 200);
+
         } catch (Throwable $th) {
-            Log::error($th->getMessage());
+            
+            Log::error('Verify OTP Error: ' . $th->getMessage());
             return $this->errorResponse('Failed to verify OTP', $th->getMessage(), 500);
         }
     }

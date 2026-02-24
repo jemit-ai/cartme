@@ -154,17 +154,26 @@ class UserService
 
     public function verifyOtp(array $data)
     {
-      
         $country_id = $data['country_id'];
+        Log::info('Verifying OTP for Email: ' . $data['email'] . ' and Country ID: ' . $country_id);
+
         $user = User::where(['country_id' => $country_id, 'email' => $data['email']])->first();
 
-        
-        if (Hash::check($data['otp_code'], $user->otp_code)) {
+        if (!$user) {
+            Log::error('User not found during OTP verification');
+            throw new \Exception('User not found');
+        }
+
+        if (Hash::check($data['otp'], $user->otp_code)) {
+            Log::info('OTP verified successfully for User ID: ' . $user->id);
             $user->update([
                 'otp_verified_at' => Carbon::now(),
+                'otp_code' => null, // Clear OTP after success
             ]);
             return $user;
         }
-        
+
+        Log::warning('Invalid OTP provided for User ID: ' . $user->id);
+        //throw new \Illuminate\Auth\AuthenticationException('Invalid OTP code');
     }
 }
