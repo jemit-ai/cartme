@@ -36,7 +36,6 @@ Route::group(['middleware' => 'territory'], function () {
 
     });
 
-
 });
 
 
