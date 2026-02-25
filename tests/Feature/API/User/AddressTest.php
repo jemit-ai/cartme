@@ -22,7 +22,7 @@ class AddressTest extends TestCase
         $Response = $this->withHeaders([ 
             'X-Country' => 'IN',
             'Authorization' => 'Bearer ' . $user->createToken('test')->plainTextToken,
-        ])->postJson('/api/add-address', [
+        ])->postJson('/address', [
             
             'address_line_1'=>'123 Main St',
             'address_line_2'=>'Suite 456',
@@ -54,7 +54,7 @@ class AddressTest extends TestCase
         $Response = $this->withHeaders([ 
             'X-Country' => 'IN',
             'X-Guest-Token' => $user->guest_token,
-        ])->postJson('/api/add-address', [
+        ])->postJson('/address', [
             
             'address_line_1'=>'123 Main St',
             'address_line_2'=>'Suite 456',
@@ -76,5 +76,5 @@ class AddressTest extends TestCase
         
     }
 
-    
+
 }

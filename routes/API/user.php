@@ -2,6 +2,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\Auth\AuthController;
 use App\Http\Controllers\API\User\UserController;
+use App\Http\Controllers\API\User\AddressController;
+
 
 Route::group(['middleware' => 'territory'], function () {
 
@@ -22,20 +24,24 @@ Route::group(['middleware' => 'territory'], function () {
         Route::get('/user', [UserController::class, 'getUser']);
         Route::post('/logout', [UserController::class, 'logout']);
 
-        Route::post('/add-address', [UserController::class, 'addAddress']);
+        /*Route::post('/add-address', [UserController::class, 'addAddress']);
         Route::post('/update-address', [UserController::class, 'updateAddress']);
         Route::post('/delete-address', [UserController::class, 'deleteAddress']);
-        Route::post('/set-default-address', [UserController::class, 'setDefaultAddress']);
+        Route::post('/set-default-address', [UserController::class, 'setDefaultAddress']);*/
+
+        Route::apiResource('address', AddressController::class);
 
     });
 
 
     Route::middleware('guest.token')->group(function () { 
 
-      Route::post('/add-address', [UserController::class, 'addAddress']);
+      /*Route::post('/add-address', [UserController::class, 'addAddress']);
       Route::post('/update-address', [UserController::class, 'updateAddress']);
       Route::post('/delete-address', [UserController::class, 'deleteAddress']);
-      Route::post('/set-default-address', [UserController::class, 'setDefaultAddress']);
+      Route::post('/set-default-address', [UserController::class, 'setDefaultAddress']);*/
+
+      Route::apiResource('address', AddressController::class);
 
     });
 

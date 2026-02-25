@@ -4,7 +4,7 @@ use App\Http\Controllers\API\Cart\CartController;
 use App\Http\Controllers\Api\Order\OrderController;
 use App\Http\Controllers\Api\Auth\AuthController;
 use App\Http\Controllers\API\User\UserController;
-
+use App\Http\Controllers\API\User\AddressController;
 
 require __DIR__.'/API/cart.php';
 
