@@ -103,10 +103,18 @@ class UserService
         return $user;
     }
 
-    public function changePassword(int $id, array $data): User
+    public function changePassword(int $userId, array $data): User
     {
-        $user = User::findOrFail($id);
-        $user->update($data);
+        $user = User::findOrFail($userId);
+
+        if (!Hash::check($data['current_password'], $user->password)) {
+            throw new AuthenticationException('Invalid current password');
+        }
+
+        $user->update([
+            'password' => Hash::make($data['new_password']),
+        ]);
+
         return $user;
     }
 
@@ -174,4 +182,7 @@ class UserService
         Log::warning('Invalid OTP provided for User ID: ' . $user->id);
         //throw new \Illuminate\Auth\AuthenticationException('Invalid OTP code');
     }
+
+   
+
 }

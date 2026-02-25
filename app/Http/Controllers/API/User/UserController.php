@@ -10,6 +10,7 @@ use App\Http\Requests\API\User\GetProfileRequest;
 use App\Http\Requests\API\User\UpdateProfileRequest;
 use App\Http\Requests\API\User\SendOtpRequest;
 use App\Http\Requests\API\User\VerifyOtpRequest;
+use App\Http\Requests\API\User\ChangePasswordRequest;
 
 use App\Http\Controllers\API\BaseApiController;
 use Exception;
@@ -144,4 +145,16 @@ class UserController extends BaseApiController
         }
     }
     
+    public function changePassword(ChangePasswordRequest $request){
+        try {
+            $data = $request->validated();
+            $user = $this->userService->changePassword($request->user()->id, $data);
+            return $this->successResponse($user, 'Password changed successfully', 200);
+        } catch (\Illuminate\Auth\AuthenticationException $e) {
+            return $this->errorResponse('Invalid current password', $e->getMessage(), 401);
+        } catch (Throwable $th) {
+            Log::error($th->getMessage());
+            return $this->errorResponse('Failed to change password', $th->getMessage(), 500);
+        }
+    }
 }
