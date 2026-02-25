@@ -20,18 +20,8 @@ class OrderController extends Controller
 
     public function store(OrderRequest $request)
     {
-        
-
-        //event fire
-        //$order = $this->orderService->createOrder($data);
-
-        /*return response()->json([
-            'message' => 'Order created successfully',
-            'order' => $order
-        ], 201);*/
 
         $data = $request->validated();
-
         try{
 
             $order = $this->orderService->createOrder($data);
@@ -44,6 +34,39 @@ class OrderController extends Controller
 
         }
     
+    }
+
+    public function index()
+    {
+        try {
+            $orders = $this->orderService->getAllOrders();
+            return $this->successResponse($orders, 'Orders fetched successfully', 200);
+        } catch (Exception $e) {
+            Log::error($e->getMessage());
+            return $this->errorResponse($e->getMessage(), $e->getMessage(), 500);
+        }
+    }
+
+    public function show($id)
+    {
+        try {
+            $order = $this->orderService->getOrderById($id);
+            return $this->successResponse($order, 'Order fetched successfully', 200);
+        } catch (Exception $e) {
+            Log::error($e->getMessage());
+            return $this->errorResponse($e->getMessage(), $e->getMessage(), 500);
+        }
+    }
+
+    public function cancel($id)
+    {
+        try {
+            $order = $this->orderService->cancelOrder($id);
+            return $this->successResponse($order, 'Order cancelled successfully', 200);
+        } catch (Exception $e) {
+            Log::error($e->getMessage());
+            return $this->errorResponse($e->getMessage(), $e->getMessage(), 500);
+        }
     }
     
 }

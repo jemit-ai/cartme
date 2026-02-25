@@ -1,27 +1,10 @@
 <?php
 use Illuminate\Support\Facades\Route;
-
-use App\Http\Controllers\API\Cart\CartController;
-
-use App\Http\Controllers\Api\Order\OrderController;
-
 use App\Http\Controllers\Api\Auth\AuthController;
-
 use App\Http\Controllers\API\User\UserController;
 
-
-require __DIR__.'/API/cart.php';
-
-require __DIR__.'/API/order.php';
-
-require __DIR__.'/API/user.php';
-
-
-
-
-/*
 Route::group(['middleware' => 'territory'], function () {
-    
+
     Route::post('/register', [UserController::class, 'register']);
     Route::post('/login', [UserController::class, 'login']);
 
@@ -39,34 +22,6 @@ Route::group(['middleware' => 'territory'], function () {
         Route::get('/user', [UserController::class, 'getUser']);
         Route::post('/logout', [UserController::class, 'logout']);
 
-        //Order Routes 
-        Route::post('/orders', [OrderController::class, 'store']);      // Place order
-        Route::get('/orders', [OrderController::class, 'index']);        // List user orders
-        Route::get('/orders/{id}', [OrderController::class, 'show']);     // Order details
-        Route::post('/orders/{id}/cancel', [OrderController::class, 'cancel']); // Cancel order
-
-    });
-
-    Route::middleware(['auth:sanctum', 'guest.token'])->group(function () { 
-        
-        Route::post('/cart/add', [CartController::class, 'store']);
-        Route::post('/cart/update', [CartController::class, 'update']);
-        //Route::post('/orders', [OrderController::class, 'store']);
-
     });
 
 });
-*/
-
-
-
-
-
-
-
-
-
-
-
-
-    
