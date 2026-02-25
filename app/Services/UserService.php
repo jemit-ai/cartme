@@ -103,9 +103,9 @@ class UserService
         return $user;
     }
 
-    public function changePassword(int $userId, array $data): User
+    public function changePassword(int $id,array $data)
     {
-        $user = User::findOrFail($userId);
+        $user = User::findOrFail($id);
 
         if (!Hash::check($data['current_password'], $user->password)) {
             throw new AuthenticationException('Invalid current password');
