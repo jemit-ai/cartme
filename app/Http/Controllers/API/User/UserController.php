@@ -3,7 +3,7 @@ namespace App\Http\Controllers\API\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Services\UserService;
-use App\Services\AddressService;
+
 
 use App\Http\Requests\API\User\RegisterRequest;
 use App\Http\Requests\API\User\LoginRequest;
@@ -12,7 +12,6 @@ use App\Http\Requests\API\User\UpdateProfileRequest;
 use App\Http\Requests\API\User\SendOtpRequest;
 use App\Http\Requests\API\User\VerifyOtpRequest;
 use App\Http\Requests\API\User\ChangePasswordRequest;
-use App\Http\Requests\API\User\AddressRequest;
 
 use App\Http\Controllers\API\BaseApiController;
 use Exception;
@@ -22,9 +21,8 @@ use Throwable;
 class UserController extends BaseApiController
 {
     public $userService;
-    public $addressService;
 
-    public function __construct(UserService $userService,AddressService $addressService)
+    public function __construct(UserService $userService)
     {
         $this->userService = $userService;
         $this->addressService = $addressService;
