@@ -3,6 +3,7 @@ namespace App\Http\Controllers\API\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Services\UserService;
+use App\Services\AddressService;
 
 use App\Http\Requests\API\User\RegisterRequest;
 use App\Http\Requests\API\User\LoginRequest;
@@ -11,6 +12,7 @@ use App\Http\Requests\API\User\UpdateProfileRequest;
 use App\Http\Requests\API\User\SendOtpRequest;
 use App\Http\Requests\API\User\VerifyOtpRequest;
 use App\Http\Requests\API\User\ChangePasswordRequest;
+use App\Http\Requests\API\User\AddressRequest;
 
 use App\Http\Controllers\API\BaseApiController;
 use Exception;
@@ -20,10 +22,12 @@ use Throwable;
 class UserController extends BaseApiController
 {
     public $userService;
+    public $addressService;
 
-    public function __construct(UserService $userService)
+    public function __construct(UserService $userService,AddressService $addressService)
     {
         $this->userService = $userService;
+        $this->addressService = $addressService;
     }
 
     public function register(RegisterRequest $request){
@@ -157,4 +161,102 @@ class UserController extends BaseApiController
             return $this->errorResponse('Failed to change password', $th->getMessage(), 500);
         }
     }
+
+    public function addAddress(AddressRequest $request){
+
+        try {
+            $data = $request->validated();
+            $data['guest_token'] = $request->header('X-Guest-Token');
+            Log::info('Add Address Data: ' . json_encode($data));
+
+            if($request->user()){
+                $data['user_id'] = $request->user()->id;
+                $user = $this->addressService->addAddress($data);
+            }else{
+                $user = $this->addressService->addAddress($data);
+            }
+            return $this->successResponse($user, 'Address added successfully', 201);
+        } catch (Throwable $th) {
+            Log::error($th->getMessage());
+            return $this->errorResponse('Failed to add address', $th->getMessage(), 500);
+        }
+
+    }
+
+    public function getAddresses(Request $request){
+
+        try {
+            $user = $request->user();
+            $addresses = $this->addressService->getAddresses($user->id);
+            return $this->successResponse($addresses, 'Addresses retrieved successfully', 200);
+        } catch (Throwable $th) {
+            Log::error($th->getMessage());
+            return $this->errorResponse('Failed to retrieve addresses', $th->getMessage(), 500);
+        }
+        
+    }
+
+    public function updateAddress(UpdateAddressRequest $request){
+
+        try {
+            $data = $request->validated();
+            $data['guest_token'] = $request->header('X-Guest-Token');
+            Log::info('Update Address Data: ' . json_encode($data));
+
+            if($request->user()){
+                $data['user_id'] = $request->user()->id;
+                $user = $this->addressService->updateAddress($data);
+            }else{
+                $user = $this->addressService->updateAddress($data);
+            }
+            return $this->successResponse($user, 'Address updated successfully', 200);
+        } catch (Throwable $th) {
+            Log::error($th->getMessage());
+            return $this->errorResponse('Failed to update address', $th->getMessage(), 500);
+        }
+
+    }
+
+    public function deleteAddress(DeleteAddressRequest $request){
+
+        try {
+            $data = $request->validated();
+            $data['guest_token'] = $request->header('X-Guest-Token');
+            Log::info('Delete Address Data: ' . json_encode($data));
+
+            if($request->user()){
+                $data['user_id'] = $request->user()->id;
+                $user = $this->addressService->deleteAddress($data);
+            }else{
+                $user = $this->addressService->deleteAddress($data);
+            }
+            return $this->successResponse($user, 'Address deleted successfully', 200);
+        } catch (Throwable $th) {
+            Log::error($th->getMessage());
+            return $this->errorResponse('Failed to delete address', $th->getMessage(), 500);
+        }
+
+    }
+
+    public function setDefaultAddress(SetDefaultAddressRequest $request){
+
+        try {
+            $data = $request->validated();
+            $data['guest_token'] = $request->header('X-Guest-Token');
+            Log::info('Set Default Address Data: ' . json_encode($data));
+
+            if($request->user()){
+                $data['user_id'] = $request->user()->id;
+                $user = $this->addressService->setDefaultAddress($data);
+            }else{
+                $user = $this->addressService->setDefaultAddress($data);
+            }
+            return $this->successResponse($user, 'Default address set successfully', 200);
+        } catch (Throwable $th) {
+            Log::error($th->getMessage());
+            return $this->errorResponse('Failed to set default address', $th->getMessage(), 500);
+        }
+
+    }
+
 }

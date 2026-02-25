@@ -6,8 +6,9 @@ use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Log;
 
-class GuestToken
+class GuestTokenMiddleware
 {
     /**
      * Handle an incoming request.
@@ -18,6 +19,7 @@ class GuestToken
     {
         if (!$request->user() && !$request->header('X-Guest-Token')) {
             $guestToken = (string) Str::uuid();
+            Log::info('Guest Token:'.$guestToken);
             $request->headers->set('X-Guest-Token', $guestToken);
         }
 

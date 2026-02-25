@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\User;
+use App\Models\Address;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -182,7 +183,5 @@ class UserService
         Log::warning('Invalid OTP provided for User ID: ' . $user->id);
         //throw new \Illuminate\Auth\AuthenticationException('Invalid OTP code');
     }
-
-   
 
 }

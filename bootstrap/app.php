@@ -18,6 +18,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'seller.auth' => \App\Http\Middleware\SellerAuth::class,
             'supplier.auth' => \App\Http\Middleware\SupplierAuth::class,
             'territory' => \App\Http\Middleware\API\TerritoryMiddleware::class,
+            'guest.token' => \App\Http\Middleware\API\GuestTokenMiddleware::class,
         ]);
 
     })
