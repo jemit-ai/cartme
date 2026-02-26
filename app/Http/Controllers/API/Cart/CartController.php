@@ -89,12 +89,12 @@ class CartController extends BaseApiController
 
     public function get(Request $request)
     {
-        $authId = $request->header('X-Guest-Token');
-        $userId = $request->user()?->id ?? 0;
+        $data['guest_token'] = $request->header('X-Guest-Token');
+        $data['user_id'] = $request->user()?->id ?? 0;
 
         try {
 
-            $cart = $this->cartService->getCart($authId, $userId);
+            $cart = $this->cartService->getCart($data);
             return $this->successResponse($cart, 'Cart retrieved successfully', 200);
 
         } catch (Exception $e) {
@@ -103,4 +103,5 @@ class CartController extends BaseApiController
             
         }
     }
+    
 }

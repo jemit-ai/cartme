@@ -25,7 +25,7 @@ class Cart extends Model
     }
 
     public function scopeForUserSession($query, $userId, $sessionId)
-{
+    {
        return $query->where('user_id', $userId)
                  ->where('session_id', $sessionId);
 }

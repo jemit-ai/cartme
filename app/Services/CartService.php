@@ -139,10 +139,11 @@ class CartService
         return $cart->load('items.product');
     }
 
-    public function getCart($authId, $userId)
+    public function getCart($data)
     {
-        $userId = $userId ?? 0;
+        $guest_token = $data['guest_token'] ?? null;
+        $user_id     = $data['user_id'] ?? null;
 
-        return Cart::forUserSession($userId, $authId)->with(['items.product'])->first();
+        return Cart::forUserSession($user_id, $guest_token)->with(['items.product'])->first();
     }
 }
