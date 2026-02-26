@@ -21,7 +21,7 @@ class AddressFactory extends Factory
     {
         return [
            'user_id' => User::factory(),
-           'guest_token' => '', 
+           'guest_token' => $this->faker->uuid, 
            'address_line_1' => $this->faker->address,
            'address_line_2' => $this->faker->address,
            'city' => $this->faker->city,

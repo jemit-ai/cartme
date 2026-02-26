@@ -88,11 +88,13 @@ class AddressController extends BaseApiController
             }
 
             $addresses = $this->addressService->getAddresses($data);
-
             return $this->successResponse($addresses, 'Addresses retrieved successfully', 200);
+
         } catch (Throwable $th) {
+
             Log::error($th->getMessage());
             return $this->errorResponse('Failed to retrieve addresses', $th->getMessage(), 500);
+            
         }
     }
 
