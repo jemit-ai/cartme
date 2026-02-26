@@ -120,6 +120,8 @@ class CartService
 
     public function removeFromCart($data)
     {
+
+        Log::info('Remove from Cart Data: ' . json_encode($data));
         
         $guest_token = $data['guest_token'] ?? null;
         $user_id     = $data['user_id'] ?? null;
@@ -128,7 +130,12 @@ class CartService
         $product_id = $data['product_id'] ?? null;
         $quantity   = $data['quantity'] ?? null;
         
-        $cart = Cart::forUserSession($userId, $authId)->first();
+        //Cart::forUserSession($user_id, $guest_token)->toSql();
+        //$cart = Cart::forUserSession($user_id, $guest_token)->first();
+        
+        Log::info('Cart Query: ' . Cart::forUserSession($user_id, $guest_token)->toSql());
+
+        $cart = Cart::forUserSession($user_id, $guest_token)->first();
 
         if (!$cart) {
             return null;

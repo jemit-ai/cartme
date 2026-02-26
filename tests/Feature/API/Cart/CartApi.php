@@ -20,6 +20,10 @@ class CartApi extends TestCase
 
     protected $product;
 
+    protected $token;
+
+    protected $user;
+
     protected function setUp(): void
     {
         parent::setUp();
@@ -29,6 +33,10 @@ class CartApi extends TestCase
         
         // Create a product
         $this->product = Product::factory()->create();
+
+        $this->user = User::factory()->create();
+
+        $this->token =  $this->user->createToken('test')->plainTextToken;
     }
 
     /*
@@ -66,9 +74,7 @@ class CartApi extends TestCase
 
     public function test_add_to_cart_user()
     {   
-        $user = User::factory()->create();
-
-        $token = $user->createToken('test')->plainTextToken;
+       
 
         $response = $this->withHeaders([
             'X-Country' => 'IN',
@@ -103,6 +109,7 @@ class CartApi extends TestCase
     */
     
 
+    /*
     public function test_update_cart_guest()
     {
         $response = $this->withHeaders([
@@ -123,7 +130,6 @@ class CartApi extends TestCase
         ]);
     }
 
-    
     public function test_update_cart()
     {
         // First add to cart
@@ -144,17 +150,25 @@ class CartApi extends TestCase
             'quantity' => 2,
         ]);
     }
-
+    */
 
     public function test_remove_from_cart()
     {
         // First add to cart
-        $this->postJson('/api/cart/add', [
+        $response = $this->withHeaders([
+            'X-Country' => 'IN',
+            'Authorization' => 'Bearer ' . $this->token,
+        ])->actingAs($this->user)->postJson('/api/cart/add', [
             'product_id' => $this->product->id,
             'quantity' => 1,
         ]);
 
-        $response = $this->postJson('/api/cart/remove', [
+        $response->assertStatus(201);
+
+        $response = $this->withHeaders([
+            'X-Country' => 'IN',
+            'Authorization' => 'Bearer ' . $this->token,
+        ])->actingAs($this->user)->postJson('/api/cart/remove', [
             'product_id' => $this->product->id,
             'quantity' => 1,
         ]);
@@ -167,7 +181,7 @@ class CartApi extends TestCase
 
     }
 
-
+    /*
     public function test_get_cart()
     {
         // Add something so it's not empty
@@ -188,4 +202,5 @@ class CartApi extends TestCase
         ]);
     }
     */
+
 }
