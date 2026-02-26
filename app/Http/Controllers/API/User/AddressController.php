@@ -29,8 +29,14 @@ class AddressController extends BaseApiController
     {
 
         try {
-            $user = $request->user();
-            $addresses = $this->addressService->getAddresses($user->id);
+
+            $data['guest_token'] = $request->header('X-Guest-Token');
+
+            if($request->user()){
+                $data['user_id'] = $request->user()->id;
+            }
+            
+            $addresses = $this->addressService->getAddresses($data);
             return $this->successResponse($addresses, 'Addresses retrieved successfully', 200);
         } catch (Throwable $th) {
             Log::error($th->getMessage());
@@ -71,8 +77,18 @@ class AddressController extends BaseApiController
     public function show(string $id, Request $request)
     {
         try {
-            $user = $request->user();
-            $addresses = $this->addressService->getAddresses($user->id);
+            
+            $data['address_id'] = $id;
+            $data['guest_token'] = $request->header('X-Guest-Token');
+
+            Log::info('Update Address Data: ' . json_encode($data));
+
+            if ($request->user()) {
+                $data['user_id'] = $request->user()->id;
+            }
+
+            $addresses = $this->addressService->getAddresses($data);
+
             return $this->successResponse($addresses, 'Addresses retrieved successfully', 200);
         } catch (Throwable $th) {
             Log::error($th->getMessage());

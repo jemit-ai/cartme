@@ -49,6 +49,21 @@ class AddressService
         $address->delete();
         return $address;
     }
+
+    public function getAddresses(array $data)
+    {
+        if($data['address_id']){
+          $address = Address::find($data['address_id']);
+        }
+
+        if($data['user_id']){
+            $address = Address::where('user_id', $data['user_id'])->get();
+        }else{
+            $address = Address::where('guest_token', $data['guest_token'])->get();
+        }
+    
+        return $address;
+    }
     
 
 }
