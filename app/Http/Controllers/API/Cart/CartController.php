@@ -22,12 +22,15 @@ class CartController extends BaseApiController
     public function store(CartRequest $request)
     {
         $data   = $request->validated();
-        $authId = $request->header('X-Guest-Token'); // Guest User 
-        $userId = $request->user()?->id ?? 0; // login User
+
+        $data['guest_token'] = $request->header('X-Guest-Token');
+        $data['user_id'] = $request->user()?->id ?? 0;
+        
+        Log::info('Add to Cart Data: ' . json_encode($data));
 
         try {
 
-            $cart = $this->cartService->addToCart($data, $authId, $userId);
+            $cart = $this->cartService->addToCart($data);
 
             return $this->successResponse(
                 $cart,
@@ -47,13 +50,14 @@ class CartController extends BaseApiController
 
     public function update(CartRequest $request)
     {
-        $data = $request->validated();
-        $authId = $request->header('X-Guest-Token');
-        $userId = $request->user()?->id ?? 0;
+        $data   = $request->validated();
+        
+        $data['guest_token'] = $request->header('X-Guest-Token');
+        $data['user_id'] = $request->user()?->id ?? 0;
 
         try {
 
-            $cart = $this->cartService->updateCart($data, $authId, $userId);
+            $cart = $this->cartService->updateCart($data);
             return $this->successResponse($cart, 'Cart updated successfully', 200);
 
         } catch (Exception $e) {
@@ -67,12 +71,13 @@ class CartController extends BaseApiController
     public function destroy(CartRequest $request)
     {
         $data = $request->validated();
-        $authId = $request->header('X-Guest-Token');
-        $userId = $request->user()?->id ?? 0;
+        
+        $data['guest_token'] = $request->header('X-Guest-Token');
+        $data['user_id'] = $request->user()?->id ?? 0;
 
         try {
 
-            $cart = $this->cartService->removeFromCart($data, $authId, $userId);
+            $cart = $this->cartService->removeFromCart($data);
             return $this->successResponse($cart, 'Item removed from cart successfully', 200);
 
         } catch (Exception $e) {

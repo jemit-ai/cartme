@@ -18,9 +18,11 @@ class GuestTokenMiddleware
     public function handle(Request $request, Closure $next): Response
     {
         if (!$request->user() && !$request->header('X-Guest-Token')) {
+
             $guestToken = (string) Str::uuid();
             Log::info('Guest Token:'.$guestToken);
             $request->headers->set('X-Guest-Token', $guestToken);
+            
         }
 
         return $next($request);

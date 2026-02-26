@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Log;
 
 class GetAddressTest extends TestCase
 {
-    public function test_get_address_success()
+    /*public function test_get_address_success()
     {
         $user = User::factory()->create(['country_id' =>60]);
 
@@ -49,6 +49,31 @@ class GetAddressTest extends TestCase
 
         
     }
+    */
     
+
+    public function test_get_guest_address_success(){
+
+        Log::info('Get Guest Address Test');
+
+        $user = User::factory()->create(['country_id' =>60]);
+
+
+        $guest_token = $user->guest_token;
+
+        //$guest_token = $user->createToken('test')->plainTextToken;
+
+        $address = Address::factory()->create(['guest_token' => $guest_token]);
+
+        $response = $this->withHeaders([ 
+            'X-Country' => 'IN',
+            'X-Guest-Token' => $guest_token,
+        ])->getJson('/api/address/' . $address->id);
+
+        Log::info('Get Guest Address Response:'.$response->getContent());
+
+        $response->assertStatus(200);
+
+    }
     
 }

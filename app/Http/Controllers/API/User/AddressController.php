@@ -52,17 +52,18 @@ class AddressController extends BaseApiController
     {
         //
         try {
+
             $data = $request->validated();
             $data['guest_token'] = $request->header('X-Guest-Token');
             Log::info('Add Address Data: ' . json_encode($data));
 
             if($request->user()){
                 $data['user_id'] = $request->user()->id;
-                $user = $this->addressService->addAddress($data);
-            }else{
-                $user = $this->addressService->addAddress($data);
             }
+
+            $user = $this->addressService->addAddress($data);
             return $this->successResponse($user, 'Address added successfully', 201);
+
         } catch (Throwable $th) {
             Log::error($th->getMessage());
             return $this->errorResponse('Failed to add address', $th->getMessage(), 500);
@@ -94,7 +95,7 @@ class AddressController extends BaseApiController
 
             Log::error($th->getMessage());
             return $this->errorResponse('Failed to retrieve addresses', $th->getMessage(), 500);
-            
+
         }
     }
 

@@ -8,6 +8,8 @@ Route::group(['middleware' => 'territory'], function () {
    
         Route::post('/cart/add', [CartController::class, 'store']);
         Route::post('/cart/update', [CartController::class, 'update']);
+        Route::post('/cart/remove', [CartController::class, 'destroy']);
+        Route::get('/cart', [CartController::class, 'get']);
       
     });
 
@@ -15,6 +17,8 @@ Route::group(['middleware' => 'territory'], function () {
          
         Route::post('/cart/add', [CartController::class, 'store']);
         Route::post('/cart/update', [CartController::class, 'update']);
+        Route::post('/cart/remove', [CartController::class, 'destroy']);
+        Route::get('/cart', [CartController::class, 'get']);
       
     });
 
