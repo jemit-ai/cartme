@@ -11,7 +11,6 @@ use Illuminate\Support\Facades\Log;
 
 class GetAddressTest extends TestCase
 {
-    /*
     public function test_get_address_success()
     {
         $user = User::factory()->create(['country_id' =>60]);
@@ -29,9 +28,8 @@ class GetAddressTest extends TestCase
         $response->assertStatus(200);
 
     }
-    */
     
-    public function tet_get_all_address_success(){
+    public function test_get_all_address_success(){
 
         Log::info('Get All Address Test');
 

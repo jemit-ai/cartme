@@ -52,17 +52,22 @@ class AddressService
 
     public function getAddresses(array $data)
     {
-        if($data['address_id']){
-          $address = Address::find($data['address_id']);
+        
+        // Get single address by ID
+        if (!empty($data['address_id'])) {
+            return Address::find($data['address_id']);
         }
 
-        if($data['user_id']){
-            $address = Address::where('user_id', $data['user_id'])->get();
-        }else{
-            $address = Address::where('guest_token', $data['guest_token'])->get();
+        // Get addresses by user
+        if (!empty($data['user_id'])) {
+            return Address::where('user_id', $data['user_id'])->get();
         }
-    
-        return $address;
+
+        // Get addresses by guest token
+        if (!empty($data['guest_token'])) {
+            return Address::where('guest_token', $data['guest_token'])->get();
+        }
+
     }
     
 
