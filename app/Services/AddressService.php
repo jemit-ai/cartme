@@ -35,6 +35,20 @@ class AddressService
         return $address;
     }
 
+    public function updateAddress(array $data)
+    {
+        $address = Address::find($data['address_id']);
+        $address->update($data);
+        return $address;
+    }
+
+
+    public function deleteAddress(array $data)
+    {
+        $address = Address::find($data['address_id']);
+        $address->delete();
+        return $address;
+    }
     
 
 }

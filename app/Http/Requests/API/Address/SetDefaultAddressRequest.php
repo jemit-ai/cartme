@@ -22,7 +22,7 @@ class SetDefaultAddressRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'address_id' => 'required|exists:addresses,id',
         ];
     }
 }

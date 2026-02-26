@@ -87,38 +87,46 @@ class AddressController extends BaseApiController
     {
         try {
             $data = $request->validated();
+            // Include the address ID from the route so the service can locate the record
+            $data['address_id'] = $id;
             $data['guest_token'] = $request->header('X-Guest-Token');
+
             Log::info('Update Address Data: ' . json_encode($data));
 
-            if($request->user()){
+            if ($request->user()) {
                 $data['user_id'] = $request->user()->id;
-                $user = $this->addressService->updateAddress($data);
-            }else{
-                $user = $this->addressService->updateAddress($data);
             }
-            return $this->successResponse($user, 'Address updated successfully', 200);
+            // Service will handle both authenticated and guest updates
+            $address = $this->addressService->updateAddress($data);
+            return $this->successResponse($address, 'Address updated successfully', 200);
+
         } catch (Throwable $th) {
+
             Log::error($th->getMessage());
             return $this->errorResponse('Failed to update address', $th->getMessage(), 500);
+
         }
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id, DeleteAddressRequest $request)
+
+    public function destroy(string $id)
     {
           try {
-            $data = $request->validated();
+            
+            $data['address_id'] = $id;
             $data['guest_token'] = $request->header('X-Guest-Token');
+
             Log::info('Delete Address Data: ' . json_encode($data));
 
             if($request->user()){
                 $data['user_id'] = $request->user()->id;
-                $user = $this->addressService->deleteAddress($data);
-            }else{
-                $user = $this->addressService->deleteAddress($data);
             }
+
+            $user = $this->addressService->deleteAddress($data);
+
             return $this->successResponse($user, 'Address deleted successfully', 200);
         } catch (Throwable $th) {
             Log::error($th->getMessage());

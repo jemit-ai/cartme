@@ -22,7 +22,15 @@ class UpdateAddressRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'address_line_1' => 'required|string',
+            'address_line_2' => 'nullable|string',
+            'city' => 'required|string',
+            'state' => 'required|string',
+            'postal_code' => 'required|string',        
+            'country' => 'required|string',
+            'phone' => 'nullable|string|max:15',
+            'is_default' => 'required|boolean',
         ];
+
     }
 }
