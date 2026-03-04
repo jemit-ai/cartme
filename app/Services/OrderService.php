@@ -57,12 +57,12 @@ class OrderService
             
             $invoiceNumber = 'INV' . str_pad(rand(1, 9999), 4, '0', STR_PAD_LEFT);
 
-            $invoice = Invoice::create([
+            /*$invoice = Invoice::create([
                 'order_id' => $order->id,
                 'invoice_number' => $invoiceNumber,
                 'invoice_date' => now(),
                 'amount' => $order->total_amount,
-            ]);
+            ]);*/
 
 
             // Order Created
@@ -124,12 +124,12 @@ class OrderService
             
             $invoiceNumber = 'INV' . str_pad(rand(1, 9999), 4, '0', STR_PAD_LEFT);
 
-            $invoice = Invoice::create([
+            /*$invoice = Invoice::create([
                 'order_id' => $order->id,
                 'invoice_number' => $invoiceNumber,
                 'invoice_date' => now(),
                 'amount' => $order->total_amount,
-            ]);
+            ]);*/
 
 
             // Order Created
