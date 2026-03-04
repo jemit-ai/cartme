@@ -23,6 +23,10 @@ class OrderController extends BaseApiController
     {
 
         $data = $request->validated();
+
+        $data['guest_token'] = $request->header('X-Guest-Token');
+        $data['user_id'] = $request->user()?->id ?? 0;
+
         try{
 
             $order = $this->orderService->createOrder($data);
@@ -41,6 +45,10 @@ class OrderController extends BaseApiController
     {
 
         $data = $request->validated();
+
+        $data['guest_token'] = $request->header('X-Guest-Token');
+        $data['user_id'] = $request->user()?->id ?? 0;
+        
         try{
 
             $order = $this->orderService->createGuestOrder($data);

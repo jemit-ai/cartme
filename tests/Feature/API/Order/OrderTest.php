@@ -19,11 +19,11 @@ class OrderTest extends TestCase
     public function test_user_can_create_order()
     {
 
-        $user = User::factory()->create();
+        $user = User::factory()->withAddresses()->create();
         $product = Product::factory()->create();
 
         $response = $this->actingAs($user)->postJson('/api/order', [
-            'shipping_address' => $user->addresses()->first()->id,
+            //'shipping_address' => $user->addresses()->first()->id,
             'payment_method' => 'cod',
             'order_items' => [
                 [

@@ -22,7 +22,7 @@ class OrderRequest extends FormRequest
     public function rules(): array
     {
         return [
-           'shipping_address' => 'required|exists:addresses,id',
+           //'shipping_address' => 'required|exists:addresses,id',
            'payment_method' => 'required',
            'order_items' => 'required|array',
            'order_items.*.product_id' => 'required|exists:products,id',

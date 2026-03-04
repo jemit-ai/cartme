@@ -26,7 +26,12 @@ class OrderService
             DB::beginTransaction();
 
             $items = $data['order_items'] ?? [];
+
+            Log::info('order data: '.print_r($data, true));
+
+
             unset($data['order_items']);
+
 
             // Calculate total if not provided or if we want to be sure
             if (!isset($data['total_amount'])) {
@@ -37,6 +42,8 @@ class OrderService
                 }
                 $data['total_amount'] = $total;
             }
+
+            
 
             $order = Order::create($data);
 
