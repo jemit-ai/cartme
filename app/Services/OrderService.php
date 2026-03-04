@@ -87,6 +87,73 @@ class OrderService
         }
     }
 
+    public function createGuestOrder($data)
+    {
+        try {
+            DB::beginTransaction();
+
+            $items = $data['order_items'] ?? [];
+            unset($data['order_items']);
+
+            // Calculate total if not provided or if we want to be sure
+            if (!isset($data['total_amount'])) {
+                $total = 0;
+                foreach ($items as $item) {
+                    $product = Product::find($item['product_id']);
+                    $total += $product->price * $item['quantity'];
+                }
+                $data['total_amount'] = $total;
+            }
+
+            $order = Order::create($data);
+
+            foreach ($items as $item) {
+
+                $product = Product::find($item['product_id']);
+
+                $order->products()->attach($product->id, [
+                    'quantity' => $item['quantity'],
+                    'price' => $product->price,
+                    'order_id' => $order->id,
+                    'product_id' => $product->id,
+                ]);
+               
+            }
+
+            $latest = Invoice::latest()->first();
+            
+            $invoiceNumber = 'INV' . str_pad(rand(1, 9999), 4, '0', STR_PAD_LEFT);
+
+            $invoice = Invoice::create([
+                'order_id' => $order->id,
+                'invoice_number' => $invoiceNumber,
+                'invoice_date' => now(),
+                'amount' => $order->total_amount,
+            ]);
+
+
+            // Order Created
+            // Event Fired
+            // Queued Listener
+            // Send Email (Background)
+            /*if ($order->user) {
+                $order->user->notify(new OrderPlacedNotification($order));
+            }*/
+
+            GenerateInvoiceJob::dispatch($order);
+
+
+            DB::commit();
+
+            return $order->load('items');
+
+        } catch (Throwable $e) {
+            DB::rollBack();
+            Log::error($e->getMessage());
+            throw new Exception($e->getMessage());
+        }
+    }
+
     public function updateOrder($id, $data)
     {
         try {

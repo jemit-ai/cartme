@@ -36,6 +36,24 @@ class OrderController extends Controller
     
     }
 
+    public function createGuestOrder(OrderRequest $request)
+    {
+
+        $data = $request->validated();
+        try{
+
+            $order = $this->orderService->createGuestOrder($data);
+            return $this->successResponse($order, 'Order created successfully', 201);
+
+        }catch(Exception $e){
+
+            Log::error($e->getMessage());
+            return $this->errorResponse($e->getMessage(), $e->getMessage(), 500);
+
+        }
+    
+    }
+
     public function index()
     {
         try {
