@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Services\OrderService;
 use App\Http\Requests\API\Order\OrderRequest;
+use App\Http\Requests\API\Order\GuestOrderRequest;
 
 
 class OrderController extends Controller
@@ -36,7 +37,7 @@ class OrderController extends Controller
     
     }
 
-    public function createGuestOrder(OrderRequest $request)
+    public function createGuestOrder(GuestOrderRequest $request)
     {
 
         $data = $request->validated();
