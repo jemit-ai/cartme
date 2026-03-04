@@ -32,6 +32,7 @@ class GuestOrderRequest extends FormRequest
             'billing_state' => 'required|string|max:255',
             'billing_postcode' => 'required|string|max:255',
             'billing_country' => 'required|string|max:255',
+            'payment_method' => 'required',
             'order_items' => 'required|array',
             'order_items.*.product_id' => 'required|exists:products,id',
             'order_items.*.quantity' => 'required|integer|min:1',

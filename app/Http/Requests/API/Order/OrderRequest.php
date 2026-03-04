@@ -22,15 +22,7 @@ class OrderRequest extends FormRequest
     public function rules(): array
     {
         return [
-           'billing_first_name' => 'required',
-           'billing_last_name' => 'required',
-           'billing_email' => 'required|email:rfc',
-           'billing_phone' => 'required|digits:10',
-           'billing_address' => 'required',
-           'billing_city' => 'required',
-           'billing_state' => 'required',
-           'billing_postcode' => 'required',
-           'billing_country' => 'required',
+           'shipping_address' => 'required|exists:addresses,id',
            'payment_method' => 'required',
            'order_items' => 'required|array',
            'order_items.*.product_id' => 'required|exists:products,id',
