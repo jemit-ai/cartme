@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\DB;
 use Throwable;
 use Exception;
 use App\Models\Order;
-use App\Models\OrderDetail;
+//use App\Models\OrderDetail;
 use App\Models\Admin;
 use App\Models\Invoice;
 use App\Models\Transaction;

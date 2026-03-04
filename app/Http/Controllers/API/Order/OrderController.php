@@ -8,9 +8,9 @@ use Illuminate\Http\Request;
 use App\Services\OrderService;
 use App\Http\Requests\API\Order\OrderRequest;
 use App\Http\Requests\API\Order\GuestOrderRequest;
+use App\Http\Controllers\API\BaseApiController;
 
-
-class OrderController extends Controller
+class OrderController extends BaseApiController
 {
     protected $orderService;
 

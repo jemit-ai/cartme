@@ -7,7 +7,7 @@ Route::group(['middleware' => 'territory'], function () {
     Route::middleware('auth:sanctum')->group(function () {
 
         //Order Routes 
-        Route::post('/orders', [OrderController::class, 'store']);      // Place order
+        Route::post('/order', [OrderController::class, 'store']);      // Place order
 
         //Route::get('/orders', [OrderController::class, 'index']);        // List user orders
         //Route::get('/orders/{id}', [OrderController::class, 'show']);     // Order details
@@ -15,10 +15,10 @@ Route::group(['middleware' => 'territory'], function () {
 
     });
 
-    
+     
     Route::middleware(['guest.token'])->group(function () { 
 
-        Route::post('/orders', [OrderController::class, 'createGuestOrder']);      // Place order
+        Route::post('/guest/order', [OrderController::class, 'createGuestOrder']);      // Place order
 
         //Route::get('/orders', [OrderController::class, 'index']);        // List user orders
         //Route::get('/orders/{id}', [OrderController::class, 'show']);     // Order details
