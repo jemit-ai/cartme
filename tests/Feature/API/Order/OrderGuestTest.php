@@ -20,8 +20,6 @@ class OrderGuestTest extends TestCase
         $product = Product::factory()->create();
 
         $response = $this->postJson('/api/guest/order', [
-            'product_id' => $product->id,
-            'quantity' => 1,  
             'billing_first_name' => 'John',
             'billing_last_name' => 'Doe',
             'billing_email' => 'jjj@gmail.com',
