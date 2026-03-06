@@ -13,25 +13,29 @@ use App\Models\Transaction;
 use App\Notifications\OrderPlacedNotification;
 use App\Notifications\PaymentSuccessNotification;
 use App\Jobs\GenerateInvoiceJob;
+use App\Services\Payments\PaymentManager;
 
 
 class OrderService
 {
+    protected $paymentManager;
+
+    public function __construct(PaymentManager $paymentManager)
+    {
+        $this->paymentManager = $paymentManager;
+    }
     
     public function createOrder($data)
     {
         try {
-
-            
+ 
             DB::beginTransaction();
 
             $items = $data['order_items'] ?? [];
 
             Log::info('order data: '.print_r($data, true));
 
-
             unset($data['order_items']);
-
 
             // Calculate total if not provided or if we want to be sure
             if (!isset($data['total_amount'])) {
@@ -64,33 +68,23 @@ class OrderService
             
             $invoiceNumber = 'INV' . str_pad(rand(1, 9999), 4, '0', STR_PAD_LEFT);
 
-            /*$invoice = Invoice::create([
-                'order_id' => $order->id,
-                'invoice_number' => $invoiceNumber,
-                'invoice_date' => now(),
-                'amount' => $order->total_amount,
-            ]);*/
+            //GenerateInvoiceJob::dispatch($order);
 
-
-            // Order Created
-            // Event Fired
-            // Queued Listener
-            // Send Email (Background)
-            /*if ($order->user) {
-                $order->user->notify(new OrderPlacedNotification($order));
-            }*/
-
-            GenerateInvoiceJob::dispatch($order);
-
+            $paymentService = $this->paymentManager::gateway($data['payment_method']);
+            $paymentService->charge($data);
 
             DB::commit();
 
             return $order->load('items');
 
         } catch (Throwable $e) {
+
             DB::rollBack();
+
             Log::error($e->getMessage());
+
             throw new Exception($e->getMessage());
+
         }
     }
 
@@ -131,25 +125,9 @@ class OrderService
             
             $invoiceNumber = 'INV' . str_pad(rand(1, 9999), 4, '0', STR_PAD_LEFT);
 
-            /*$invoice = Invoice::create([
-                'order_id' => $order->id,
-                'invoice_number' => $invoiceNumber,
-                'invoice_date' => now(),
-                'amount' => $order->total_amount,
-            ]);*/
-
-
-            // Order Created
-            // Event Fired
-            // Queued Listener
-            // Send Email (Background)
-            /*if ($order->user) {
-                $order->user->notify(new OrderPlacedNotification($order));
-            }*/
-
-            GenerateInvoiceJob::dispatch($order);
-
-
+            $paymentService = $this->paymentManager::gateway($data['payment_method']);
+            $paymentService->charge($data);
+           
             DB::commit();
 
             return $order->load('items');
