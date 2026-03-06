@@ -64,8 +64,8 @@ class PaypalPaymentService implements PaymentGatewayInterface
     public function verifyWebhook(array $data)
     {
         $token = $this->getAccessToken();
-        $response = Http::withToken($token)
-        ->post(config('services.paypal.base_url') . '/v1/notifications/verify-webhook-signature', [
+        
+        $response = Http::withToken($token)->post(config('services.paypal.base_url') . '/v1/notifications/verify-webhook-signature', [
             "transmission_id" => $data['headers']['paypal-transmission-id'],
             "transmission_time" => $data['headers']['paypal-transmission-time'],
             "cert_url" => $data['headers']['paypal-cert-url'],

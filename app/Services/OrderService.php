@@ -72,8 +72,8 @@ class OrderService
 
             //GenerateInvoiceJob::dispatch($order);
 
-            $paymentService = $this->paymentManager::gateway($paymentMethod);
-            $paymentService->charge($data);
+            //$paymentService = $this->paymentManager::gateway($paymentMethod);
+            //$paymentService->charge($data);
 
             DB::commit();
 
@@ -128,8 +128,8 @@ class OrderService
             //$latest = Invoice::latest()->first();
             //$invoiceNumber = 'INV' . str_pad(rand(1, 9999), 4, '0', STR_PAD_LEFT);
 
-            $paymentService = $this->paymentManager::gateway($paymentMethod);
-            $paymentService->charge($data);
+            //$paymentService = $this->paymentManager::gateway($paymentMethod);
+            //paymentService->charge($data);
            
             DB::commit();
 
