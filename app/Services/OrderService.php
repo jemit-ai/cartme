@@ -33,7 +33,9 @@ class OrderService
 
             $items = $data['order_items'] ?? [];
 
-            Log::info('order data: '.print_r($data, true));
+            $paymentMethod = $data['payment_method'] ?? '';
+
+            //Log::info('order data: '.print_r($data, true));
 
             unset($data['order_items']);
 
@@ -64,13 +66,13 @@ class OrderService
                
             }
 
-            $latest = Invoice::latest()->first();
+            //$latest = Invoice::latest()->first();
             
-            $invoiceNumber = 'INV' . str_pad(rand(1, 9999), 4, '0', STR_PAD_LEFT);
+            //$invoiceNumber = 'INV' . str_pad(rand(1, 9999), 4, '0', STR_PAD_LEFT);
 
             //GenerateInvoiceJob::dispatch($order);
 
-            $paymentService = $this->paymentManager::gateway($data['payment_method']);
+            $paymentService = $this->paymentManager::gateway($paymentMethod);
             $paymentService->charge($data);
 
             DB::commit();
@@ -96,6 +98,8 @@ class OrderService
             $items = $data['order_items'] ?? [];
             unset($data['order_items']);
 
+            $paymentMethod = $data['payment_method'] ?? '';
+
             // Calculate total if not provided or if we want to be sure
             if (!isset($data['total_amount'])) {
                 $total = 0;
@@ -121,11 +125,10 @@ class OrderService
                
             }
 
-            $latest = Invoice::latest()->first();
-            
-            $invoiceNumber = 'INV' . str_pad(rand(1, 9999), 4, '0', STR_PAD_LEFT);
+            //$latest = Invoice::latest()->first();
+            //$invoiceNumber = 'INV' . str_pad(rand(1, 9999), 4, '0', STR_PAD_LEFT);
 
-            $paymentService = $this->paymentManager::gateway($data['payment_method']);
+            $paymentService = $this->paymentManager::gateway($paymentMethod);
             $paymentService->charge($data);
            
             DB::commit();
