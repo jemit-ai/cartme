@@ -11,6 +11,8 @@
         "laravel/framework": "^12.0",
         "laravel/sanctum": "^4.3",
         "laravel/tinker": "^2.10.1",
+        "paypal/paypal-server-sdk": "^2.2",
+        "razorpay/razorpay": "^2.9",
         "webpatser/laravel-countries": "^2.0"
     },
     "require-dev": {

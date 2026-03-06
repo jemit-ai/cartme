@@ -8,7 +8,7 @@ use App\Services\Payments\PaypalPaymentService;
 
 class PaymentManager
 {
-   public static function gateway(string $method)
+   public static function gateway(string $method) 
     {
         return match ($method) {
             'razorpay' => new RazorpayPaymentService(),

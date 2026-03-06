@@ -12,3 +12,8 @@ require __DIR__.'/API/order.php';
 
 require __DIR__.'/API/user.php';
 
+require __DIR__.'/API/payment.php';
+
+
+
+

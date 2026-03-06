@@ -4,11 +4,9 @@ namespace App\Services\Payments\Contracts;
 
 interface PaymentGatewayInterface
 {
-    public function charge(array $data);
-    public function refund(array $data);
-    public function capture(array $data);
-    public function void(array $data);
-    public function verify(array $data);
     
+    public function createPayment(array $data);
+
+    public function verifyPayment(array $data);
 
 }
