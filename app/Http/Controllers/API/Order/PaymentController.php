@@ -5,15 +5,17 @@ namespace App\Http\Controllers\API\Order;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Services\Payments\PaymentManager;
+use App\Http\Requests\API\Payment\PaymentRequest;
+use App\Http\Requests\API\Payment\PaymentVerifyRequest;
 use App\Http\Controllers\API\BaseApiController;
 
 
 class PaymentController extends BaseApiController
 {
     
-    public function createPayment(Request $request)
+    public function createPayment(PaymentRequest $request)
     {
-        //$data = $request->validated();
+        $data = $request->validated();
 
         $data['guest_token'] = $request->header('X-Guest-Token');
         $data['user_id'] = $request->user()?->id ?? 0;
@@ -23,9 +25,9 @@ class PaymentController extends BaseApiController
         return $this->successResponse($payment, 'Payment created successfully', 201);
     }
 
-    public function verifyPayment(Request $request)
+    public function verifyPayment(PaymentVerifyRequest $request)
     {
-        //$data = $request->validated();
+        $data = $request->validated();
 
         $data['guest_token'] = $request->header('X-Guest-Token');
         $data['user_id'] = $request->user()?->id ?? 0;

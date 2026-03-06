@@ -10,8 +10,7 @@ use App\Models\Order;
 use App\Models\OrderDetail;
 use App\Traits\ApiResponse;
 use App\Models\User;
-
-
+use Illuminate\Support\Facades\Log;
 
 class OrderTest extends TestCase
 {
@@ -35,6 +34,8 @@ class OrderTest extends TestCase
             
         ]);
 
+        Log::info('order data: '.print_r($response->json(), true));
+        
         $response->assertStatus(201);
         
     }
