@@ -16,10 +16,10 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('order_id');
             $table->string('payment_method'); 
-    $table->decimal('amount', 10, 2);
-    $table->string('currency')->default('INR');
-    $table->string('gateway_order_id')->nullable();
-    $table->string('status')->default('pending');
+            $table->decimal('amount', 10, 2);
+            $table->string('currency')->default('INR');
+            $table->string('gateway_order_id')->nullable();
+            $table->string('status')->default('pending');
             $table->timestamps();
 
         });
