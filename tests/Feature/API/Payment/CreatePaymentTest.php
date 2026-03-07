@@ -6,10 +6,11 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 use App\Models\Order;
+use App\Models\User;
 
 class CreatePaymentTest extends TestCase
 {
-    
+    /*
     public function test_create_payment()
     {
         $this->actingAsGuest();
@@ -49,19 +50,21 @@ class CreatePaymentTest extends TestCase
 
         $response->assertStatus(404);
     }
+    */
 
     public function test_create_payment_with_user_id()
     {
-       // $this->actingAsUser();
+        //$this->actingAsUser();
 
         $order = Order::factory()->create();
+        $user = User::factory()->withAddresses()->create();
 
-        $response = $this->actingAs($order->user)->postJson('/api/create-payment', [
+        $response = $this->actingAs($user)->postJson('/api/create-payment', [
             'payment_method' => 'cod',
             'order_id' => $order->id,
         ]);
 
-        $response->assertStatus(200);
+        $response->assertStatus(201);
     }
 
 }

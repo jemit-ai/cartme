@@ -13,8 +13,8 @@ class Payment extends Model
         'order_id',
         'payment_method',
         'amount',
-        'currency',
         'gateway_order_id',
+        'country_id',
         'status',
     ];
 

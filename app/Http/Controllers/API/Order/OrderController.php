@@ -9,6 +9,7 @@ use App\Services\OrderService;
 use App\Http\Requests\API\Order\OrderRequest;
 use App\Http\Requests\API\Order\GuestOrderRequest;
 use App\Http\Controllers\API\BaseApiController;
+use Illuminate\Support\Facades\Log;
 
 class OrderController extends BaseApiController
 {
