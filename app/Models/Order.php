@@ -2,6 +2,7 @@
 namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Str;
 use App\Models\User;
 use App\Models\Invoice;
 use App\Models\Transaction;
@@ -10,7 +11,18 @@ use App\Models\Product;
 
 class Order extends Model
 {
-    use HasFactory; 
+    use HasFactory;
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($order) {
+            if (empty($order->order_number)) {
+                $order->order_number = 'ORD-' . now()->format('Ymd') . '-' . strtoupper(Str::random(6));
+            }
+        });
+    }
 
 
     protected $fillable = [

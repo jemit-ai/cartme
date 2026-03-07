@@ -15,8 +15,8 @@ Route::group(['middleware' => 'territory'], function () {
 
     Route::middleware(['guest.token'])->group(function () { 
 
-        Route::post('/create-payment', [PaymentController::class, 'createPayment']);
-        Route::post('/verify-payment', [PaymentController::class, 'verifyPayment']);
+        Route::post('/guest/create-payment', [PaymentController::class, 'createPayment']);
+        Route::post('/guest/verify-payment', [PaymentController::class, 'verifyPayment']);
 
     });
 
