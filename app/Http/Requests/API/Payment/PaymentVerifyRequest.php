@@ -19,10 +19,11 @@ class PaymentVerifyRequest extends FormRequest
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
+    
     public function rules(): array
     {
         return [
-            'order_id' => 'required|numeric',
+            'order_id' => 'required|numeric|exists:orders,id',
             'payment_id' => 'required|string',
             'signature' => 'required|string',
         ];

@@ -10,14 +10,14 @@ class CashOnDeliveryPaymentService implements PaymentGatewayInterface
 {
     public function createPayment(array $data)
     {
-        
+
         return $data;
 
     }
 
     public function verifyPayment(array $data)
     {
-
+        
         return $data;
 
     }
