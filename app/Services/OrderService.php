@@ -71,7 +71,7 @@ class OrderService
                 'order_id' => $order->id,
                 'status' => 'pending',
                 'note' => 'Order Placed With Pending Status.',
-                'updated_by' => $user_id
+                'user_id' => $user_id
             ]);
 
             DB::commit();
@@ -126,12 +126,12 @@ class OrderService
 
 
             $guest_token=$data['guest_token'];
-            
+
             OrderTrack::create([
                 'order_id' => $order->id,
                 'status' => 'pending',
                 'note' => 'Order Placed With Pending Status.',
-                'updated_by' => $guest_token
+                'session_id' => $guest_token
             ]);
 
             
