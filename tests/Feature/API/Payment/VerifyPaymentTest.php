@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Models\Order;
 use App\Models\Country;
 use App\Models\Payment;
+use Illuminate\Support\Facades\Log;
 
 
 class VerifyPaymentTest extends TestCase
@@ -18,7 +19,7 @@ class VerifyPaymentTest extends TestCase
     {
         $user = User::factory()->withAddresses()->create();
 
-        $order = Order::factory()->create();
+        $order = Order::factory()->create(['payment_method' => 'cod']);
        
         $payment = Payment::factory()->create([
             'order_id' => $order->id,

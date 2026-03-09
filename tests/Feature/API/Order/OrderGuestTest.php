@@ -9,6 +9,7 @@ use App\Models\Product;
 use App\Models\Order;
 use App\Models\OrderDetail;
 use App\Traits\ApiResponse;
+use Illuminate\Support\Facades\Log;
 
 
 class OrderGuestTest extends TestCase

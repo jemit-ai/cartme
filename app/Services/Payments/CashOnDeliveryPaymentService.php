@@ -14,7 +14,7 @@ class CashOnDeliveryPaymentService implements PaymentGatewayInterface
     public function createPayment(array $data)
     {
 
-            //Log::info('create payment data: '.print_r($data, true));
+            Log::info('create payment data: '.print_r($data, true));
             $order = Order::find($data['order_id']);
 
             if (!$order) {

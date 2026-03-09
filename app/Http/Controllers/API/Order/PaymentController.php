@@ -20,6 +20,7 @@ class PaymentController extends BaseApiController
 
         $data['guest_token'] = $request->header('X-Guest-Token');
         $data['user_id'] = $request->user()?->id ?? 0;
+        //Log::info('create payment data if: '.print_r($request->all(), true));
 
         try{
 
@@ -27,9 +28,8 @@ class PaymentController extends BaseApiController
           $payload = array_merge($request->all(), $data);
           $payment = $paymentService->createPayment($payload);
 
-          $respone=$this->successResponse($payment, 'Payment created successfully', 201);
-          Log::log($respone);
-          return $this->successResponse($respone, 'Payment created successfully', 201);
+          Log::info('payment created response', ['payment' => $payment]);
+          return $this->successResponse($payment, 'Payment created successfully', 201);
 
         }catch(Exception $e){
           
@@ -46,7 +46,10 @@ class PaymentController extends BaseApiController
 
         $data['guest_token'] = $request->header('X-Guest-Token');
         $data['user_id'] = $request->user()?->id ?? 0;
+
         $payload = array_merge($request->all(), $data);
+
+        Log::info('verify payment data: '.print_r($payload, true));
 
         try{
 
