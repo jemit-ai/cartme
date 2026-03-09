@@ -18,10 +18,16 @@ class OrderTest extends TestCase
     public function test_user_can_create_order()
     {
 
-        $user = User::factory()->withAddresses()->create();
+        $user = User::factory()->withAddresses()->create([
+             'country_id'=>60
+        ]);
+        
         $product = Product::factory()->create();
 
-        $response = $this->actingAs($user)->postJson('/api/order', [
+        $response = $this->withHeaders([ 
+            'X-Country' => 'IN',
+            'Authorization' => 'Bearer ' . $user->createToken('test')->plainTextToken,
+         ])->actingAs($user)->postJson('/api/order', [
             //'shipping_address' => $user->addresses()->first()->id,
             'payment_method' => 'cod',
             'order_items' => [

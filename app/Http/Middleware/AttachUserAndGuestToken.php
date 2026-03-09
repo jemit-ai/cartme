@@ -17,7 +17,7 @@ class AttachUserAndGuestToken
     {
         $request->merge([
             'guest_token' => $request->header('X-Guest-Token'),
-            'user_id' => $request->user()?->id ?? 0,
+            'user_id' => $request->user()?->id ?? null,
         ]);
 
         return $next($request);

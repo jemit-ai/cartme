@@ -10,6 +10,7 @@ use App\Models\Order;
 use App\Models\OrderDetail;
 use App\Traits\ApiResponse;
 use Illuminate\Support\Facades\Log;
+use App\Models\User;
 
 
 class OrderGuestTest extends TestCase
@@ -20,7 +21,14 @@ class OrderGuestTest extends TestCase
 
         $product = Product::factory()->create();
 
-        $response = $this->postJson('/api/guest/order', [
+        $user = User::factory()->create([
+            'country_id'=>60
+        ]);
+
+        $response = $this->withHeaders([ 
+            'X-Country' => 'IN',
+            'X-Guest-Token' => $user->guest_token,
+            ])->postJson('/api/guest/order', [
             'billing_first_name' => 'John',
             'billing_last_name' => 'Doe',
             'billing_email' => 'jjj@gmail.com',

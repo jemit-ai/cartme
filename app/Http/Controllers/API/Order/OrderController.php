@@ -26,7 +26,7 @@ class OrderController extends BaseApiController
         $data = $request->validated();
 
         $data['guest_token'] = $request->header('X-Guest-Token');
-        $data['user_id'] = $request->user()?->id ?? 0;
+        $data['user_id'] = $request->user()?->id ?? null;
 
         try{
 
@@ -48,8 +48,10 @@ class OrderController extends BaseApiController
 
         $data = $request->validated();
 
+        Log::info('Controller Order Data: ' . json_encode($data));
+
         $data['guest_token'] = $request->header('X-Guest-Token');
-        $data['user_id'] = $request->user()?->id ?? 0;
+        $data['user_id'] = $request->user()?->id ?? null;
         
         try{
 

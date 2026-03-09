@@ -14,6 +14,7 @@ use App\Notifications\OrderPlacedNotification;
 use App\Notifications\PaymentSuccessNotification;
 use App\Jobs\GenerateInvoiceJob;
 use App\Services\Payments\PaymentManager;
+use App\Models\OrderTrack;
 
 
 class OrderService
@@ -91,6 +92,11 @@ class OrderService
 
     public function createGuestOrder($data)
     {
+
+        Log::info('Order Data: ' . json_encode($data));
+
+        //return false;
+
         try {
             DB::beginTransaction();
 
