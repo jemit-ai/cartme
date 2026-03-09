@@ -46,7 +46,10 @@ class PaymentController extends BaseApiController
         $data['guest_token'] = $request->header('X-Guest-Token');
         $data['user_id'] = $request->user()?->id ?? 0;
 
-        Log::info('Payment Verify Data: ' . json_encode($data));
+
+        $payload = array_merge($request->all(), $data);
+
+        Log::info('Payment Verify Data: ' . json_encode($payload));
 
         
         /*$paymentService = PaymentManager::gateway($request->payment_method);

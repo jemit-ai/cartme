@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Invoice;
 use App\Models\Transaction;
 use App\Models\Product;
+use App\Models\Payment;
 
 
 class Order extends Model
@@ -66,6 +67,11 @@ class Order extends Model
     public function products()
     {
         return $this->belongsToMany(Product::class,'order_details_product')->withPivot('order_id','product_id','quantity','price')->withTimestamps();
+    }
+
+    public function payment()
+    {
+        return $this->hasOne(Payment::class);
     }
 
 }

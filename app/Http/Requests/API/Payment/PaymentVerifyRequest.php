@@ -24,7 +24,7 @@ class PaymentVerifyRequest extends FormRequest
     {
         return [
             'order_id' => 'required|numeric|exists:orders,id',
-            'payment_id' => 'required|string',
+            'payment_id' => 'required|numeric|exists:payments,id',
             'signature' => 'required|string',
         ];
     }

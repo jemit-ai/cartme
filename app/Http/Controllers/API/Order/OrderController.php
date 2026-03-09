@@ -30,7 +30,8 @@ class OrderController extends BaseApiController
 
         try{
 
-            $order = $this->orderService->createOrder($data);
+            $payload = array_merge($request->all(), $data);
+            $order = $this->orderService->createOrder($payload);
             return $this->successResponse($order, 'Order created successfully', 201);
 
         }catch(Exception $e){
@@ -52,7 +53,8 @@ class OrderController extends BaseApiController
         
         try{
 
-            $order = $this->orderService->createGuestOrder($data);
+            $payload = array_merge($request->all(), $data);
+            $order = $this->orderService->createGuestOrder($payload);
             return $this->successResponse($order, 'Order created successfully', 201);
 
         }catch(Exception $e){
