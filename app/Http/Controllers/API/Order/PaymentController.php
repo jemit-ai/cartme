@@ -45,10 +45,15 @@ class PaymentController extends BaseApiController
 
         $data['guest_token'] = $request->header('X-Guest-Token');
         $data['user_id'] = $request->user()?->id ?? 0;
+
+        Log::info('Payment Verify Data: ' . json_encode($data));
+
         
-        $paymentService = PaymentManager::gateway($request->payment_method);
+        /*$paymentService = PaymentManager::gateway($request->payment_method);
         $payment = $paymentService->verifyPayment($data);
-        return $this->successResponse($payment, 'Payment verified successfully', 200); 
+        return $this->successResponse($payment, 'Payment verified successfully', 200); */
+
+        //return $this->successResponse($data, 'Payment verified successfully', 200); 
     }
 
 }
