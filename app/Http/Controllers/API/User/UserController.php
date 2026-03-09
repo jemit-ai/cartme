@@ -4,6 +4,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Services\UserService;
 use App\Services\AddressService;
+use App\Services\CartService;
 
 use App\Http\Requests\API\User\RegisterRequest;
 use App\Http\Requests\API\User\LoginRequest;
@@ -22,8 +23,9 @@ use Illuminate\Auth\AuthenticationException;
 class UserController extends BaseApiController
 {
     public $userService;
+    public $addressService;
 
-    public function __construct(UserService $userService)
+    public function __construct(UserService $userService,AddressService $addressService)
     {
         $this->userService = $userService;
         $this->addressService = $addressService;
@@ -50,10 +52,18 @@ class UserController extends BaseApiController
     public function login(LoginRequest $request)
     {
         try {
+
             $data = $request->validated();
+
+            $sessionId = $request->header('X-Guest-Token');
+            $userId = $request->user()?->id ?? 0;
+
             $result = $this->userService->login($data);
 
+            CartService::mergeGuestCartToUser($sessionId,$userId);
+
             return $this->successResponse($result, 'User logged in successfully', 200);
+
         } catch (AuthenticationException $e) {
             return $this->errorResponse('Invalid credentials', $e->getMessage(), 401);
         } catch (Throwable $th) {
