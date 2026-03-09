@@ -17,6 +17,7 @@ use App\Http\Controllers\API\BaseApiController;
 use Exception;
 use Illuminate\Support\Facades\Log;
 use Throwable;
+use Illuminate\Auth\AuthenticationException;
 
 class UserController extends BaseApiController
 {
@@ -53,7 +54,7 @@ class UserController extends BaseApiController
             $result = $this->userService->login($data);
 
             return $this->successResponse($result, 'User logged in successfully', 200);
-        } catch (\Illuminate\Auth\AuthenticationException $e) {
+        } catch (AuthenticationException $e) {
             return $this->errorResponse('Invalid credentials', $e->getMessage(), 401);
         } catch (Throwable $th) {
             Log::error($th->getMessage());
@@ -152,7 +153,7 @@ class UserController extends BaseApiController
             $data = $request->validated();
             $user = $this->userService->changePassword($request->user()->id, $data);
             return $this->successResponse($user, 'Password changed successfully', 200);
-        } catch (\Illuminate\Auth\AuthenticationException $e) {
+        } catch (AuthenticationException $e) {
             return $this->errorResponse('Invalid current password', $e->getMessage(), 401);
         } catch (Throwable $th) {
             Log::error($th->getMessage());
