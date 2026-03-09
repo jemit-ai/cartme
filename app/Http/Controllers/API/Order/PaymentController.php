@@ -9,6 +9,7 @@ use App\Http\Requests\API\Payment\PaymentRequest;
 use App\Http\Requests\API\Payment\PaymentVerifyRequest;
 use App\Http\Controllers\API\BaseApiController;
 use Illuminate\Support\Facades\Log;
+use App\Models\Order;
 
 class PaymentController extends BaseApiController
 {
@@ -45,18 +46,21 @@ class PaymentController extends BaseApiController
 
         $data['guest_token'] = $request->header('X-Guest-Token');
         $data['user_id'] = $request->user()?->id ?? 0;
-
-
         $payload = array_merge($request->all(), $data);
 
-        Log::info('Payment Verify Data: ' . json_encode($payload));
+        try{
 
-        
-        /*$paymentService = PaymentManager::gateway($request->payment_method);
-        $payment = $paymentService->verifyPayment($data);
-        return $this->successResponse($payment, 'Payment verified successfully', 200); */
+            $order = Order::find($payload['order_id']);
+            $paymentService = PaymentManager::gateway($order->payment_method);
+            $payment = $paymentService->verifyPayment($data);
+            return $this->successResponse($payment, 'Payment verified successfully', 200);
 
-        //return $this->successResponse($data, 'Payment verified successfully', 200); 
+        }catch(Exception $e){
+
+            Log::error($e->getMessage());
+            return $this->errorResponse($e->getMessage(), $e->getMessage(), 500); 
+
+        } 
     }
 
 }
