@@ -45,6 +45,23 @@ class CashOnDeliveryPaymentService implements PaymentGatewayInterface
 
     public function verifyPayment(array $data)
     {
+        //Log::info('Verify payment data: '.print_r($data, true));
+        $order_id   = $data['order_id'];
+        $payment_id = $data['payment_id'];
+
+        $order = Order::findOrFail($order_id);
+        $payment = Payment::findOrFail($payment_id);
+
+        $order->update([
+            'status' => 'paid'
+        ]);
+
+        $payment->update([
+            'status' => 'paid'
+        ]);
+
+        $data['order'] = $order; 
+        $data['payment'] = $payment; 
         
         return $data;
 

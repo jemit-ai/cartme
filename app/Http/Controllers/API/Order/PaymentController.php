@@ -20,7 +20,6 @@ class PaymentController extends BaseApiController
 
         $data['guest_token'] = $request->header('X-Guest-Token');
         $data['user_id'] = $request->user()?->id ?? 0;
-        //Log::info('create payment data if: '.print_r($request->all(), true));
 
         try{
 
@@ -49,13 +48,15 @@ class PaymentController extends BaseApiController
 
         $payload = array_merge($request->all(), $data);
 
-        Log::info('verify payment data: '.print_r($payload, true));
-
         try{
 
             $order = Order::find($payload['order_id']);
             $paymentService = PaymentManager::gateway($order->payment_method);
             $payment = $paymentService->verifyPayment($data);
+            
+            //$payment_response=$this->successResponse($payment, 'Payment verified successfully', 200);
+            //Log::info('payment verified response', ['payment' => $payment_response]);
+
             return $this->successResponse($payment, 'Payment verified successfully', 200);
 
         }catch(Exception $e){

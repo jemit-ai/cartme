@@ -8,6 +8,8 @@ Route::group(['middleware' => 'territory'], function () {
 
         //Order Routes 
         Route::post('/order', [OrderController::class, 'store']);      // Place order
+        Route::post('/order/{id}/status', [OrderController::class, 'updateStatus']);
+
 
         //Route::get('/orders', [OrderController::class, 'index']);        // List user orders
         //Route::get('/orders/{id}', [OrderController::class, 'show']);     // Order details
@@ -19,6 +21,7 @@ Route::group(['middleware' => 'territory'], function () {
     Route::middleware(['guest.token'])->group(function () { 
 
         Route::post('/guest/order', [OrderController::class, 'createGuestOrder']);      // Place order
+        Route::post('/guest/order/{id}/status', [OrderController::class, 'updateStatus']);
 
         //Route::get('/orders', [OrderController::class, 'index']);        // List user orders
         //Route::get('/orders/{id}', [OrderController::class, 'show']);     // Order details
