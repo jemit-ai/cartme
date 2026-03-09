@@ -66,14 +66,13 @@ class OrderService
                
             }
 
-            //$latest = Invoice::latest()->first();
-            
-            //$invoiceNumber = 'INV' . str_pad(rand(1, 9999), 4, '0', STR_PAD_LEFT);
-
-            //GenerateInvoiceJob::dispatch($order);
-
-            //$paymentService = $this->paymentManager::gateway($paymentMethod);
-            //$paymentService->charge($data);
+            $user_id=$data['user_id'];
+            OrderTrack::create([
+                'order_id' => $order->id,
+                'status' => 'pending',
+                'note' => 'Order Placed With Pending Status.',
+                'updated_by' => $user_id
+            ]);
 
             DB::commit();
 
@@ -125,11 +124,17 @@ class OrderService
                
             }
 
-            //$latest = Invoice::latest()->first();
-            //$invoiceNumber = 'INV' . str_pad(rand(1, 9999), 4, '0', STR_PAD_LEFT);
 
-            //$paymentService = $this->paymentManager::gateway($paymentMethod);
-            //paymentService->charge($data);
+            $guest_token=$data['guest_token'];
+            
+            OrderTrack::create([
+                'order_id' => $order->id,
+                'status' => 'pending',
+                'note' => 'Order Placed With Pending Status.',
+                'updated_by' => $guest_token
+            ]);
+
+            
            
             DB::commit();
 

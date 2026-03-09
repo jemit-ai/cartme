@@ -53,10 +53,6 @@ class PaymentController extends BaseApiController
             $order = Order::find($payload['order_id']);
             $paymentService = PaymentManager::gateway($order->payment_method);
             $payment = $paymentService->verifyPayment($data);
-            
-            //$payment_response=$this->successResponse($payment, 'Payment verified successfully', 200);
-            //Log::info('payment verified response', ['payment' => $payment_response]);
-
             return $this->successResponse($payment, 'Payment verified successfully', 200);
 
         }catch(Exception $e){

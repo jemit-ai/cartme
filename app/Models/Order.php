@@ -8,6 +8,7 @@ use App\Models\Invoice;
 use App\Models\Transaction;
 use App\Models\Product;
 use App\Models\Payment;
+use App\Models\OrderTrack;
 
 
 class Order extends Model
@@ -72,6 +73,11 @@ class Order extends Model
     public function payment()
     {
         return $this->hasOne(Payment::class);
+    }
+
+    public function tracks()
+    {
+       return $this->hasMany(OrderTrack::class);
     }
 
 }
