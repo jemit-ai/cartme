@@ -11,3 +11,7 @@ require __DIR__.'/supplier.php';
 
 require __DIR__.'/seller.php';
 
+
+Route::get('/', function () {
+    return view('welcome');
+});
