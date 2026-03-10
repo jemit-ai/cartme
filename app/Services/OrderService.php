@@ -93,7 +93,7 @@ class OrderService
     public function createGuestOrder($data)
     {
 
-        Log::info('Order Data: ' . json_encode($data));
+        Log::info('GuestOrder Data Service: ' . json_encode($data));
 
         //return false;
 
@@ -104,6 +104,10 @@ class OrderService
             unset($data['order_items']);
 
             $paymentMethod = $data['payment_method'] ?? '';
+
+            $guest_token = $data['guest_token'];
+
+            $data['session_id']=$guest_token;
 
             // Calculate total if not provided or if we want to be sure
             if (!isset($data['total_amount'])) {
