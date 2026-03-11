@@ -84,12 +84,13 @@
                 <div class="flex items-center space-x-2 sm:space-x-4">
                     <!-- Localization (Only on larger screens) -->
                     <div class="hidden sm:flex items-center group cursor-pointer">
-                        <select
+                        <!--select
                             class="bg-transparent border-none text-xs font-semibold text-gray-700 dark:text-gray-200 focus:ring-0 cursor-pointer p-0">
                             <option>IND</option>
                             <option>USA</option>
                             <option>GBR</option>
-                        </select>
+                        </select-->
+                        <Country />
                     </div>
 
                     <!-- Auth Buttons -->
@@ -152,7 +153,7 @@
     </header>
 </template>
 
-<script>
+<!--script>
 export default {
     data() {
         return {
@@ -160,6 +161,10 @@ export default {
         }
     }
 }
+</script-->
+
+<script setup>
+import Country from './sub_components/Country.vue';
 </script>
 
 <style scoped>

@@ -12,35 +12,36 @@
                 </p>
             </div>
 
-            <form class="space-y-5">
+            <form class="space-y-5" @submit.prevent="submitForm">
 
                 <div class="space-y-1">
                     <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Full Name</label>
-                    <input type="text" placeholder="John Doe"
+                    <input v-model="form.user_name" id="user_name" type="text" placeholder="John Doe"
                         class="w-full bg-brand-cream/10 dark:bg-gray-800 border-none rounded-2xl px-5 py-3.5 text-sm focus:ring-2 focus:ring-brand-tan transition-all duration-300">
                 </div>
 
                 <div class="space-y-1">
                     <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Email
                         Address</label>
-                    <input type="email" placeholder="john@example.com"
+                    <input v-model="form.user_email" id="user_email" type="email" placeholder="john@example.com"
                         class="w-full bg-brand-cream/10 dark:bg-gray-800 border-none rounded-2xl px-5 py-3.5 text-sm focus:ring-2 focus:ring-brand-tan transition-all duration-300">
                 </div>
 
                 <div class="space-y-1">
                     <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Password</label>
-                    <input type="password" placeholder="••••••••"
+                    <input v-model="form.user_password" id="user_password" type="password" placeholder="••••••••"
                         class="w-full bg-brand-cream/10 dark:bg-gray-800 border-none rounded-2xl px-5 py-3.5 text-sm focus:ring-2 focus:ring-brand-tan transition-all duration-300">
                 </div>
 
                 <div class="space-y-1">
                     <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Confirm
                         Password</label>
-                    <input type="password" placeholder="••••••••"
+                    <input v-model="form.user_password_confirmation" id="user_password_confirmation" type="password"
+                        placeholder="••••••••"
                         class="w-full bg-brand-cream/10 dark:bg-gray-800 border-none rounded-2xl px-5 py-3.5 text-sm focus:ring-2 focus:ring-brand-tan transition-all duration-300">
                 </div>
 
-                <button
+                <button :disabled="loading"
                     class="w-full bg-brand-tan text-white py-4 rounded-2xl font-black text-sm uppercase tracking-widest shadow-xl shadow-brand-tan/20 hover:opacity-95 transform hover:-translate-y-0.5 transition-all duration-300 mt-4">
                     Register Now
                 </button>
@@ -83,3 +84,28 @@
         </div>
     </div>
 </template>
+
+
+<script setup>
+import { reactive, ref } from 'vue';
+
+const loading = ref(false);
+
+const form = reactive({
+    user_name: '',
+    user_email: '',
+    user_password: '',
+    user_password_confirmation: ''
+});
+
+const submitForm = () => {
+    loading.value = true;
+    console.log('Form Submitted:', form);
+
+    // Simulate API call
+    setTimeout(() => {
+        loading.value = false;
+        alert('Registration simulated successfully (check console)');
+    }, 1500);
+};
+</script>
