@@ -1,11 +1,5 @@
 <template>
-  <footer class="footer">
-    <p>© 2026 My Ecommerce Website</p>
-  </footer>
+<footer class="bg-gray-900 text-white text-center p-4 mt-10">
+    <p>© 2026 My Ecommerce</p>
+</footer>
 </template>
-
-<script>
-export default {
-  name: "Footer"
-}
-</script>

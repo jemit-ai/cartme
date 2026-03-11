@@ -1,16 +1,12 @@
 <template>
-  <header class="header">
-    <h2>My Ecommerce</h2>
-    <nav>
-      <a href="/">Home</a>
-      <a href="/products">Products</a>
-      <a href="/cart">Cart</a>
-    </nav>
-  </header>
-</template>
+<header class="bg-gray-800 text-white p-4">
+    <div class="container mx-auto flex justify-between">
+        <h1>Ecommerce</h1>
 
-<script>
-export default {
-  name: "Header"
-}
-</script>
+        <nav>
+            <router-link to="/">Home</router-link>
+            <router-link to="/products" class="ml-4">Products</router-link>
+        </nav>
+    </div>
+</header>
+</template>
