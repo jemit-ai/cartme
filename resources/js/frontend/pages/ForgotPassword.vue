@@ -29,11 +29,20 @@
             </form>
 
             <div class="mt-10 text-center">
-                <a href="#"
+
+                <!--a href="#"
                     class="group text-[10px] font-black uppercase tracking-widest text-gray-400 hover:text-brand-tan transition-colors">
                     <span class="inline-block mr-1 group-hover:-translate-x-1 transition-transform">←</span>
                     Back to Secure Sign In
-                </a>
+                </a-->
+
+                <router-link to="/login"
+                    class="group text-[10px] font-black uppercase tracking-widest text-gray-400 hover:text-brand-tan transition-colors">
+                    <span class="inline-block mr-1 group-hover:-translate-x-1 transition-transform">←</span>
+                    Back to Secure Sign In
+                </router-link>
+
+
             </div>
 
         </div>
