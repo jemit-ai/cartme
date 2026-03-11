@@ -15,6 +15,7 @@ api.interceptors.request.use((config) => {
     const token = localStorage.getItem('token')
     const guest_token = localStorage.getItem('guest_token')
     const country_id = localStorage.getItem("country_id");
+    const country_name = localStorage.getItem("country_name");
     
     if (token) {
         config.headers.Authorization = `Bearer ${token}`
@@ -25,7 +26,7 @@ api.interceptors.request.use((config) => {
     } 
 
     if (country_id) {
-        config.headers["country_id"] = country_id;
+        config.headers["X-Country"] = country_name;
     }
 
     return config
