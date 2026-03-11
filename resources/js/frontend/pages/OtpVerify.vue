@@ -52,3 +52,27 @@
         </div>
     </div>
 </template>
+
+<script setup>
+
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+import api from '../services/api';
+
+const router = useRouter()
+
+const otp = ref('')
+
+const submitForm = async () => {
+
+    const response = await api.post('/verify-otp', {
+        email: router.currentRoute.value.query.email,
+        otp: otp.value
+    })
+
+    if (response.status === 200) {
+        router.push('/login')
+    }
+
+}
+</script>

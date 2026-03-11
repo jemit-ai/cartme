@@ -129,13 +129,22 @@ const submitForm = async () => {
 
         if (response.status === 201) {
 
-            //router.push('/otp-verify')
+            const email = response.data.data.user.email
 
-            console.log(response.data.data.user.email)
-
-            const otpResponse = await api.post("/send-otp", response.data.data.user.email)
+            const otpResponse = await api.post("/send-otp", { email })
 
             console.log(otpResponse)
+
+            if (otpResponse.status === 200) {
+
+                router.push({
+                    path: '/otp-verify',
+                    query: {
+                        email: email,
+                    }
+                })
+
+            }
 
             /*router.push({
                 path: '/otp-verify',
