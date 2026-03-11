@@ -1,7 +1,7 @@
 <template>
 
     <!-- HERO -->
-    <section class="bg-indigo-600 text-white">
+    <section class="bg-brand-tan text-white">
         <div class="max-w-7xl mx-auto px-6 py-20 grid md:grid-cols-2 items-center">
 
             <div>
@@ -9,16 +9,16 @@
                     Big Summer Sale
                 </h1>
 
-                <p class="mb-6 text-lg">
+                <p class="mb-6 text-lg text-white/90">
                     Up to 50% discount on electronics and fashion.
                 </p>
 
-                <button class="bg-white text-indigo-600 px-6 py-3 rounded-lg font-semibold">
+                <button class="bg-white text-brand-tan px-6 py-3 rounded-lg font-semibold shadow-lg hover:bg-gray-50 transition-colors">
                     Shop Now
                 </button>
             </div>
 
-            <img src="https://images.unsplash.com/photo-1607083206968-13611e3d76db" class="rounded-lg shadow-lg">
+            <img src="https://images.unsplash.com/photo-1607083206968-13611e3d76db" class="rounded-lg shadow-2xl">
         </div>
     </section>
 
@@ -31,36 +31,36 @@
 
         <div class="grid grid-cols-2 md:grid-cols-5 gap-6 text-center">
 
-            <div class="bg-white p-6 rounded-lg shadow hover:shadow-lg">
-                📱
-                <p class="mt-2">Electronics</p>
+            <div class="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow cursor-pointer group">
+                <div class="text-3xl mb-2 group-hover:scale-110 transition-transform">📱</div>
+                <p class="mt-2 text-sm font-medium text-gray-700">Electronics</p>
             </div>
 
-            <div class="bg-white p-6 rounded-lg shadow hover:shadow-lg">
-                👕
-                <p class="mt-2">Fashion</p>
+            <div class="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow cursor-pointer group">
+                <div class="text-3xl mb-2 group-hover:scale-110 transition-transform">👕</div>
+                <p class="mt-2 text-sm font-medium text-gray-700">Fashion</p>
             </div>
 
-            <div class="bg-white p-6 rounded-lg shadow hover:shadow-lg">
-                🏠
-                <p class="mt-2">Home</p>
+            <div class="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow cursor-pointer group">
+                <div class="text-3xl mb-2 group-hover:scale-110 transition-transform">🏠</div>
+                <p class="mt-2 text-sm font-medium text-gray-700">Home</p>
             </div>
 
-            <div class="bg-white p-6 rounded-lg shadow hover:shadow-lg">
-                💄
-                <p class="mt-2">Beauty</p>
+            <div class="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow cursor-pointer group">
+                <div class="text-3xl mb-2 group-hover:scale-110 transition-transform">💄</div>
+                <p class="mt-2 text-sm font-medium text-gray-700">Beauty</p>
             </div>
 
-            <div class="bg-white p-6 rounded-lg shadow hover:shadow-lg">
-                ⚽
-                <p class="mt-2">Sports</p>
+            <div class="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow cursor-pointer group">
+                <div class="text-3xl mb-2 group-hover:scale-110 transition-transform">⚽</div>
+                <p class="mt-2 text-sm font-medium text-gray-700">Sports</p>
             </div>
 
         </div>
     </section>
 
     <!-- FEATURED PRODUCTS -->
-    <section class="bg-gray-100 dark:bg-gray-800 py-16">
+    <section class="bg-brand-cream/30 dark:bg-gray-800/50 py-16">
 
         <div class="max-w-7xl mx-auto px-6">
 
@@ -71,39 +71,39 @@
             <div class="grid md:grid-cols-4 gap-8">
 
                 <!-- PRODUCT -->
-                <div class="bg-white rounded-lg shadow hover:shadow-xl transition p-4">
+                <div class="bg-white rounded-xl shadow-sm hover:shadow-xl transition-all p-4 border border-brand-cream/50">
 
-                    <img src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9" class="rounded mb-4">
+                    <img src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9" class="rounded-lg mb-4">
 
-                    <h3 class="font-semibold">
+                    <h3 class="font-semibold text-gray-800 dark:text-white">
                         Smart Phone
                     </h3>
 
-                    <p class="text-indigo-600 font-bold">
+                    <p class="text-brand-tan font-bold text-lg">
                         $499
-                        <span class="line-through text-gray-400 text-sm">$699</span>
+                        <span class="line-through text-gray-400 text-sm font-normal">$699</span>
                     </p>
 
-                    <button class="mt-3 w-full bg-indigo-600 text-white py-2 rounded">
+                    <button class="mt-4 w-full bg-brand-tan text-white py-2.5 rounded-lg font-medium hover:opacity-90 transition-all">
                         Add to Cart
                     </button>
 
                 </div>
 
                 <!-- PRODUCT -->
-                <div class="bg-white rounded-lg shadow hover:shadow-xl transition p-4">
+                <div class="bg-white rounded-xl shadow-sm hover:shadow-xl transition-all p-4 border border-brand-cream/50">
 
-                    <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30" class="rounded mb-4">
+                    <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30" class="rounded-lg mb-4">
 
-                    <h3 class="font-semibold">
+                    <h3 class="font-semibold text-gray-800 dark:text-white">
                         Smart Watch
                     </h3>
 
-                    <p class="text-indigo-600 font-bold">
+                    <p class="text-brand-tan font-bold text-lg">
                         $199
                     </p>
 
-                    <button class="mt-3 w-full bg-indigo-600 text-white py-2 rounded">
+                    <button class="mt-4 w-full bg-brand-tan text-white py-2.5 rounded-lg font-medium hover:opacity-90 transition-all">
                         Add to Cart
                     </button>
 
@@ -121,13 +121,13 @@
             Flash Sale
         </h2>
 
-        <p class="text-red-500 mb-8">
-            Ends in: <span id="timer">12:45:20</span>
+        <p class="text-red-500 font-medium mb-8">
+            Ends in: <span id="timer" class="font-mono bg-red-50 px-2 py-1 rounded">12:45:20</span>
         </p>
 
         <div class="grid md:grid-cols-4 gap-6">
 
-            <div class="bg-white p-4 rounded shadow">
+            <div class="bg-white p-8 rounded-xl shadow-sm border border-brand-cream/50">
                 Flash Deal Product
             </div>
 
@@ -136,13 +136,13 @@
     </section>
 
     <!-- PROMO BANNER -->
-    <section class="bg-indigo-600 text-white py-16 text-center">
+    <section class="bg-brand-tan text-white py-16 text-center">
 
         <h2 class="text-3xl font-bold mb-4">
             Get 30% Discount
         </h2>
 
-        <button class="bg-white text-indigo-600 px-6 py-3 rounded-lg">
+        <button class="bg-white text-brand-tan px-8 py-3 rounded-lg font-bold shadow-lg hover:bg-gray-50 transition-colors">
             Shop Deals
         </button>
 
@@ -157,11 +157,12 @@
 
         <div class="grid md:grid-cols-3 gap-6">
 
-            <div class="bg-white p-6 rounded shadow">
-                ⭐️⭐️⭐️⭐️⭐️
-                <p class="mt-2">
-                    Amazing products and fast delivery.
+            <div class="bg-white p-8 rounded-xl shadow-sm border border-brand-cream/50">
+                <div class="text-brand-tan mb-3 text-lg">⭐️⭐️⭐️⭐️⭐️</div>
+                <p class="text-gray-600 dark:text-gray-300 italic">
+                    "Amazing products and fast delivery. The quality exceeded my expectations!"
                 </p>
+                <div class="mt-4 font-bold text-sm text-gray-800 dark:text-white">— Sarah J.</div>
             </div>
 
         </div>
@@ -169,18 +170,19 @@
     </section>
 
     <!-- NEWSLETTER -->
-    <section class="bg-gray-100 dark:bg-gray-800 py-16 text-center">
+    <section class="bg-brand-cream/30 dark:bg-gray-900 py-20 text-center">
 
-        <h2 class="text-2xl font-bold mb-4">
+        <h2 class="text-2xl font-bold mb-4 text-gray-800 dark:text-white">
             Subscribe to Newsletter
         </h2>
+        <p class="text-gray-600 dark:text-gray-400 mb-8 max-w-md mx-auto">Stay updated with our latest collections and exclusive offers sent directly to your inbox.</p>
 
-        <div class="flex justify-center">
+        <div class="flex justify-center max-w-md mx-auto">
 
-            <input type="email" placeholder="Enter email" class="px-4 py-2 border rounded-l">
+            <input type="email" placeholder="Enter your email" class="w-full px-4 py-3 bg-white dark:bg-gray-800 border-none rounded-l-xl focus:ring-2 focus:ring-brand-tan text-sm">
 
-            <button class="bg-indigo-600 text-white px-6 py-2 rounded-r">
-                Subscribe
+            <button class="bg-brand-tan text-white px-8 py-3 rounded-r-xl font-bold hover:opacity-90 transition-all">
+                Join
             </button>
 
         </div>
