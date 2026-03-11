@@ -18,9 +18,9 @@
                     <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Full Name</label>
                     <input v-model="form.name" id="name" type="text" placeholder="John Doe"
                         class="w-full bg-brand-cream/10 dark:bg-gray-800 border-none rounded-2xl px-5 py-3.5 text-sm focus:ring-2 focus:ring-brand-tan transition-all duration-300">
-                    <!--p v-if="errors.name" class="text-red-500 text-sm">
+                    <p v-if="errors.name" class="text-red-500 text-sm">
                         {{ errors.name[0] }}
-                    </p-->
+                    </p>
                 </div>
 
                 <div class="space-y-1">
@@ -28,18 +28,18 @@
                         Address</label>
                     <input v-model="form.email" id="email" type="email" placeholder="john@example.com"
                         class="w-full bg-brand-cream/10 dark:bg-gray-800 border-none rounded-2xl px-5 py-3.5 text-sm focus:ring-2 focus:ring-brand-tan transition-all duration-300">
-                    <!--p v-if="errors.email" class="text-red-500 text-sm">
+                    <p v-if="errors.email" class="text-red-500 text-sm">
                         {{ errors.email[0] }}
-                    </p-->
+                    </p>
                 </div>
 
                 <div class="space-y-1">
                     <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Password</label>
                     <input v-model="form.password" id="password" type="password" placeholder="••••••••"
                         class="w-full bg-brand-cream/10 dark:bg-gray-800 border-none rounded-2xl px-5 py-3.5 text-sm focus:ring-2 focus:ring-brand-tan transition-all duration-300">
-                    <!--p v-if="errors.password" class="text-red-500 text-sm">
+                    <p v-if="errors.password" class="text-red-500 text-sm">
                         {{ errors.password[0] }}
-                    </p-->
+                    </p>
                 </div>
 
                 <div class="space-y-1">
@@ -100,15 +100,18 @@ import { reactive, ref } from 'vue';
 import api from '../services/api';
 
 const loading = ref(false);
+
 const form = reactive({
     name: '',
     email: '',
     password: '',
 });
 
+const errors = ref({})
+
 const submitForm = async () => {
 
-    errors.value = {}
+    errors.value = {} // clear old errors
 
     try {
 
@@ -125,6 +128,8 @@ const submitForm = async () => {
         if (error.response.status === 422) {
 
             errors.value = error.response.data.errors
+
+            console.log(errors.value)
 
         }
 

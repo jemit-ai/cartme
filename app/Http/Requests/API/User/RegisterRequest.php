@@ -25,7 +25,6 @@ class RegisterRequest extends FormRequest
     public function rules(): array
     {
         $countryCode = $this->header('X-Country');
-        //Log::info('RAJ'.$countryCode);
         $countryId = Country::where('iso2', $countryCode)->value('id');
 
         return [         
@@ -35,7 +34,7 @@ class RegisterRequest extends FormRequest
                 'email',
                  new UniqueEmailPerCountry($countryId),
             ],
-            'password' => 'required|string|min:6',
+            'password' => 'required|string|min:6|confirmed',
             //'country_id' => 'required|exists:countries,id',
         ];
 
