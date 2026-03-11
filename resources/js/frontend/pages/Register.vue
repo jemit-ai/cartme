@@ -48,6 +48,11 @@
                     <input v-model="form.password_confirmation" id="password_confirmation" type="password"
                         placeholder="••••••••"
                         class="w-full bg-brand-cream/10 dark:bg-gray-800 border-none rounded-2xl px-5 py-3.5 text-sm focus:ring-2 focus:ring-brand-tan transition-all duration-300">
+
+                    <p v-if="errors.password_confirmation" class="text-red-500 text-sm">
+                        {{ errors.password_confirmation[0] }}
+                    </p>
+
                 </div>
 
                 <button :disabled="loading"
