@@ -103,6 +103,9 @@
 
 import { reactive, ref } from 'vue';
 import api from '../services/api';
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
 
 const loading = ref(false);
 
@@ -124,9 +127,11 @@ const submitForm = async () => {
 
         const response = await api.post("/register", form)
 
-        //console.log(response.data)
+        //console.log('OTP Status: ' + response.data.status)
 
-        if (response.data.status === 201) {
+        //console.log('OTP Status Response: ' + response.status)
+
+        if (response.status === 201) {
 
             router.push('/otp-verify')
 
@@ -134,16 +139,13 @@ const submitForm = async () => {
 
     } catch (error) {
 
+        //console.log('Error Status: ' + error)
 
         if (error.response.status === 422) {
 
             errors.value = error.response.data.errors
 
         }
-
-    } finally {
-
-        loading.value = false
 
     }
 
