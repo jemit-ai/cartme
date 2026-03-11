@@ -27,8 +27,12 @@
 
                 <!-- Desktop Navigation Menu -->
                 <nav class="hidden lg:flex items-center space-x-6 text-sm font-medium">
-                    <a href="#" class="text-gray-700 dark:text-gray-200 hover:text-brand-tan transition-colors">New
-                        Arrivals</a>
+                    <!--a href="#" class="text-gray-700 dark:text-gray-200 hover:text-brand-tan transition-colors">New
+                        Arrivals</a-->
+
+                    <router-link to="/product"
+                        class="text-gray-700 dark:text-gray-200 hover:text-brand-tan transition-colors">Products</router-link>
+
                     <a href="#" class="text-gray-700 dark:text-gray-200 hover:text-brand-tan transition-colors">Best
                         Sellers</a>
                     <a href="#" class="text-gray-700 dark:text-gray-200 hover:text-brand-tan transition-colors">Flash

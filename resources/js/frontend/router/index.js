@@ -25,7 +25,7 @@ const routes = [
                 component: Cart
             },
             {
-                path: 'products',
+                path: 'product',
                 component: Product
             },
             {
@@ -52,6 +52,7 @@ const routes = [
                 path: 'otp-verify',
                 component: OtpVerify
             },
+
             
             /*
             {
