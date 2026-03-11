@@ -127,10 +127,6 @@ const submitForm = async () => {
 
         const response = await api.post("/register", form)
 
-        //console.log('OTP Status: ' + response.data.status)
-
-        //console.log('OTP Status Response: ' + response.status)
-
         if (response.status === 201) {
 
             router.push('/otp-verify')
@@ -138,8 +134,6 @@ const submitForm = async () => {
         }
 
     } catch (error) {
-
-        //console.log('Error Status: ' + error)
 
         if (error.response.status === 422) {
 
