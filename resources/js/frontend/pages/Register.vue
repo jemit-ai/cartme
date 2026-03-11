@@ -43,7 +43,7 @@
 
                 <button :disabled="loading"
                     class="w-full bg-brand-tan text-white py-4 rounded-2xl font-black text-sm uppercase tracking-widest shadow-xl shadow-brand-tan/20 hover:opacity-95 transform hover:-translate-y-0.5 transition-all duration-300 mt-4">
-                    Register Now
+                    {{ loading ? 'Registering...' : 'Register' }}
                 </button>
 
             </form>
@@ -101,16 +101,19 @@ const submitForm = async () => {
 
     try {
 
-        //console.log('Form VA' + form)
+        loading.value = true
 
         const response = await api.post("/register", form)
 
         console.log(response.data)
 
-
     } catch (error) {
 
         console.log(error.response.data)
+
+    } finally {
+
+        loading.value = false
 
     }
 
