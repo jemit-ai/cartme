@@ -4,6 +4,10 @@ import Cart from '../pages/Cart.vue'
 import Product from '../pages/Product.vue'
 import Checkout from '../pages/Checkout.vue'
 import ProductDetails from '../pages/ProductDetails.vue'
+import Login from '../pages/Login.vue'
+import Register from '../pages/Register.vue'
+import ForgotPassword from '../pages/ForgotPassword.vue'
+import OtpVerify from '../pages/OtpVerify.vue'
 
 import MainLayout from '../layouts/MainLayout.vue'
 
@@ -32,8 +36,23 @@ const routes = [
                 path: 'checkout',
                 component: Checkout
             },
-
-
+            {
+                path: 'register',
+                component: Register
+            },
+            {
+                path: 'login',
+                component: Login
+            },
+            {
+                path: 'forgot-password',
+                component: ForgotPassword
+            },
+            {
+                path: 'otp-verify',
+                component: OtpVerify
+            },
+            
             /*
             {
                 path: 'product/:id',
