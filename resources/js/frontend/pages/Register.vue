@@ -133,6 +133,8 @@ const submitForm = async () => {
 
             const otpResponse = await api.post("/send-otp", { email })
 
+            console.log(otpResponse);
+
             if (otpResponse.status === 200) {
 
                 router.push({

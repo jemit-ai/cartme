@@ -14,8 +14,14 @@
 
             <form @submit.prevent="submitForm">
                 <div class="flex justify-between gap-2 mb-10">
-                    <input v-model="otp" id="otp" v-for="i in 6" :key="i" type="text" maxlength="1"
-                        class="w-12 h-14 bg-brand-cream/10 dark:bg-gray-800 border-none rounded-2xl text-center text-xl font-black text-brand-tan focus:ring-2 focus:ring-brand-tan transition-all duration-300">
+
+                    <input v-for="(digit, index) in otp" :key="index" v-model="otp[index]" type="text" maxlength="1"
+                        class="w-12 h-14 bg-brand-cream/10 dark:bg-gray-800 border-none rounded-2xl text-center text-xl font-black text-brand-tan focus:ring-2 focus:ring-brand-tan" />
+
+
+                    <!--input v-for="(digit, index) in otp" :key="index" v-model="otp[index]" type="text" maxlength="1"
+                        class="w-12 h-14 bg-brand-cream/10 dark:bg-gray-800 border-none rounded-2xl text-center text-xl font-black text-brand-tan focus:ring-2 focus:ring-brand-tan transition-all duration-300" /-->
+
                 </div>
 
                 <button
@@ -61,13 +67,15 @@ import api from '../services/api';
 
 const router = useRouter()
 
-const otp = ref('')
+const otp = ref(['', '', '', '', '', ''])
 
 const submitForm = async () => {
 
+    const otpCode = otp.value.join('')
+
     const response = await api.post('/verify-otp', {
         email: router.currentRoute.value.query.email,
-        otp: otp.value
+        otp: otpCode
     })
 
     console.log(response)
