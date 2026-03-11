@@ -12,9 +12,17 @@ const api = axios.create({
 // Add a request interceptor to attach token
 api.interceptors.request.use((config) => {
     const token = localStorage.getItem('token')
+    const guest_token = localStorage.getItem('guest_token')
+
+    
     if (token) {
         config.headers.Authorization = `Bearer ${token}`
     }
+
+    if (guest_token) {
+        config.headers['X-Guest-Token'] = guest_token;
+    } 
+
     return config
 }, (error) => {
     return Promise.reject(error)
