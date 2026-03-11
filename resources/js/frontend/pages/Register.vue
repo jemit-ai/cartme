@@ -124,17 +124,20 @@ const submitForm = async () => {
 
         const response = await api.post("/register", form)
 
-        console.log(response.data)
+        //console.log(response.data)
+
+        if (response.data.status === 201) {
+
+            router.push('/otp-verify')
+
+        }
 
     } catch (error) {
 
-        console.log(error.response.status);
 
         if (error.response.status === 422) {
 
             errors.value = error.response.data.errors
-
-            console.log(errors.value)
 
         }
 
