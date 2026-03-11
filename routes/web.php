@@ -11,7 +11,12 @@ require __DIR__.'/supplier.php';
 
 require __DIR__.'/seller.php';
 
-
+/*
 Route::get('/', function () {
     return view('welcome');
 });
+*/
+
+Route::get('/{any}', function () {
+    return view('app');
+})->where('any', '.*');
