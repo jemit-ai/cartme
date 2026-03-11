@@ -1,5 +1,10 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../pages/Home.vue'
+import Cart from '../pages/Cart.vue'
+import Product from '../pages/Product.vue'
+import Checkout from '../pages/Checkout.vue'
+import ProductDetails from '../pages/ProductDetails.vue'
+
 import MainLayout from '../layouts/MainLayout.vue'
 
 const routes = [
@@ -16,9 +21,20 @@ const routes = [
                 component: Cart
             },
             {
+                path: 'products',
+                component: Product
+            },
+            {
+                path: 'product/:id',
+                component: ProductDetails
+            },
+            {
                 path: 'checkout',
                 component: Checkout
             },
+
+
+            /*
             {
                 path: 'product/:id',
                 component: Product
@@ -44,8 +60,8 @@ const routes = [
                 component: Search
             },
             {
-                path: 'shop',
-                component: Shop
+                path: 'products',
+                component: Products
             },
             {
                 path: 'contact',
@@ -74,7 +90,7 @@ const routes = [
             {
                 path: 'refund-policy',
                 component: RefundPolicy
-            }
+            }*/
         ]
     }
 ]
