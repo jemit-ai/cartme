@@ -12,17 +12,17 @@
                 </p>
             </div>
 
-            <form class="space-y-6">
+            <form class="space-y-6" @submit.prevent="submitForm">
 
                 <div class="space-y-2">
                     <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Email
                         Address</label>
-                    <input type="email" placeholder="verify@example.com"
+                    <input type="email" placeholder="verify@example.com" v-model="email"
                         class="w-full bg-brand-cream/10 dark:bg-gray-800 border-none rounded-2xl px-5 py-4 text-sm focus:ring-2 focus:ring-brand-tan transition-all duration-300">
                 </div>
 
                 <button
-                    class="w-full bg-brand-tan text-white py-4 rounded-2xl font-black text-sm uppercase tracking-widest shadow-xl shadow-brand-tan/20 hover:opacity-95 transform hover:-translate-y-0.5 transition-all duration-300">
+                    class="w-full bg-brand-tan text-white py-4 rounded-2xl font-black text-sm uppercase tracking-widest shadow-xl shadow-brand-tan/20 hover:opacity-95 transform hover:-translate-y-0.5 transition-all duration-300 cursor-pointer">
                     Send Link
                 </button>
 

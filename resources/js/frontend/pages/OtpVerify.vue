@@ -1,7 +1,10 @@
 <template>
+
     <div class="min-h-[80vh] flex items-center justify-center px-4 py-12">
+
         <div
             class="bg-white dark:bg-gray-900 shadow-2xl shadow-brand-tan/10 rounded-[2.5rem] w-full max-w-md p-10 border border-brand-cream/50 dark:border-gray-800 text-center">
+
 
             <div class="mb-10">
                 <h2 class="text-3xl font-black text-gray-900 dark:text-white tracking-tight mb-3">
@@ -14,25 +17,42 @@
 
             <form @submit.prevent="submitForm">
 
-                <div class="flex justify-between gap-2 mb-10">
+                <div v-if="success" class="text-center py-10">
 
-                    <input v-for="(digit, index) in otp" :key="index" v-model="otp[index]" type="text" maxlength="1"
-                        class="w-12 h-14 bg-brand-cream/10 dark:bg-gray-800 border-none rounded-2xl text-center text-xl font-black text-brand-tan focus:ring-2 focus:ring-brand-tan" />
+                    <div class="w-20 h-20 mx-auto mb-4 flex items-center justify-center rounded-full bg-green-100">
+                        <svg class="w-10 h-10 text-green-600" fill="none" stroke="currentColor" stroke-width="3"
+                            viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                        </svg>
+                    </div>
 
-                    <!--input v-for="(digit, index) in otp" :key="index" v-model="otp[index]" type="text" maxlength="1"
-                        class="w-12 h-14 bg-brand-cream/10 dark:bg-gray-800 border-none rounded-2xl text-center text-xl font-black text-brand-tan focus:ring-2 focus:ring-brand-tan transition-all duration-300" /-->
+                    <p class="text-green-600 font-bold text-lg">
+                        {{ success }}
+                    </p>
 
                 </div>
 
-                <p v-if="errors" class="text-red-500 text-sm">
-                    {{ errors }}
-                </p>
+                <div v-else>
+
+                    <div class="flex justify-between gap-2 mb-10">
+
+                        <input v-for="(digit, index) in otp" :key="index" v-model="otp[index]" type="text" maxlength="1"
+                            class="w-12 h-14 bg-brand-cream/10 dark:bg-gray-800 border-none rounded-2xl text-center text-xl font-black text-brand-tan focus:ring-2 focus:ring-brand-tan" />
 
 
-                <button
-                    class="w-full bg-brand-tan text-white py-4 rounded-2xl font-black text-sm uppercase tracking-widest shadow-xl shadow-brand-tan/20 hover:opacity-95 transform hover:-translate-y-0.5 transition-all duration-300 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed">
-                    Verify Account
-                </button>
+                    </div>
+
+                    <p v-if="errors" class="text-red-500 text-sm">
+                        {{ errors }}
+                    </p>
+
+                    <button
+                        class="w-full bg-brand-tan text-white py-4 rounded-2xl font-black text-sm uppercase tracking-widest shadow-xl shadow-brand-tan/20 hover:opacity-95 transform hover:-translate-y-0.5 transition-all duration-300 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed">
+                        Verify Account
+                    </button>
+
+                </div>
+
             </form>
 
             <div class="mt-10 space-y-4">
@@ -62,7 +82,9 @@
             </div>
 
         </div>
+
     </div>
+
 </template>
 
 <script setup>

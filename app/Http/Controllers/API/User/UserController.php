@@ -267,5 +267,73 @@ class UserController extends BaseApiController
         }
 
     }
+
+    public function forgotPassword(ForgotPasswordRequest $request){
+
+        try {
+            $data = $request->validated();
+            $data['guest_token'] = $request->header('X-Guest-Token');
+            Log::info('Forgot Password Data: ' . json_encode($data));
+            $data['country_id'] = $request->country_id;
+
+            if($request->user()){
+                $data['user_id'] = $request->user()->id;
+                $user = $this->userService->forgotPassword($data);
+            }else{
+                $user = $this->userService->forgotPassword($data);
+            }
+            return $this->successResponse($user, 'Forgot password successfully', 200);
+        } catch (Throwable $th) {
+            Log::error($th->getMessage());
+            return $this->errorResponse('Failed to forgot password', $th->getMessage(), 500);
+        }
+
+    }
     
+    public function verifyForgotPassword(VerifyForgotPasswordRequest $request){
+
+        try {
+            $data = $request->validated();
+            $data['guest_token'] = $request->header('X-Guest-Token');
+            $data['country_id'] = $request->country_id;
+
+            Log::info('Verify Forgot Password Data: ' . json_encode($data));
+
+            if($request->user()){
+                $data['user_id'] = $request->user()->id;
+                $user = $this->userService->verifyForgotPassword($data);
+            }else{
+                $user = $this->userService->verifyForgotPassword($data);
+            }
+            return $this->successResponse($user, 'Verify forgot password successfully', 200);
+        } catch (Throwable $th) {
+            Log::error($th->getMessage());
+            return $this->errorResponse('Failed to verify forgot password', $th->getMessage(), 500);
+        }
+
+    }
+
+    public function resetPassword(ResetPasswordRequest $request){
+
+        try {
+            $data = $request->validated();
+            $data['guest_token'] = $request->header('X-Guest-Token');
+            $data['country_id'] = $request->country_id;
+
+            Log::info('Reset Password Data: ' . json_encode($data));
+
+            if($request->user()){
+                $data['user_id'] = $request->user()->id;
+                $user = $this->userService->resetPassword($data);
+            }else{
+                $user = $this->userService->resetPassword($data);
+            }
+            return $this->successResponse($user, 'Reset password successfully', 200);
+        } catch (Throwable $th) {
+            Log::error($th->getMessage());
+            return $this->errorResponse('Failed to reset password', $th->getMessage(), 500);
+        }
+
+    }
+        
 }
