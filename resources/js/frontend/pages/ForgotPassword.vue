@@ -74,14 +74,14 @@ const submitForm = async () => {
             email: email.value
         })
 
-        console.log('whatsapp' + response)
+        const response_email = response.data.data.email;
 
         if (response.status === 200) {
 
             success.value = response.data.message
 
             const otpResponse = await api.post("/send-otp", {
-                email: email.value
+                email: response_email
             })
 
 
@@ -90,7 +90,7 @@ const submitForm = async () => {
                 router.push({
                     path: '/otp-verify',
                     query: {
-                        email: email.value,
+                        email: response_email,
                         type: 'reset-password'
                     }
                 })
@@ -101,10 +101,10 @@ const submitForm = async () => {
 
     } catch (error) {
 
-        if (error.response.status === 422) {
-
+        if (error.response && error.response.status === 422) {
             errors.value = error.response.data.message
-
+        } else {
+            errors.value = "Something went wrong"
         }
 
     }

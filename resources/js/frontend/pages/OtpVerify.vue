@@ -94,7 +94,6 @@ import { useRouter } from 'vue-router'
 import api from '../services/api';
 
 const router = useRouter()
-
 const otp = ref(['', '', '', '', '', ''])
 const errors = ref("")
 const success = ref("")
@@ -111,7 +110,8 @@ const submitForm = async () => {
             type: router.currentRoute.value.query.type
         })
 
-        console.log(router.currentRoute.value.query.type)
+        //console.log(response.data.message)
+        //console.log(router.currentRoute.value.query.type)
 
         if (response.status === 200) {
 

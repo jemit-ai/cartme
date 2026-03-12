@@ -348,11 +348,15 @@ class UserController extends BaseApiController
 
             $data = $request->validated();
             $data['guest_token'] = $request->header('X-Guest-Token');
-            //Log::info('Forgot Password Data: ' . json_encode($data));
+            Log::info('Forgot Password Data: ' . json_encode($data));
             $data['country_id'] = $request->country_id;
 
             $user = $this->userService->verifyEmail($data);
+            
             Log::info('User Object: ' . json_encode($user));
+
+            Log::info('User Object: ' . $user);
+
             
             return $this->successResponse($user, 'Email verified successfully', 200);
 
@@ -360,7 +364,7 @@ class UserController extends BaseApiController
 
             Log::error($th->getMessage());
             return $this->errorResponse('Failed to verify email', $th->getMessage(), 500);
-            
+
         }
 
     }
