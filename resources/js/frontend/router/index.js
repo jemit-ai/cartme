@@ -8,6 +8,7 @@ import Login from '../pages/Login.vue'
 import Register from '../pages/Register.vue'
 import ForgotPassword from '../pages/ForgotPassword.vue'
 import OtpVerify from '../pages/OtpVerify.vue'
+import ResetPassword from '../pages/ResetPassword.vue'
 
 import MainLayout from '../layouts/MainLayout.vue'
 
@@ -52,9 +53,10 @@ const routes = [
                 path: 'otp-verify',
                 component: OtpVerify
             },
-            
-
-            
+            {
+                path: 'reset-password',
+                component: ResetPassword
+            },  
             /*
             {
                 path: 'product/:id',

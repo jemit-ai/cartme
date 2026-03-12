@@ -117,12 +117,19 @@ const submitForm = async () => {
 
             success.value = response.data.message
 
+            if (router.currentRoute.value.query.type === 'reset-password') {
+                router.push('/reset-password')
+            }
+
         }
 
     } catch (error) {
 
-
-        errors.value = error.response.data.message
+        if (error.response && error.response.status === 422) {
+            errors.value = error.response.data.message
+        } else {
+            errors.value = "Something went wrong"
+        }
 
     }
 

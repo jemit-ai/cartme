@@ -84,7 +84,6 @@ const submitForm = async () => {
                 email: response_email
             })
 
-
             if (otpResponse.status === 200) {
 
                 router.push({
