@@ -13,19 +13,24 @@
             </div>
 
             <form @submit.prevent="submitForm">
+
                 <div class="flex justify-between gap-2 mb-10">
 
                     <input v-for="(digit, index) in otp" :key="index" v-model="otp[index]" type="text" maxlength="1"
                         class="w-12 h-14 bg-brand-cream/10 dark:bg-gray-800 border-none rounded-2xl text-center text-xl font-black text-brand-tan focus:ring-2 focus:ring-brand-tan" />
-
 
                     <!--input v-for="(digit, index) in otp" :key="index" v-model="otp[index]" type="text" maxlength="1"
                         class="w-12 h-14 bg-brand-cream/10 dark:bg-gray-800 border-none rounded-2xl text-center text-xl font-black text-brand-tan focus:ring-2 focus:ring-brand-tan transition-all duration-300" /-->
 
                 </div>
 
+                <p v-if="errors" class="text-red-500 text-sm">
+                    {{ errors }}
+                </p>
+
+
                 <button
-                    class="w-full bg-brand-tan text-white py-4 rounded-2xl font-black text-sm uppercase tracking-widest shadow-xl shadow-brand-tan/20 hover:opacity-95 transform hover:-translate-y-0.5 transition-all duration-300">
+                    class="w-full bg-brand-tan text-white py-4 rounded-2xl font-black text-sm uppercase tracking-widest shadow-xl shadow-brand-tan/20 hover:opacity-95 transform hover:-translate-y-0.5 transition-all duration-300 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed">
                     Verify Account
                 </button>
             </form>
@@ -33,7 +38,8 @@
             <div class="mt-10 space-y-4">
                 <p class="text-xs font-bold text-gray-400 uppercase tracking-widest">
                     Didn't receive the code?
-                    <button class="text-brand-tan hover:opacity-80 transition-opacity ml-1">
+                    <button
+                        class="text-brand-tan hover:opacity-80 transition-opacity ml-1 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed">
                         Resend
                     </button>
                 </p>
@@ -48,11 +54,11 @@
             </div>
 
             <div class="mt-10 pt-8 border-t border-brand-cream/30 dark:border-gray-800">
-                <a href="#"
+                <router-link to="/login"
                     class="group text-[10px] font-black uppercase tracking-widest text-gray-400 hover:text-brand-tan transition-colors">
                     <span class="inline-block mr-1 group-hover:-translate-x-1 transition-transform">←</span>
                     Back to Secure Sign In
-                </a>
+                </router-link>
             </div>
 
         </div>
@@ -69,19 +75,35 @@ const router = useRouter()
 
 const otp = ref(['', '', '', '', '', ''])
 
+const errors = ref("")
+
+const success = ref("")
+
 const submitForm = async () => {
 
     const otpCode = otp.value.join('')
 
-    const response = await api.post('/verify-otp', {
-        email: router.currentRoute.value.query.email,
-        otp: otpCode
-    })
+    try {
 
-    console.log(response)
+        const response = await api.post('/verify-otp', {
+            email: router.currentRoute.value.query.email,
+            otp: otpCode
+        })
 
-    if (response.status === 200) {
-        router.push('/login')
+        //console.log(response)
+
+        if (response.status === 200) {
+
+            success.value = response.data.message
+
+        }
+
+    } catch (error) {
+
+        //console.log(error.response.status)
+
+        errors.value = error.response.data.message
+
     }
 
 }
