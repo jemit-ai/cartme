@@ -12,61 +12,58 @@
                 </p>
             </div>
 
-            <form class="space-y-5" @submit.prevent="submitForm">
+            <form class="space-y-5">
 
-                <!-- Email (Read-only or guided) -->
+                <!-- Email -->
                 <div class="space-y-1">
-                    <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Email
-                        Address</label>
-                    <input v-model="form.email" type="email" readonly
+                    <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">
+                        Email Address
+                    </label>
+                    <input type="email" readonly
                         class="w-full bg-brand-cream/5 dark:bg-gray-800/50 border-none rounded-2xl px-5 py-3.5 text-sm text-gray-500 cursor-not-allowed">
                 </div>
 
                 <!-- New Password -->
                 <div class="space-y-1">
-                    <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">New
-                        Password</label>
-                    <input v-model="form.password" type="password" placeholder="••••••••"
+                    <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">
+                        New Password
+                    </label>
+                    <input type="password" placeholder="••••••••"
                         class="w-full bg-brand-cream/10 dark:bg-gray-800 border-none rounded-2xl px-5 py-3.5 text-sm focus:ring-2 focus:ring-brand-tan transition-all duration-300">
-                    <p v-if="errors.password" class="text-red-500 text-[10px] font-bold mt-1 ml-1 uppercase">
-                        {{ errors.password[0] }}
-                    </p>
                 </div>
 
                 <!-- Confirm Password -->
                 <div class="space-y-1">
-                    <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Confirm
-                        Password</label>
-                    <input v-model="form.password_confirmation" type="password" placeholder="••••••••"
+                    <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">
+                        Confirm Password
+                    </label>
+                    <input type="password" placeholder="••••••••"
                         class="w-full bg-brand-cream/10 dark:bg-gray-800 border-none rounded-2xl px-5 py-3.5 text-sm focus:ring-2 focus:ring-brand-tan transition-all duration-300">
                 </div>
 
-                <div v-if="statusMessage"
+                <!-- Success Message -->
+                <div
                     class="bg-green-50 dark:bg-green-900/20 border border-green-100 dark:border-green-800 p-4 rounded-2xl">
                     <p
                         class="text-green-600 dark:text-green-400 text-xs font-bold text-center uppercase tracking-widest">
-                        {{ statusMessage }}
+                        Password updated successfully
                     </p>
                 </div>
 
-                <button :disabled="loading"
-                    class="w-full bg-brand-tan text-white py-4 rounded-2xl font-black text-sm uppercase tracking-widest shadow-xl shadow-brand-tan/20 hover:opacity-95 transform hover:-translate-y-0.5 transition-all duration-300 mt-4 disabled:opacity-50 disabled:cursor-not-allowed">
-                    {{ loading ? 'Updating...' : 'Update Password' }}
+                <button
+                    class="w-full bg-brand-tan text-white py-4 rounded-2xl font-black text-sm uppercase tracking-widest shadow-xl shadow-brand-tan/20 hover:opacity-95 transform hover:-translate-y-0.5 transition-all duration-300 mt-4">
+                    Update Password
                 </button>
 
             </form>
 
             <div class="text-center mt-10">
-                <router-link to="/login"
+                <a href="/login"
                     class="text-[10px] font-black text-gray-400 uppercase tracking-widest hover:text-brand-tan transition-colors">
                     Back to Sign In
-                </router-link>
+                </a>
             </div>
 
         </div>
     </div>
 </template>
-
-<script setup>
-
-</script>

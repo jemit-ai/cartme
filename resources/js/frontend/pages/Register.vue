@@ -133,14 +133,16 @@ const submitForm = async () => {
 
             const otpResponse = await api.post("/send-otp", { email })
 
-            console.log(otpResponse);
+            //console.log(otpResponse);
 
             if (otpResponse.status === 200) {
+
+
+                sessionStorage.setItem("register_email", email);
 
                 router.push({
                     path: '/otp-verify',
                     query: {
-                        email: email,
                         type: 'register'
                     }
                 })

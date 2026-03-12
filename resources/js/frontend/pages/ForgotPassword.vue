@@ -76,6 +76,8 @@ const submitForm = async () => {
 
         const response_email = response.data.data.email;
 
+        //console.log(response.data.data);
+
         if (response.status === 200) {
 
             success.value = response.data.message
@@ -86,13 +88,23 @@ const submitForm = async () => {
 
             if (otpResponse.status === 200) {
 
-                router.push({
+                /*router.push({
                     path: '/otp-verify',
                     query: {
                         email: response_email,
                         type: 'reset-password'
                     }
+                })*/
+
+                router.push({
+                    path: '/otp-verify',
+                    query: {
+                        type: 'reset-password'
+                    }
                 })
+
+                sessionStorage.setItem("reset_email", response_email);
+
 
             }
 
