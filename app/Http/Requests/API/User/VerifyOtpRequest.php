@@ -34,6 +34,7 @@ class VerifyOtpRequest extends FormRequest
                  new EmailwithCountry($countryId),
             ],
             'otp'   => 'required|digits:6',
+            'type'  => 'required|in:register,reset-password',
         ];
     }
 }

@@ -147,6 +147,8 @@ class UserService
             // Generate 6-digit OTP
             $otp = random_int(100000, 999999);
 
+            Log::info('OTP:'.$otp);
+
             $user->update([
                 'otp_code' => Hash::make($otp),
                 'otp_expires_at' => Carbon::now()->addMinutes(5),
@@ -184,4 +186,19 @@ class UserService
         //throw new \Illuminate\Auth\AuthenticationException('Invalid OTP code');
     }
 
+
+    public function verifyEmail(array $data)
+    {
+        $country_id = $data['country_id'];
+        Log::info('Verifying Email for Email: ' . $data['email'] . ' and Country ID: ' . $country_id);
+
+        $user = User::where(['country_id' => $country_id, 'email' => $data['email']])->first();
+
+        if (!$user) {
+            Log::error('User not found during Email verification');
+            throw new \Exception('User not found');
+        }
+
+        return $user;
+    }
 }

@@ -19,6 +19,11 @@
                         Address</label>
                     <input type="email" placeholder="verify@example.com" v-model="email"
                         class="w-full bg-brand-cream/10 dark:bg-gray-800 border-none rounded-2xl px-5 py-4 text-sm focus:ring-2 focus:ring-brand-tan transition-all duration-300">
+
+                    <p v-if="errors" class="text-red-500 text-sm">
+                        {{ errors }}
+                    </p>
+
                 </div>
 
                 <button
@@ -48,3 +53,62 @@
         </div>
     </div>
 </template>
+
+<script setup>
+import { ref } from 'vue';
+import { useRouter } from 'vue-router'
+import api from '../services/api';
+
+const router = useRouter()
+
+const email = ref('');
+const success = ref("")
+
+const errors = ref('')
+
+const submitForm = async () => {
+
+    try {
+
+        const response = await api.post('/verify-email', {
+            email: email.value
+        })
+
+        console.log('whatsapp' + response)
+
+        if (response.status === 200) {
+
+            success.value = response.data.message
+
+            const otpResponse = await api.post("/send-otp", {
+                email: email.value
+            })
+
+
+            if (otpResponse.status === 200) {
+
+                router.push({
+                    path: '/otp-verify',
+                    query: {
+                        email: email.value,
+                        type: 'reset-password'
+                    }
+                })
+
+            }
+
+        }
+
+    } catch (error) {
+
+        if (error.response.status === 422) {
+
+            errors.value = error.response.data.message
+
+        }
+
+    }
+
+};
+
+</script>

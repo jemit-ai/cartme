@@ -96,9 +96,7 @@ import api from '../services/api';
 const router = useRouter()
 
 const otp = ref(['', '', '', '', '', ''])
-
 const errors = ref("")
-
 const success = ref("")
 
 const submitForm = async () => {
@@ -109,10 +107,11 @@ const submitForm = async () => {
 
         const response = await api.post('/verify-otp', {
             email: router.currentRoute.value.query.email,
-            otp: otpCode
+            otp: otpCode,
+            type: router.currentRoute.value.query.type
         })
 
-        //console.log(response)
+        console.log(router.currentRoute.value.query.type)
 
         if (response.status === 200) {
 
@@ -122,7 +121,6 @@ const submitForm = async () => {
 
     } catch (error) {
 
-        //console.log(error.response.status)
 
         errors.value = error.response.data.message
 

@@ -141,6 +141,7 @@ const submitForm = async () => {
                     path: '/otp-verify',
                     query: {
                         email: email,
+                        type: 'register'
                     }
                 })
 

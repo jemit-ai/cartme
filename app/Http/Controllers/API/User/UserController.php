@@ -13,6 +13,7 @@ use App\Http\Requests\API\User\UpdateProfileRequest;
 use App\Http\Requests\API\User\SendOtpRequest;
 use App\Http\Requests\API\User\VerifyOtpRequest;
 use App\Http\Requests\API\User\ChangePasswordRequest;
+use App\Http\Requests\API\User\EmailVerifyRequest;
 
 use App\Http\Controllers\API\BaseApiController;
 use Exception;
@@ -122,6 +123,7 @@ class UserController extends BaseApiController
     {
         Log::info('Entering sendOtp controller method');
         try {
+            
             $data = $request->validated();
             $data['country_id'] = $request->country_id;
 
@@ -130,6 +132,7 @@ class UserController extends BaseApiController
 
             $user = $this->userService->sendOtp($data);
             return $this->successResponse($user, 'OTP sent successfully', 200);
+
         } catch (Throwable $th) {   
             //Log::error($th->getMessage());
             return $this->errorResponse('Failed to send OTP', $th->getMessage(), 500);
@@ -268,6 +271,7 @@ class UserController extends BaseApiController
 
     }
 
+    /*
     public function forgotPassword(ForgotPasswordRequest $request){
 
         try {
@@ -335,5 +339,25 @@ class UserController extends BaseApiController
         }
 
     }
-        
+    */
+
+    public function verifyEmail(EmailVerifyRequest $request){
+ 
+        try {
+            $data = $request->validated();
+            $data['guest_token'] = $request->header('X-Guest-Token');
+            Log::info('Forgot Password Data: ' . json_encode($data));
+            $data['country_id'] = $request->country_id;
+
+            $user = $this->userService->verifyEmail($data);
+            
+            return $this->successResponse($user, 'Email verified successfully', 200);
+
+        } catch (Throwable $th) {
+            Log::error($th->getMessage());
+            return $this->errorResponse('Failed to verify email', $th->getMessage(), 500);
+        }
+
+    }
+
 }

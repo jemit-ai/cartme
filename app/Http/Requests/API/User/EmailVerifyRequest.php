@@ -4,6 +4,9 @@ namespace App\Http\Requests\API\User;
 
 use Illuminate\Foundation\Http\FormRequest;
 
+use App\Rules\User\EmailwithCountry;
+use App\Models\Country;
+
 class EmailVerifyRequest extends FormRequest
 {
     /**
