@@ -189,7 +189,9 @@ class UserService
 
     public function verifyEmail(array $data)
     {
-        $country_id = $data['country_id'];
+       Log::info('Verifying Email for Email');
+
+        /*$country_id = $data['country_id'];
         Log::info('Verifying Email for Email: ' . $data['email'] . ' and Country ID: ' . $country_id);
 
         $user = User::where(['country_id' => $country_id, 'email' => $data['email']])->first();
@@ -199,6 +201,6 @@ class UserService
             throw new \Exception('User not found');
         }
 
-        return $user;
+        return $user;*/
     }
 }

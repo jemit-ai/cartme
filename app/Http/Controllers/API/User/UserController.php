@@ -123,7 +123,7 @@ class UserController extends BaseApiController
     {
         Log::info('Entering sendOtp controller method');
         try {
-            
+
             $data = $request->validated();
             $data['country_id'] = $request->country_id;
 
@@ -344,18 +344,23 @@ class UserController extends BaseApiController
     public function verifyEmail(EmailVerifyRequest $request){
  
         try {
+
+
             $data = $request->validated();
             $data['guest_token'] = $request->header('X-Guest-Token');
-            Log::info('Forgot Password Data: ' . json_encode($data));
+            //Log::info('Forgot Password Data: ' . json_encode($data));
             $data['country_id'] = $request->country_id;
 
             $user = $this->userService->verifyEmail($data);
+            Log::info('User Object: ' . json_encode($user));
             
             return $this->successResponse($user, 'Email verified successfully', 200);
 
         } catch (Throwable $th) {
+
             Log::error($th->getMessage());
             return $this->errorResponse('Failed to verify email', $th->getMessage(), 500);
+            
         }
 
     }
