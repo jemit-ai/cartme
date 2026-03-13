@@ -40,15 +40,16 @@ api.interceptors.request.use((config) => {
 api.interceptors.response.use(
     (response) => response,
     (error) => {
-        if (error.response?.status === 401) {
-            // Token expired or invalid - redirect to login
-            localStorage.removeItem('auth_token')
-            //localStorage.removeItem('auth_token')
+        const isLoginRequest = error.config.url.endsWith('/login');
 
-            window.location.href = '/login'
+        if (error.response?.status === 401 && !isLoginRequest) {
+            // Token expired or invalid - redirect to login if NOT already on login request
+            localStorage.removeItem('token');
+            window.location.href = '/login';
         }
-        return Promise.reject(error)
+        return Promise.reject(error);
     }
-)
+);
+
 
 export default api

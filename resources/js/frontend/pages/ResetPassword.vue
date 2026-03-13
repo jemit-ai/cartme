@@ -12,7 +12,7 @@
                 </p>
             </div>
 
-            <form class="space-y-5">
+            <form class="space-y-5" @submit.prevent="submitForm">
 
                 <!-- Email -->
                 <!--div class="space-y-1">
@@ -28,7 +28,7 @@
                     <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">
                         New Password
                     </label>
-                    <input type="password" placeholder="••••••••"
+                    <input v-model="password" type="password" placeholder="••••••••"
                         class="w-full bg-brand-cream/10 dark:bg-gray-800 border-none rounded-2xl px-5 py-3.5 text-sm focus:ring-2 focus:ring-brand-tan transition-all duration-300">
                 </div>
 
@@ -37,7 +37,7 @@
                     <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">
                         Confirm Password
                     </label>
-                    <input type="password" placeholder="••••••••"
+                    <input v-model="confirm_password" type="password" placeholder="••••••••"
                         class="w-full bg-brand-cream/10 dark:bg-gray-800 border-none rounded-2xl px-5 py-3.5 text-sm focus:ring-2 focus:ring-brand-tan transition-all duration-300">
                 </div>
 
@@ -67,3 +67,56 @@
         </div>
     </div>
 </template>
+
+<script setup>
+
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+import api from '../services/api';
+
+const router = useRouter()
+
+const password = ref('')
+const confirm_password = ref('')
+
+const errors = ref({});
+const success = ref('');
+
+const loading = ref(false)
+
+const submitForm = async () => {
+
+    loading.value = true;
+
+    const email = sessionStorage.getItem("register_email");
+
+    console.log("email", email);
+
+    try {
+
+        const response = await api.post('/reset-password', {
+            email: email,
+            password: password.value,
+        })
+
+        if (response.status === 200) {
+            success.value = response.data.message
+            setTimeout(() => {
+                router.push('/login')
+            }, 1000);
+        }
+
+    } catch (error) {
+
+        if (error.response && error.response.status === 422) {
+            errors.value = error.response.data.message
+        } else {
+            errors.value = "Something went wrong"
+        }
+
+    } finally {
+        loading.value = false;
+    }
+
+}
+</script>

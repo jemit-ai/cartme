@@ -206,16 +206,25 @@ class UserService
 
         return $user;
 
-        /*$country_id = $data['country_id'];
-        Log::info('Verifying Email for Email: ' . $data['email'] . ' and Country ID: ' . $country_id);
+       
+    }
+
+    public function resetPassword(array $data)
+    {
+        $country_id = $data['country_id'];
+        Log::info('Resetting Password for Email: ' . $data['email'] . ' and Country ID: ' . $country_id);
 
         $user = User::where(['country_id' => $country_id, 'email' => $data['email']])->first();
 
         if (!$user) {
-            Log::error('User not found during Email verification');
+            Log::error('User not found during Password reset');
             throw new \Exception('User not found');
         }
 
-        return $user;*/
+        $user->update([
+            'password' => Hash::make($data['password']),
+        ]);
+
+        return $user;
     }
 }

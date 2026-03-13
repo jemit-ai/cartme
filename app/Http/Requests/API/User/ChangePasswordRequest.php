@@ -4,6 +4,10 @@ namespace App\Http\Requests\API\User;
 
 use Illuminate\Foundation\Http\FormRequest;
 
+use App\Rules\User\EmailwithCountry;
+use App\Models\Country;
+
+
 class ChangePasswordRequest extends FormRequest
 {
     /**
@@ -22,7 +26,11 @@ class ChangePasswordRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'current_password' => 'required|string|min:6|current_password:sanctum',
+            'email' => [
+                'required',
+                'email',
+                 new EmailwithCountry($countryId),
+            ],
             'new_password' => 'required|string|min:6',
             'confirm_password' => 'required|string|min:6|same:new_password',
         ];

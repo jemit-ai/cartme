@@ -53,10 +53,28 @@
                     </a-->
                 </div>
 
-                <button
-                    class="w-full bg-brand-tan text-white py-4 rounded-2xl font-black text-sm uppercase tracking-widest shadow-xl shadow-brand-tan/20 hover:opacity-95 transform hover:-translate-y-0.5 transition-all duration-300 cursor-pointer">
-                    Sign In
+                <!-- General Error Message -->
+                <div v-if="errors.general"
+                    class="bg-red-50 dark:bg-red-900/20 border border-red-100 dark:border-red-800 p-4 rounded-2xl">
+                    <p class="text-red-600 dark:text-red-400 text-xs font-bold text-center uppercase tracking-widest">
+                        {{ errors.general }}
+                    </p>
+                </div>
+
+                <!-- Success Message -->
+                <div v-if="success"
+                    class="bg-green-50 dark:bg-green-900/20 border border-green-100 dark:border-green-800 p-4 rounded-2xl">
+                    <p
+                        class="text-green-600 dark:text-green-400 text-xs font-bold text-center uppercase tracking-widest">
+                        {{ success }}
+                    </p>
+                </div>
+
+                <button :disabled="loading"
+                    class="w-full bg-brand-tan text-white py-4 rounded-2xl font-black text-sm uppercase tracking-widest shadow-xl shadow-brand-tan/20 hover:opacity-95 transform hover:-translate-y-0.5 transition-all duration-300 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed">
+                    {{ loading ? 'Processing...' : 'Sign In' }}
                 </button>
+
 
             </form>
 
@@ -99,7 +117,6 @@
     </div>
 </template>
 <script setup>
-
 import { ref } from 'vue';
 import { useRouter } from 'vue-router'
 import api from '../services/api';
@@ -110,41 +127,47 @@ const email = ref('');
 const password = ref('');
 const remember = ref(false);
 
-const errors = ref({})
+const loading = ref(false);
+const errors = ref({});
+const success = ref('');
 
 const submitForm = async () => {
-
-    errors.value = {}
+    errors.value = {};
+    success.value = '';
+    loading.value = true;
 
     try {
-
         const response = await api.post('/login', {
             email: email.value,
             password: password.value,
-        })
-
-        //console.log(response);
-
-        //return false;
+            remember: remember.value
+        });
 
         if (response.status === 200) {
+            success.value = response.data.message || 'Login successful!';
 
-            success.value = response.data.message
+            // If tokens are returned in data, handle them here (usually handled by interceptors)
+            if (response.data.token) {
+                localStorage.setItem('token', response.data.token);
+            }
 
-            router.push('/')
-
+            setTimeout(() => {
+                router.push('/');
+            }, 1000);
         }
-
     } catch (error) {
 
         if (error.response && error.response.status === 422) {
-            errors.value = error.response.data.errors
+            errors.value = error.response.data.errors;
+        } else if (error.response && error.response.status === 401) {
+            errors.value = { general: error.response.data.message || 'Invalid credentials' };
         } else {
-            errors.value = "Something went wrong"
+            console.error('Login error:', error);
+            errors.value = { general: 'An unexpected error occurred. Please try again.' };
         }
 
+    } finally {
+        loading.value = false;
     }
-
 };
-
 </script>

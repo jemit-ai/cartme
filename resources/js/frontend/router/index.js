@@ -52,7 +52,6 @@ const routes = [
             {
                 path: 'otp-verify',
                 component: OtpVerify,
-                meta: { requiresEmail: true }
             },
             {
                 path: 'reset-password',
@@ -71,17 +70,6 @@ const router = createRouter({
 })
 
 
-router.beforeEach((to, from, next) => {
 
-  const emailVerified = sessionStorage.getItem("register_email");
-  //const otpVerified = sessionStorage.getItem("otpVerified");
-
-  if (to.meta.requiresEmail && !emailVerified) {
-    next("/otp-verify"); 
-  } else {
-    next();
-  }
-
-});
 
 export default router
