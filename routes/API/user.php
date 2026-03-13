@@ -13,13 +13,13 @@ Route::group(['middleware' => 'territory'], function () {
     Route::post('/verify-otp', [UserController::class, 'verifyOtp']);
   
     Route::post('/verify-email', [UserController::class, 'verifyEmail']);
-    Route::post('/reset-password', [UserController::class, 'changePassword']);
+    Route::post('/reset-password', [UserController::class, 'resetPassword']);
 
     Route::middleware('auth:sanctum')->group(function () {
 
         Route::post('/update-profile', [UserController::class, 'updateProfile']);
-        Route::post('/change-password', [UserController::class, 'changePassword']);
-
+        
+        //Route::post('/change-password', [UserController::class, 'changePassword']);
         //Route::post('/disable-user', [UserController::class, 'disableUser']);
         //Route::post('/enable-user', [UserController::class, 'enableUser']);
 

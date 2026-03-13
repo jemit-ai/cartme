@@ -48,26 +48,26 @@
                 </div>
 
                 <!-- Success Message -->
-                <!--div
+                <div v-if="success"
                     class="bg-green-50 dark:bg-green-900/20 border border-green-100 dark:border-green-800 p-4 rounded-2xl">
                     <p
                         class="text-green-600 dark:text-green-400 text-xs font-bold text-center uppercase tracking-widest">
-                        Password updated successfully
+                        {{ success }}
                     </p>
-                </div-->
+                </div>
 
-                <button
-                    class="w-full bg-brand-tan text-white py-4 rounded-2xl font-black text-sm uppercase tracking-widest shadow-xl shadow-brand-tan/20 hover:opacity-95 transform hover:-translate-y-0.5 transition-all duration-300 mt-4">
-                    Update Password
+                <button :disabled="loading"
+                    class="w-full bg-brand-tan text-white py-4 rounded-2xl font-black text-sm uppercase tracking-widest shadow-xl shadow-brand-tan/20 hover:opacity-95 transform hover:-translate-y-0.5 transition-all duration-300 mt-4 disabled:opacity-50 disabled:cursor-not-allowed">
+                    {{ loading ? 'Updating...' : 'Update Password' }}
                 </button>
 
             </form>
 
             <div class="text-center mt-10">
-                <a href="/login"
+                <router-link to="/login"
                     class="text-[10px] font-black text-gray-400 uppercase tracking-widest hover:text-brand-tan transition-colors">
                     Back to Sign In
-                </a>
+                </router-link>
             </div>
 
         </div>
@@ -75,7 +75,6 @@
 </template>
 
 <script setup>
-
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import api from '../services/api';
@@ -90,16 +89,13 @@ const success = ref('');
 const loading = ref(false)
 
 const submitForm = async () => {
-
-    errors.value = {} // clear old errors
-
+    errors.value = {}
     loading.value = true;
+    success.value = '';
 
     const email = sessionStorage.getItem("register_email");
 
-    //console.log("email", email);
     try {
-
         const response = await api.post('/reset-password', {
             email: email,
             password: password.value,
@@ -107,25 +103,19 @@ const submitForm = async () => {
         })
 
         if (response.status === 200) {
-            success.value = response.data.message
-            setTimeout(() => {
-                router.push('/login')
-            }, 1000);
+            success.value = response.data.message || 'Password updated successfully';
+            sessionStorage.removeItem("register_email");
+
         }
-
     } catch (error) {
-
         if (error.response && error.response.status === 422) {
             errors.value = error.response.data.errors;
         } else {
-            errors.value = "Something went wrong"
+            console.error('Reset password error:', error);
+            errors.value = { general: 'Something went wrong. Please try again.' };
         }
-
     } finally {
-
         loading.value = false;
-
     }
-
 }
 </script>

@@ -40,10 +40,11 @@ api.interceptors.request.use((config) => {
 api.interceptors.response.use(
     (response) => response,
     (error) => {
-        const isLoginRequest = error.config.url.endsWith('/login');
+        const url = error.config.url;
+        const isAuthRequest = url.endsWith('/login') || url.endsWith('/reset-password');
 
-        if (error.response?.status === 401 && !isLoginRequest) {
-            // Token expired or invalid - redirect to login if NOT already on login request
+        if (error.response?.status === 401 && !isAuthRequest) {
+            // Token expired or invalid - redirect to login if NOT an auth-related request
             localStorage.removeItem('token');
             window.location.href = '/login';
         }
