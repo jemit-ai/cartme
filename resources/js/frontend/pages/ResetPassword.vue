@@ -24,12 +24,16 @@
                 </div-->
 
                 <!-- New Password -->
+
                 <div class="space-y-1">
                     <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">
                         New Password
                     </label>
-                    <input v-model="password" type="password" placeholder="••••••••"
+                    <input id="password" v-model="password" type="password" placeholder="••••••••"
                         class="w-full bg-brand-cream/10 dark:bg-gray-800 border-none rounded-2xl px-5 py-3.5 text-sm focus:ring-2 focus:ring-brand-tan transition-all duration-300">
+                    <p v-if="errors.password" class="text-red-500 text-sm">
+                        {{ errors.password[0] }}
+                    </p>
                 </div>
 
                 <!-- Confirm Password -->
@@ -37,8 +41,10 @@
                     <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">
                         Confirm Password
                     </label>
-                    <input v-model="confirm_password" type="password" placeholder="••••••••"
+                    <input id="password_confirmation" v-model="password_confirmation" type="password"
+                        placeholder="••••••••"
                         class="w-full bg-brand-cream/10 dark:bg-gray-800 border-none rounded-2xl px-5 py-3.5 text-sm focus:ring-2 focus:ring-brand-tan transition-all duration-300">
+
                 </div>
 
                 <!-- Success Message -->
@@ -77,26 +83,27 @@ import api from '../services/api';
 const router = useRouter()
 
 const password = ref('')
-const confirm_password = ref('')
+const password_confirmation = ref('')
 
 const errors = ref({});
 const success = ref('');
-
 const loading = ref(false)
 
 const submitForm = async () => {
+
+    errors.value = {} // clear old errors
 
     loading.value = true;
 
     const email = sessionStorage.getItem("register_email");
 
-    console.log("email", email);
-
+    //console.log("email", email);
     try {
 
         const response = await api.post('/reset-password', {
             email: email,
             password: password.value,
+            password_confirmation: password_confirmation.value,
         })
 
         if (response.status === 200) {
@@ -109,13 +116,15 @@ const submitForm = async () => {
     } catch (error) {
 
         if (error.response && error.response.status === 422) {
-            errors.value = error.response.data.message
+            errors.value = error.response.data.errors;
         } else {
             errors.value = "Something went wrong"
         }
 
     } finally {
+
         loading.value = false;
+
     }
 
 }

@@ -106,14 +106,24 @@ class UserService
 
     public function changePassword(int $id,array $data)
     {
-        $user = User::findOrFail($id);
+        //$user = User::findOrFail($id);
 
-        if (!Hash::check($data['current_password'], $user->password)) {
+        Log::info('Change Password Data: ' . json_encode($data));
+
+        $user = User::where(['country_id' => $data['country_id'], 'email' => $data['email']])->first();
+
+        Log::info('User SQL: ' . json_encode($user));
+
+        //Log::info('User SQL: ' . $user->toSql());
+
+        //Log::info('User SQL: ' . $user->toSql());
+
+        if (!Hash::check($data['password'], $user->password)) {
             throw new AuthenticationException('Invalid current password');
         }
 
         $user->update([
-            'password' => Hash::make($data['new_password']),
+            'password' => Hash::make($data['password']),
         ]);
 
         return $user;

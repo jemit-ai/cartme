@@ -6,7 +6,8 @@ use Illuminate\Foundation\Http\FormRequest;
 
 use App\Rules\User\EmailwithCountry;
 use App\Models\Country;
-
+use Illuminate\Support\Facades\Log;
+//use App\Rules\User\UniqueEmailPerCountry;
 
 class ChangePasswordRequest extends FormRequest
 {
@@ -25,14 +26,16 @@ class ChangePasswordRequest extends FormRequest
      */
     public function rules(): array
     {
+        $countryCode = $this->header('X-Country');
+        $countryId = Country::where('iso2', $countryCode)->value('id');
+
         return [
             'email' => [
                 'required',
                 'email',
                  new EmailwithCountry($countryId),
             ],
-            'new_password' => 'required|string|min:6',
-            'confirm_password' => 'required|string|min:6|same:new_password',
+            'password' => 'required|string|min:6|confirmed',
         ];
     }
 

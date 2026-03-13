@@ -27,7 +27,6 @@ class SendOtpRequest extends FormRequest
     {
         $countryCode = $this->header('X-Country');
         $countryId = Country::where('iso2', $countryCode)->value('id');
-
         return [
             'email' => [
                 'required',

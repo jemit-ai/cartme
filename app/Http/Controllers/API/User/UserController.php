@@ -162,16 +162,27 @@ class UserController extends BaseApiController
     }
     
     public function changePassword(ChangePasswordRequest $request){
+
         try {
+
             $data = $request->validated();
-            $user = $this->userService->changePassword($request->user()->id, $data);
+            $data['country_id'] = $request->country_id;
+
+            $userid = $request->user()->id ?? 0;
+            $user = $this->userService->changePassword($userid, $data);
             return $this->successResponse($user, 'Password changed successfully', 200);
+
         } catch (AuthenticationException $e) {
+
             return $this->errorResponse('Invalid current password', $e->getMessage(), 401);
+
         } catch (Throwable $th) {
+
             Log::error($th->getMessage());
             return $this->errorResponse('Failed to change password', $th->getMessage(), 500);
+
         }
+
     }
 
     public function addAddress(AddressRequest $request){
