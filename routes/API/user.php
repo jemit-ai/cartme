@@ -4,7 +4,6 @@ use App\Http\Controllers\Api\Auth\AuthController;
 use App\Http\Controllers\API\User\UserController;
 use App\Http\Controllers\API\User\AddressController;
 
-
 Route::group(['middleware' => 'territory'], function () {
 
     Route::post('/register', [UserController::class, 'register']);

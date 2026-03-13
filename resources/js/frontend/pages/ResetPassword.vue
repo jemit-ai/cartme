@@ -15,13 +15,13 @@
             <form class="space-y-5">
 
                 <!-- Email -->
-                <div class="space-y-1">
+                <!--div class="space-y-1">
                     <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">
                         Email Address
                     </label>
                     <input type="email" readonly
                         class="w-full bg-brand-cream/5 dark:bg-gray-800/50 border-none rounded-2xl px-5 py-3.5 text-sm text-gray-500 cursor-not-allowed">
-                </div>
+                </div-->
 
                 <!-- New Password -->
                 <div class="space-y-1">

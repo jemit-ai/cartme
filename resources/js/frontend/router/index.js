@@ -51,69 +51,15 @@ const routes = [
             },
             {
                 path: 'otp-verify',
-                component: OtpVerify
+                component: OtpVerify,
+                meta: { requiresEmail: true }
             },
             {
                 path: 'reset-password',
-                component: ResetPassword
+                component: ResetPassword,
+                meta: { requiresEmail: true }
             },  
-            /*
-            {
-                path: 'product/:id',
-                component: Product
-            },
-            {
-                path: 'profile',
-                component: Profile
-            },
-            {
-                path: 'wishlist',
-                component: Wishlist
-            },
-            {
-                path: 'login',
-                component: Login
-            },
-            {
-                path: 'register',
-                component: Register
-            },
-            {
-                path: 'search',
-                component: Search
-            },
-            {
-                path: 'products',
-                component: Products
-            },
-            {
-                path: 'contact',
-                component: Contact
-            },
-            {
-                path: 'about',
-                component: About
-            },
-            {
-                path: 'privacy',
-                component: Privacy
-            },
-            {
-                path: 'terms',
-                component: Terms
-            },
-            {
-                path: 'return-policy',
-                component: ReturnPolicy
-            },
-            {
-                path: 'shipping-policy',
-                component: ShippingPolicy
-            },
-            {
-                path: 'refund-policy',
-                component: RefundPolicy
-            }*/
+
         ]
     }
 ]
@@ -124,5 +70,19 @@ const router = createRouter({
   history: createWebHistory(),
   routes
 })
+
+
+router.beforeEach((to, from, next) => {
+
+  const emailVerified = sessionStorage.getItem("register_email");
+  //const otpVerified = sessionStorage.getItem("otpVerified");
+
+  if (to.meta.requiresEmail && !emailVerified) {
+    next("/otp-verify"); 
+  } else {
+    next();
+  }
+
+});
 
 export default router
