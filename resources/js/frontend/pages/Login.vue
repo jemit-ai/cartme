@@ -12,19 +12,26 @@
                 </p>
             </div>
 
-            <form class="space-y-6">
+            <form class="space-y-6" @submit.prevent="submitForm">
 
                 <div class="space-y-1">
                     <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Email
                         Address</label>
-                    <input type="email" placeholder="john@example.com"
+                    <input type="email" placeholder="john@example.com" v-model="email"
                         class="w-full bg-brand-cream/10 dark:bg-gray-800 border-none rounded-2xl px-5 py-3.5 text-sm focus:ring-2 focus:ring-brand-tan transition-all duration-300">
+                    <p v-if="errors.email" class="text-red-500 text-sm">
+                        {{ errors.email[0] }}
+                    </p>
                 </div>
 
                 <div class="space-y-1">
                     <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Password</label>
                     <input type="password" placeholder="••••••••"
-                        class="w-full bg-brand-cream/10 dark:bg-gray-800 border-none rounded-2xl px-5 py-3.5 text-sm focus:ring-2 focus:ring-brand-tan transition-all duration-300">
+                        class="w-full bg-brand-cream/10 dark:bg-gray-800 border-none rounded-2xl px-5 py-3.5 text-sm focus:ring-2 focus:ring-brand-tan transition-all duration-300"
+                        v-model="password">
+                    <p v-if="errors.password" class="text-red-500 text-sm">
+                        {{ errors.password[0] }}
+                    </p>
                 </div>
 
                 <div class="flex justify-between items-center px-1">
@@ -91,3 +98,53 @@
         </div>
     </div>
 </template>
+<script setup>
+
+import { ref } from 'vue';
+import { useRouter } from 'vue-router'
+import api from '../services/api';
+
+const router = useRouter()
+
+const email = ref('');
+const password = ref('');
+const remember = ref(false);
+
+const errors = ref({})
+
+const submitForm = async () => {
+
+    errors.value = {}
+
+    try {
+
+        const response = await api.post('/login', {
+            email: email.value,
+            password: password.value,
+        })
+
+        //console.log(response);
+
+        //return false;
+
+        if (response.status === 200) {
+
+            success.value = response.data.message
+
+            router.push('/')
+
+        }
+
+    } catch (error) {
+
+        if (error.response && error.response.status === 422) {
+            errors.value = error.response.data.errors
+        } else {
+            errors.value = "Something went wrong"
+        }
+
+    }
+
+};
+
+</script>
