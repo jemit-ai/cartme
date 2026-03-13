@@ -104,19 +104,31 @@ const submitForm = async () => {
 
     try {
 
-        const email = sessionStorage.getItem("reset_email");
-        const register_email = sessionStorage.getItem("register_email");
+
+
+        //if (router.currentRoute.value.query.type === 'register') {
+
+        //}
+
+        /*
+        if (router.currentRoute.value.query.type === 'reset-password') {
+            const email = sessionStorage.getItem("reset_email");
+        }
+        */
+        const email = sessionStorage.getItem("register_email");
 
         const response = await api.post('/verify-otp', {
-            email: email || register_email,
+            email: email,
             otp: otpCode,
             type: router.currentRoute.value.query.type
         })
 
+        console.log(response);
+
         if (response.status === 200) {
 
 
-            sessionStorage.removeItem("reset_email");
+            //sessionStorage.removeItem("reset_email");
             sessionStorage.removeItem("register_email");
 
             success.value = response.data.message

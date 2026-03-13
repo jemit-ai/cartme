@@ -103,7 +103,7 @@ const submitForm = async () => {
                     }
                 })
 
-                sessionStorage.setItem("reset_email", response_email);
+                sessionStorage.setItem("register_email", response_email);
 
 
             }
