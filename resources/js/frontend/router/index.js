@@ -57,7 +57,6 @@ const routes = [
             {
                 path: 'reset-password',
                 component: ResetPassword,
-                meta: { requiresEmail: true }
             },  
 
         ]

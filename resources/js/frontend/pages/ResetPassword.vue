@@ -42,13 +42,13 @@
                 </div>
 
                 <!-- Success Message -->
-                <div
+                <!--div
                     class="bg-green-50 dark:bg-green-900/20 border border-green-100 dark:border-green-800 p-4 rounded-2xl">
                     <p
                         class="text-green-600 dark:text-green-400 text-xs font-bold text-center uppercase tracking-widest">
                         Password updated successfully
                     </p>
-                </div>
+                </div-->
 
                 <button
                     class="w-full bg-brand-tan text-white py-4 rounded-2xl font-black text-sm uppercase tracking-widest shadow-xl shadow-brand-tan/20 hover:opacity-95 transform hover:-translate-y-0.5 transition-all duration-300 mt-4">

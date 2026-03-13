@@ -134,6 +134,7 @@ const submitForm = async () => {
             success.value = response.data.message
 
             if (router.currentRoute.value.query.type === 'reset-password') {
+                console.log("reset-password");
                 router.push('/reset-password')
             }
 

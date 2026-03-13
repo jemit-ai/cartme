@@ -96,14 +96,15 @@ const submitForm = async () => {
                     }
                 })*/
 
+                sessionStorage.setItem("register_email", response_email);
+
+
                 router.push({
                     path: '/otp-verify',
                     query: {
                         type: 'reset-password'
                     }
                 })
-
-                sessionStorage.setItem("register_email", response_email);
 
 
             }
