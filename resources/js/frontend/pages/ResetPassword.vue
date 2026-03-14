@@ -97,29 +97,7 @@ const submitForm = async () => {
     loading.value = true;
     success.value = '';
 
-    // Client validation
-    if (!password.value) {
-        errors.value.password = ["New password is required."];
-        loading.value = false;
-        return;
-    }
-
-    if (password.value !== password_confirmation.value) {
-        errors.value.password_confirmation = ["New password and confirm password do not match."];
-        loading.value = false;
-        return;
-    }
-
     const email = sessionStorage.getItem("register_email");
-
-    if (!email) {
-        errors.value.general = "Session expired. Please verify OTP again.";
-        loading.value = false;
-        return;
-    }
-
-
-    //const email = sessionStorage.getItem("register_email");
 
     try {
 
@@ -138,11 +116,24 @@ const submitForm = async () => {
 
     } catch (error) {
 
-        if (error.response && error.response.status === 422) {
+        /*if (error.response && error.response.status === 422) {
             errors.value = error.response.data.errors;
         } else {
             errors.value = { general: 'Something went wrong. Please try again.' };
+        }*/
+
+        if (error.response) {
+
+            if (error.response.status === 422) {
+                errors.value = error.response.data.errors;
+            } else {
+                console.error("Server Error:", error.response);
+            }
+
+        } else {
+            console.error("Network Error:", error);
         }
+
 
     } finally {
 

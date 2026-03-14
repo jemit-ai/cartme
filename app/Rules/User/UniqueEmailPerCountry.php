@@ -24,13 +24,12 @@ class UniqueEmailPerCountry implements ValidationRule
 
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
-        Log::info('country id;'.$this->countryId);
+        //Log::info('country id;'.$this->countryId);
 
-        Log::info('email;'.$value);
+        //Log::info('email;'.$value);
 
         $user = User::where('email', $value)->where('country_id', $this->countryId)->first();
         
-
         if ($user) {
             $fail('The email has already been taken in this country.');
         }

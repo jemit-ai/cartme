@@ -52,7 +52,8 @@ const routes = [
             {
                 path: 'otp-verify',
                 component: OtpVerify,
-                beforeEnter: (to, from, next) => {
+
+                /*beforeEnter: (to, from, next) => {
 
                     console.log("Bele"+to.query.type);
 
@@ -81,7 +82,8 @@ const routes = [
                         next('/register');
                     }
                     
-                },
+                },*/
+                
             },
             {
                 path: 'reset-password',

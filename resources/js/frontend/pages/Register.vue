@@ -100,6 +100,71 @@
 </template>
 
 <script setup>
+import { reactive, ref } from "vue";
+import { useRouter } from "vue-router";
+import api from "../services/api";
+
+const router = useRouter();
+
+const loading = ref(false);
+const errors = ref({});
+
+const form = reactive({
+    name: "",
+    email: "",
+    password: "",
+    password_confirmation: ""
+});
+
+const submitForm = async () => {
+
+    errors.value = {};
+
+    try {
+
+        loading.value = true;
+
+        const { data, status } = await api.post("/register", form);
+
+        if (status === 201) {
+
+            const email = data.data.user.email;
+
+            const otpResponse = await api.post("/send-otp", { email });
+
+            if (otpResponse.status === 200) {
+
+                sessionStorage.setItem("register_email", email);
+
+                router.push({
+                    path: "/otp-verify",
+                    query: { type: "register" }
+                });
+
+            }
+        }
+
+    } catch (error) {
+
+        if (error.response) {
+
+            if (error.response.status === 422) {
+                errors.value = error.response.data.errors;
+            } else {
+                console.error("Server Error:", error.response);
+            }
+
+        } else {
+            console.error("Network Error:", error);
+        }
+
+    } finally {
+        loading.value = false;
+    }
+};
+</script>
+
+<!--script setup>
 
 import { reactive, ref } from 'vue';
 import api from '../services/api';
@@ -133,7 +198,6 @@ const submitForm = async () => {
 
             const otpResponse = await api.post("/send-otp", { email })
 
-            //console.log(otpResponse);
 
             if (otpResponse.status === 200) {
 
@@ -164,4 +228,4 @@ const submitForm = async () => {
 
 }
 
-</script>
+</script-->

@@ -58,7 +58,7 @@
             <div class="mt-10 space-y-4">
                 <p class="text-xs font-bold text-gray-400 uppercase tracking-widest">
                     Didn't receive the code?
-                    <button
+                    <button @click="resendOtp"
                         class="text-brand-tan hover:opacity-80 transition-opacity ml-1 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed">
                         Resend
                     </button>
@@ -132,6 +132,36 @@ const submitForm = async () => {
             }
 
         }
+
+    } catch (error) {
+
+        if (error.response && error.response.status === 422) {
+            errors.value = error.response.data.message
+        } else {
+            errors.value = "Something went wrong"
+        }
+
+    }
+
+}
+
+const resendOtp = async () => {
+
+    const email = sessionStorage.getItem("register_email");
+
+    try {
+
+        const response = await api.post('/send-otp', {
+            email: email,
+        })
+
+        console.log('#Traffic#' + response);
+
+        if (response.status === 200) {
+            success.value = response.message
+        }
+
+
 
     } catch (error) {
 

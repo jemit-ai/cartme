@@ -5,6 +5,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use App\Models\Country;
 //use App\Rules\User\UniqueEmailPerCountry;
 use App\Rules\User\EmailwithCountry;
+use App\Rules\User\OtpWithEmailAndCountry;
 use Illuminate\Support\Facades\Log;
 
 class VerifyOtpRequest extends FormRequest
@@ -26,14 +27,20 @@ class VerifyOtpRequest extends FormRequest
     {
         $countryCode = $this->header('X-Country');
         $countryId = Country::where('iso2', $countryCode)->value('id');
-
+        $email = $this->request->get('email');
+        Log::info('email rule'.$email);
         return [
             'email' => [
                 'required',
                 'email',
                  new EmailwithCountry($countryId),
             ],
-            'otp'   => 'required|digits:6',
+            'otp' => [
+                'required',
+                'digits:6',
+                new OtpWithEmailAndCountry($countryId,$this->email),
+            ],
+            //'otp'   => 'required|digits:6',
             'type'  => 'required|in:register,reset-password',
         ];
     }
