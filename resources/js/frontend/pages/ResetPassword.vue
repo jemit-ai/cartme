@@ -14,14 +14,6 @@
 
             <form class="space-y-5" @submit.prevent="submitForm">
 
-                <!-- Email -->
-                <!--div class="space-y-1">
-                    <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">
-                        Email Address
-                    </label>
-                    <input type="email" readonly
-                        class="w-full bg-brand-cream/5 dark:bg-gray-800/50 border-none rounded-2xl px-5 py-3.5 text-sm text-gray-500 cursor-not-allowed">
-                </div-->
 
                 <!-- New Password -->
 
@@ -44,7 +36,9 @@
                     <input id="password_confirmation" v-model="password_confirmation" type="password"
                         placeholder="••••••••"
                         class="w-full bg-brand-cream/10 dark:bg-gray-800 border-none rounded-2xl px-5 py-3.5 text-sm focus:ring-2 focus:ring-brand-tan transition-all duration-300">
-
+                    <p v-if="errors.password_confirmation" class="text-red-500 text-sm">
+                        {{ errors.password_confirmation[0] }}
+                    </p>
                 </div>
 
                 <!-- General Error Message -->
@@ -103,7 +97,29 @@ const submitForm = async () => {
     loading.value = true;
     success.value = '';
 
+    // Client validation
+    if (!password.value) {
+        errors.value.password = ["New password is required."];
+        loading.value = false;
+        return;
+    }
+
+    if (password.value !== password_confirmation.value) {
+        errors.value.password_confirmation = ["New password and confirm password do not match."];
+        loading.value = false;
+        return;
+    }
+
     const email = sessionStorage.getItem("register_email");
+
+    if (!email) {
+        errors.value.general = "Session expired. Please verify OTP again.";
+        loading.value = false;
+        return;
+    }
+
+
+    //const email = sessionStorage.getItem("register_email");
 
     try {
 
@@ -113,7 +129,6 @@ const submitForm = async () => {
             password_confirmation: password_confirmation.value,
         })
 
-        return false;
 
         if (response.status === 200) {
             success.value = response.data.message || 'Password updated successfully';
@@ -123,12 +138,9 @@ const submitForm = async () => {
 
     } catch (error) {
 
-        console.log(error.response.status);
-
         if (error.response && error.response.status === 422) {
             errors.value = error.response.data.errors;
         } else {
-            console.log('Reset password error:', error);
             errors.value = { general: 'Something went wrong. Please try again.' };
         }
 
