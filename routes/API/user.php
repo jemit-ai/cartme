@@ -13,7 +13,7 @@ Route::group(['middleware' => 'territory'], function () {
     Route::post('/verify-otp', [UserController::class, 'verifyOtp']);
   
     Route::post('/verify-email', [UserController::class, 'verifyEmail']);
-    Route::post('/reset-password', [UserController::class, 'resetPassword']);
+    Route::post('/reset-password', [UserController::class, 'changePassword']);
 
     Route::middleware('auth:sanctum')->group(function () {
 

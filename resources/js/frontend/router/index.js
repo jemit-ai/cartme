@@ -52,24 +52,55 @@ const routes = [
             {
                 path: 'otp-verify',
                 component: OtpVerify,
+                beforeEnter: (to, from, next) => {
+
+                    console.log("Bele"+to.query.type);
+
+                    if(to.query.type=='reset-password'){
+
+                        if (!sessionStorage.getItem('register_email')) {
+                            next('/forgot-password');
+                        } else {
+                            next();
+                        }
+
+                    }else{
+
+                        next('/forgot-password');
+                    }
+
+                    if(to.query.type=='register'){
+
+                        if (!sessionStorage.getItem('register_email')) {
+                            next('/register');
+                        } else {
+                            next();
+                        }
+
+                    }else{
+                        next('/register');
+                    }
+                    
+                },
             },
             {
                 path: 'reset-password',
                 component: ResetPassword,
+                beforeEnter: (to, from, next) => {
+                    if (!sessionStorage.getItem('register_email')) {
+                        next('/forgot-password');
+                    } else {
+                        next();
+                    }
+                },
             },  
-
         ]
     }
 ]
-
-
 
 const router = createRouter({
   history: createWebHistory(),
   routes
 })
-
-
-
 
 export default router

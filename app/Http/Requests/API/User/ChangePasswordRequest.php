@@ -39,5 +39,14 @@ class ChangePasswordRequest extends FormRequest
         ];
     }
 
+    public function messages()
+    {
+        return [
+            'password.required' => 'The new password field is required.',
+            'password.min' => 'The new password must be at least 6 characters long.',
+            'password.confirmed' => 'The new password confirmation does not match.',
+        ];
+    }
+
 
 }

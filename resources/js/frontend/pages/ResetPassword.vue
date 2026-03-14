@@ -113,6 +113,8 @@ const submitForm = async () => {
             password_confirmation: password_confirmation.value,
         })
 
+        return false;
+
         if (response.status === 200) {
             success.value = response.data.message || 'Password updated successfully';
             sessionStorage.removeItem("register_email");
@@ -120,6 +122,8 @@ const submitForm = async () => {
         }
 
     } catch (error) {
+
+        console.log(error.response.status);
 
         if (error.response && error.response.status === 422) {
             errors.value = error.response.data.errors;
