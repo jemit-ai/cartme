@@ -47,6 +47,15 @@
 
                 </div>
 
+                <!-- General Error Message -->
+                <div v-if="errors.general"
+                    class="bg-red-50 dark:bg-red-900/20 border border-red-100 dark:border-red-800 p-4 rounded-2xl">
+                    <p class="text-red-600 dark:text-red-400 text-xs font-bold text-center uppercase tracking-widest">
+                        {{ errors.general }}
+                    </p>
+                </div>
+
+
                 <!-- Success Message -->
                 <div v-if="success"
                     class="bg-green-50 dark:bg-green-900/20 border border-green-100 dark:border-green-800 p-4 rounded-2xl">
@@ -89,6 +98,7 @@ const success = ref('');
 const loading = ref(false)
 
 const submitForm = async () => {
+
     errors.value = {}
     loading.value = true;
     success.value = '';
@@ -96,6 +106,7 @@ const submitForm = async () => {
     const email = sessionStorage.getItem("register_email");
 
     try {
+
         const response = await api.post('/reset-password', {
             email: email,
             password: password.value,
@@ -107,15 +118,20 @@ const submitForm = async () => {
             sessionStorage.removeItem("register_email");
 
         }
+
     } catch (error) {
+
         if (error.response && error.response.status === 422) {
             errors.value = error.response.data.errors;
         } else {
-            console.error('Reset password error:', error);
+            console.log('Reset password error:', error);
             errors.value = { general: 'Something went wrong. Please try again.' };
         }
+
     } finally {
+
         loading.value = false;
+
     }
 }
 </script>
