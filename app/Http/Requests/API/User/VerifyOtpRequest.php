@@ -35,8 +35,8 @@ class VerifyOtpRequest extends FormRequest
                 'email',
                  new EmailwithCountry($countryId),
             ],
-            'otp' => ['required', 'array', 'size:6'],
-            'otp.*' => ['required', 'digits:1', new OtpWithEmailAndCountry($countryId,$this->email)],
+            'otp' => ['required', 'size:6'],
+        'otp.*' => ['required', 'digits:1', new OtpWithEmailAndCountry($countryId,$this->email)],
             'type'  => 'required|in:register,reset-password',
         ];
     }
