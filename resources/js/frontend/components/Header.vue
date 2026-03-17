@@ -114,7 +114,7 @@
                             </svg>
                             <span
                                 class="absolute top-1 right-1 flex h-4 w-4 items-center justify-center rounded-full bg-brand-tan text-[10px] font-bold text-white ring-2 ring-white dark:ring-gray-900 group-hover:scale-110 transition-transform">
-                                3
+                                Welcome {{ userStore.user }} 3
                             </span>
                         </div>
                     </router-link>
@@ -159,6 +159,10 @@ export default {
 
 <script setup>
 import Country from './sub_components/Country.vue';
+import { useUserStore } from '../stores/user';
+
+const userStore = useUserStore();
+
 </script>
 
 <style scoped>

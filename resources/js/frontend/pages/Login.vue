@@ -119,9 +119,11 @@
 <script setup>
 import { ref } from 'vue';
 import { useRouter } from 'vue-router'
+import { useUserStore } from '../stores/user';
 import api from '../services/api';
 
 const router = useRouter()
+const userStore = useUserStore()
 
 const email = ref('');
 const password = ref('');
@@ -137,6 +139,7 @@ const submitForm = async () => {
     loading.value = true;
 
     try {
+
         const response = await api.post('/login', {
             email: email.value,
             password: password.value,
@@ -144,17 +147,23 @@ const submitForm = async () => {
         });
 
         if (response.status === 200) {
+
             success.value = response.data.message || 'Login successful!';
 
             // If tokens are returned in data, handle them here (usually handled by interceptors)
             if (response.data.token) {
+
                 localStorage.setItem('token', response.data.token);
+                userStore.setUser(response.data.user);
+                userStore.setToken(response.data.token);
+
             }
 
-            setTimeout(() => {
+            /*setTimeout(() => {
                 router.push('/');
-            }, 1000);
+            }, 1000);*/
         }
+
     } catch (error) {
 
         if (error.response && error.response.status === 422) {
