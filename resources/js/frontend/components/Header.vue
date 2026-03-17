@@ -172,10 +172,14 @@ const { user, token } = storeToRefs(userStore)
 //const { token } = storeToRefs(userStore)
 
 onMounted(async () => {
+
     userStore.fetchUser()
+
 })
 
 watch(token, () => {
+
+    userStore.fetchUser()
     console.log('Token changed')
 })
 

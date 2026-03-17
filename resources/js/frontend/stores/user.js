@@ -9,6 +9,7 @@ export const useUserStore = defineStore('user', {
         user: null,
         token: localStorage.getItem('token') || null,
     }),
+
     actions: {
 
         setUser(userData) {
@@ -34,6 +35,8 @@ export const useUserStore = defineStore('user', {
                     }
                 })
 
+                console.log('User fetched successfully:', response.data)
+
                 this.user = response.data
                 console.log('User fetched successfully:', response.data)
             } catch (error) {
@@ -45,6 +48,7 @@ export const useUserStore = defineStore('user', {
                 this.token = null
                 localStorage.removeItem('token')
             }
+
         }
 
     },

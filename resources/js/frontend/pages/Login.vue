@@ -157,6 +157,10 @@ const submitForm = async () => {
                 userStore.setUser(response.data.user);
                 userStore.setToken(response.data.token);
 
+                setTimeout(() => {
+                    router.push('/');
+                }, 500);
+
             }
 
             /*setTimeout(() => {
