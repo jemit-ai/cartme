@@ -108,6 +108,8 @@ class UserController extends BaseApiController
                 return $this->errorResponse('Unauthorized', 'User not authenticated', 401);
             }
 
+            Log::info('Get User Request: ' . json_encode($request->user()->id));
+            
             $user = $this->userService->getUser($request->user()->id);
             return $this->successResponse($user, 'User retrieved successfully', 200);
 

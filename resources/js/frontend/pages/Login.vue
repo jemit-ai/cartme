@@ -134,6 +134,7 @@ const errors = ref({});
 const success = ref('');
 
 const submitForm = async () => {
+
     errors.value = {};
     success.value = '';
     loading.value = true;
@@ -150,12 +151,14 @@ const submitForm = async () => {
 
             success.value = response.data.message || 'Login successful!';
 
+            console.log('Response:', response.data);
             // If tokens are returned in data, handle them here (usually handled by interceptors)
-            if (response.data.token) {
+            if (response.data) {
 
-                localStorage.setItem('token', response.data.token);
-                userStore.setUser(response.data.user);
-                userStore.setToken(response.data.token);
+                //console.log('Token:', response.data.data.token);
+                // localStorage.setItem('token', response.data.data.token);
+                userStore.setUser(response.data.data.user);
+                userStore.setToken(response.data.data.token);
 
                 /*setTimeout(() => {
                     router.push('/');
@@ -184,5 +187,6 @@ const submitForm = async () => {
     } finally {
         loading.value = false;
     }
+
 };
 </script>
