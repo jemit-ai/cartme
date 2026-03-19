@@ -8,6 +8,8 @@ export const useUserStore = defineStore('user', {
     state: () => ({
         user: null,
         token: localStorage.getItem('token') || null,
+        //country_id: localStorage.getItem('country_id') || null,
+        country_name: localStorage.getItem('country_name') || null,
     }),
 
     actions: {
@@ -17,6 +19,7 @@ export const useUserStore = defineStore('user', {
             //console.log('User data:', userData)
             this.user = userData
             localStorage.setItem('user', JSON.stringify(userData))
+            localStorage.setItem('country_name', userData.country_name)
 
         },
 

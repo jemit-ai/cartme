@@ -1,11 +1,6 @@
 <template>
 
-    <!--p
-        class="bg-transparent border-none text-xs font-semibold text-gray-700 dark:text-gray-200 focus:ring-0 cursor-pointer p-0">
-        {{ country_name }}
-    </p-->
-
-    <select v-model="country_id" @change="setCountry"
+    <select v-if="!userStore.user" v-model="country_id" @change="setCountry"
         class="bg-transparent border-none text-xs font-semibold text-gray-700 dark:text-gray-200 focus:ring-0 cursor-pointer p-0">
 
         <option value="60">IN</option>
@@ -13,12 +8,22 @@
         <option value="141">US</option>
 
     </select>
+    <p v-else
+        class="bg-transparent border-none text-xs font-semibold text-gray-700 dark:text-gray-200 focus:ring-0 cursor-pointer p-0">
+        {{ userStore.country_name }}
+    </p>
+
 
 </template>
 
 <script setup>
 
 import { ref, onMounted } from 'vue';
+import { useUserStore } from '../../stores/user';
+import api from '../../services/api';
+
+
+const userStore = useUserStore()
 
 const country_name = ref();
 const country_id = ref();

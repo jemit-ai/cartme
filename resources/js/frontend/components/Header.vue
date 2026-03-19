@@ -89,7 +89,6 @@
 
                     <!-- Auth Buttons -->
                     <div class="flex items-center space-x-1 sm:space-x-2">
-                        {{ userStore.user }}
                         <div v-if="userStore.user">
                             <button
                                 class="hidden sm:block px-3 py-1.5 text-xs font-bold text-gray-700 dark:text-gray-200 hover:text-brand-tan transition-colors uppercase tracking-tight">
