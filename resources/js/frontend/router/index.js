@@ -9,6 +9,7 @@ import Register from '../pages/Register.vue'
 import ForgotPassword from '../pages/ForgotPassword.vue'
 import OtpVerify from '../pages/OtpVerify.vue'
 import ResetPassword from '../pages/ResetPassword.vue'
+import Logout from '../pages/Logout.vue'
 
 import MainLayout from '../layouts/MainLayout.vue'
 
@@ -49,6 +50,10 @@ const routes = [
                 path: 'forgot-password',
                 component: ForgotPassword
             },
+            {
+                path: 'logout',
+                component: Logout,
+            }, 
             {
                 path: 'otp-verify',
                 component: OtpVerify,

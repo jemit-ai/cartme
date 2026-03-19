@@ -14,7 +14,7 @@ export const useUserStore = defineStore('user', {
 
         setUser(userData) {
 
-            console.log('User data:', userData)
+            //console.log('User data:', userData)
             this.user = userData
             localStorage.setItem('user', JSON.stringify(userData))
 
@@ -22,7 +22,7 @@ export const useUserStore = defineStore('user', {
 
         setToken(token) {
     
-            console.log('User token:', token)
+            //console.log('User token:', token)
             this.token = token
             localStorage.setItem('token', token)
 

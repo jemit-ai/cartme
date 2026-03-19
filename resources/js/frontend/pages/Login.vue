@@ -151,7 +151,7 @@ const submitForm = async () => {
 
             success.value = response.data.message || 'Login successful!';
 
-            console.log('Response:', response.data);
+            //console.log('Response:', response.data);
             // If tokens are returned in data, handle them here (usually handled by interceptors)
             if (response.data) {
 
