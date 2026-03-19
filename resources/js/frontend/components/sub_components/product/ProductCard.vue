@@ -33,9 +33,11 @@
 import { ref, onMounted } from 'vue';
 
 const props = defineProps({
+
     product: {
         type: Object,
         required: true
     }
+
 })
 </script>

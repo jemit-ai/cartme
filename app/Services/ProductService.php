@@ -32,6 +32,19 @@ class ProductService
         }
     }
 
+    public function getProducts()
+    {
+        $guest_token = $data['guest_token'] ?? null;
+        $user_id     = $data['user_id'] ?? null;
+
+        try {
+            return Product::all();
+        } catch (Throwable $th) {
+            Log::error($th->getMessage());
+            return collect(); // Return empty collection or handle as needed
+        }
+    }
+
     public function getProductById($id)
     {
         try {

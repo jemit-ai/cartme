@@ -57,7 +57,7 @@
                 <div class="flex flex-col sm:flex-row justify-between items-center mb-8 gap-4">
                     <p
                         class="text-xs font-bold text-gray-400 uppercase tracking-widest bg-brand-cream/20 dark:bg-gray-800 px-4 py-2 rounded-full">
-                        Showing 12 premium products
+                        Showing {{ products.length }} premium products
                     </p>
 
                     <div class="relative group">
@@ -106,19 +106,8 @@ import api from '../services/api';
 
 import ProductCard from '../components/sub_components/product/ProductCard.vue';
 
-/*const products = ref([]);
 
-const getProducts = async () => {
-    try {
-        const response = await api.get('/products');
-        products.value = response.data;
-    } catch (error) {
-        console.error('Error fetching products:', error);
-    }
-}
-
-getProducts();*/
-
+/*
 const products = ref([
     {
         id: 1,
@@ -142,4 +131,19 @@ const products = ref([
         image: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff'
     }
 ]);
+
+*/
+
+const products = ref([]);
+
+const getProducts = async () => {
+    try {
+        const response = await api.get('/products');
+        products.value = response.data.data.data;
+    } catch (error) {
+        console.log('Error fetching products:', error);
+    }
+}
+
+getProducts();
 </script>
