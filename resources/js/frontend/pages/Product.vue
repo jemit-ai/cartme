@@ -30,7 +30,7 @@
                                     class="w-4 h-4 rounded border-brand-cream text-brand-tan focus:ring-brand-tan">
                                 <span
                                     class="ml-3 text-sm text-gray-600 dark:text-gray-400 group-hover:text-brand-tan transition-colors">{{
-                                    cat }}</span>
+                                        cat }}</span>
                             </label>
                         </div>
                     </div>
@@ -78,94 +78,7 @@
 
                 <!-- PRODUCT GRID -->
                 <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
-
-                    <!-- PRODUCT CARD 1 -->
-                    <div
-                        class="group bg-white dark:bg-gray-900 rounded-[2rem] overflow-hidden border border-brand-cream/50 dark:border-gray-800 shadow-sm hover:shadow-2xl transition-all duration-500">
-                        <div class="aspect-square overflow-hidden relative">
-                            <img src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9"
-                                class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
-                            <div
-                                class="absolute inset-0 bg-black/5 opacity-0 group-hover:opacity-100 transition-opacity">
-                            </div>
-                        </div>
-
-                        <div class="p-8 text-center">
-                            <h3
-                                class="font-black text-gray-900 dark:text-white group-hover:text-brand-tan transition-colors duration-300">
-                                Smartphone
-                            </h3>
-                            <p class="mt-1 text-[10px] font-bold text-gray-400 uppercase tracking-widest">
-                                Latest model
-                            </p>
-                            <div class="mt-6 flex items-center justify-between gap-4">
-                                <span class="text-xl font-black text-brand-tan">$499</span>
-                                <button
-                                    class="bg-brand-tan text-white px-6 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest shadow-lg shadow-brand-tan/20 hover:opacity-90 transform hover:-translate-y-0.5 transition-all">
-                                    Add to Bag
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- PRODUCT CARD 2 -->
-                    <div
-                        class="group bg-white dark:bg-gray-900 rounded-[2rem] overflow-hidden border border-brand-cream/50 dark:border-gray-800 shadow-sm hover:shadow-2xl transition-all duration-500">
-                        <div class="aspect-square overflow-hidden relative">
-                            <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30"
-                                class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
-                            <div
-                                class="absolute inset-0 bg-black/5 opacity-0 group-hover:opacity-100 transition-opacity">
-                            </div>
-                        </div>
-
-                        <div class="p-8 text-center">
-                            <h3
-                                class="font-black text-gray-900 dark:text-white group-hover:text-brand-tan transition-colors duration-300">
-                                Smart Watch
-                            </h3>
-                            <p class="mt-1 text-[10px] font-bold text-gray-400 uppercase tracking-widest">
-                                Fitness tracker
-                            </p>
-                            <div class="mt-6 flex items-center justify-between gap-4">
-                                <span class="text-xl font-black text-brand-tan">$199</span>
-                                <button
-                                    class="bg-brand-tan text-white px-6 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest shadow-lg shadow-brand-tan/20 hover:opacity-90 transform hover:-translate-y-0.5 transition-all">
-                                    Add to Bag
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- PRODUCT CARD 3 -->
-                    <div
-                        class="group bg-white dark:bg-gray-900 rounded-[2rem] overflow-hidden border border-brand-cream/50 dark:border-gray-800 shadow-sm hover:shadow-2xl transition-all duration-500">
-                        <div class="aspect-square overflow-hidden relative">
-                            <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff"
-                                class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
-                            <div
-                                class="absolute inset-0 bg-black/5 opacity-0 group-hover:opacity-100 transition-opacity">
-                            </div>
-                        </div>
-
-                        <div class="p-8 text-center">
-                            <h3
-                                class="font-black text-gray-900 dark:text-white group-hover:text-brand-tan transition-colors duration-300">
-                                Running Shoes
-                            </h3>
-                            <p class="mt-1 text-[10px] font-bold text-gray-400 uppercase tracking-widest">
-                                Comfort sports shoes
-                            </p>
-                            <div class="mt-6 flex items-center justify-between gap-4">
-                                <span class="text-xl font-black text-brand-tan">$120</span>
-                                <button
-                                    class="bg-brand-tan text-white px-6 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest shadow-lg shadow-brand-tan/20 hover:opacity-90 transform hover:-translate-y-0.5 transition-all">
-                                    Add to Bag
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
+                    <ProductCard v-for="product in products" :key="product.id" :product="product" />
                 </div>
 
                 <!-- PAGINATION -->
@@ -186,3 +99,47 @@
 
     </div>
 </template>
+
+<script setup>
+import { ref } from 'vue';
+import api from '../services/api';
+
+import ProductCard from '../components/sub_components/product/ProductCard.vue';
+
+/*const products = ref([]);
+
+const getProducts = async () => {
+    try {
+        const response = await api.get('/products');
+        products.value = response.data;
+    } catch (error) {
+        console.error('Error fetching products:', error);
+    }
+}
+
+getProducts();*/
+
+const products = ref([
+    {
+        id: 1,
+        name: 'Smartphone',
+        description: 'Latest model',
+        price: 499,
+        image: 'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9'
+    },
+    {
+        id: 2,
+        name: 'Smart Watch',
+        description: 'Fitness tracker',
+        price: 199,
+        image: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30'
+    },
+    {
+        id: 3,
+        name: 'Running Shoes',
+        description: 'Comfort sports shoes',
+        price: 120,
+        image: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff'
+    }
+]);
+</script>
