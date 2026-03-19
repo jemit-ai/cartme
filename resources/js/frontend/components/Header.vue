@@ -89,12 +89,22 @@
 
                     <!-- Auth Buttons -->
                     <div class="flex items-center space-x-1 sm:space-x-2">
-                        <button
+                        {{ userStore.user }}
+                        <div v-if="userStore.user">
+                            <button
+                                class="hidden sm:block px-3 py-1.5 text-xs font-bold text-gray-700 dark:text-gray-200 hover:text-brand-tan transition-colors uppercase tracking-tight">
+                                <router-link to="/logout">
+                                    Logout
+                                </router-link>
+                            </button>
+                        </div>
+                        <button v-else
                             class="hidden sm:block px-3 py-1.5 text-xs font-bold text-gray-700 dark:text-gray-200 hover:text-brand-tan transition-colors uppercase tracking-tight">
                             <router-link to="/login">
                                 Sign In
                             </router-link>
                         </button>
+
                         <button
                             class="px-4 py-2 text-xs font-bold text-white bg-brand-tan hover:opacity-90 dark:bg-brand-tan rounded-lg shadow-md hover:shadow-lg transition-all duration-200 uppercase tracking-tight">
                             <router-link to="/register">
@@ -169,6 +179,8 @@ import { onMounted, watch } from 'vue'
 
 const userStore = useUserStore()
 const { user, token } = storeToRefs(userStore)
+
+
 //const { token } = storeToRefs(userStore)
 
 </script>
