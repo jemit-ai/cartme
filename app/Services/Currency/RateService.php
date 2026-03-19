@@ -23,6 +23,8 @@ class RateService
         $this->apiKey  = config('services.currency.key');
         $this->baseCurrency = config('services.currency.base_currency');
         $this->targetCurrencies = config('services.currency.target_currencies');
+
+        Log::info('#Currency rate update job started'.json_encode($this->targetCurrencies));
         
     }
  

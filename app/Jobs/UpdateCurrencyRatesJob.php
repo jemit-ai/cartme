@@ -20,6 +20,7 @@ class UpdateCurrencyRatesJob implements ShouldQueue
     public int $tries = 3;
     public int $backoff = 60;
     public string $baseCurrency;
+    public array $targetCurrencies;
 
 
     /**
@@ -38,26 +39,25 @@ class UpdateCurrencyRatesJob implements ShouldQueue
      */
     public function handle(RateService $rateService): void
     {
-        Log::info('#Currency rate update job started');
-
         try {
 
             $data = $rateService->getLatestRates($this->baseCurrency,$this->targetCurrencies);
-
-
-            //Log::info('#wiky#'.json_encode($data));
-            //Log::info('#iff#'.$data->rates->GBP);
-
             $rates = $data['rates'];
             $rateDate = $data['date'] ?? now()->toDateString();
 
 
+            Currency::updateOrCreate(
+                ['code' => $this->baseCurrency],
+                ['rate' => 1, 'is_base' =>1]
+            );
 
             foreach ($rates as $code => $rate) {
+
                 Currency::updateOrCreate(
                     ['code' => $code],
                     ['rate' => $rate, 'is_base' => $code === $this->baseCurrency]
                 );
+
             }
 
             Log::info('Currency rates updated successfully', [

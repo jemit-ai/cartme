@@ -50,8 +50,8 @@ return [
     'currency' => [ 
         'url' => env('CURRENCY_API_URL'),
         'key' => env('CURRENCY_API_KEY'),
-        'base_currency' => env('BASE_CURRENCY', 'USD'),
-        'target_currencies' => explode(',', env('TARGET_CURRENCIES', ',')),
+        'base_currency' => env('BASE_CURRENCY'),
+        'target_currencies' => explode(',', env('TARGET_CURRENCIES', 'USD,GBP,AED')),
     ],
 
 ];
