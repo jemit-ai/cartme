@@ -11,48 +11,28 @@ use Illuminate\Support\Facades\Http;
 
 class RateService
 {
+
+    protected $baseUrl;
+    protected $apiKey;
+    protected $baseCurrency;
+    protected $targetCurrencies;
+
+    public function __construct()
+    {
+        $this->baseUrl = config('services.currency.url');
+        $this->apiKey  = config('services.currency.key');
+        $this->baseCurrency = config('services.currency.base_currency');
+        $this->targetCurrencies = config('services.currency.target_currencies');
+        
+    }
  
-    /*public function getLatestRates(string $base = 'USD',string $to='INR' ): array
-    {
-        $url = config('services.currency.url');
-        $apiKey = config('services.currency.key');
-
-        $url = "$url?from=$base&to=$to";
-        //curl -H "X-API-Key: 78a96c4291-d63606e52b-tc4uu4" https://api.fastforex.io/fetch-one?from=USD&to=EUR
-
-        $response = Http::timeout(30)
-            ->retry(3, 1000)
-            ->get($url, [
-                'access_key' => $apiKey,
-                'base' => $base,
-            ]);
-
-        if (! $response->successful()) {
-            Log::error('Currency API request failed', [
-                'status' => $response->status(),
-                'body' => $response->body(),
-            ]);
-
-            throw new Exception('Failed to fetch currency rates.');
-        }
-
-        $data = $response->json();
-
-        if (! isset($data['rates']) || ! is_array($data['rates'])) {
-            Log::error('Invalid currency API response', [
-                'response' => $data,
-            ]);
-
-            throw new Exception('Invalid currency API response.');
-        }
-
-        return $data;
-    }*/
-
-    public function getLatestRates(string $base = 'USD', array $targets = ['INR', 'GBP', 'AED']): array
-    {
-        $url    = config('services.currency.url');
-        $apiKey = config('services.currency.key');
+    public function getLatestRates(): array
+    { 
+       
+        $url     = $this->baseUrl;
+        $apiKey  = $this->apiKey;
+        $base    = $this->baseCurrency;
+        $targets = $this->targetCurrencies;
 
         $to = implode(',', array_map('strtoupper', $targets));
 

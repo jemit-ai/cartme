@@ -47,9 +47,11 @@ return [
         'webhook_secret' => env('RAZORPAY_WEBHOOK_SECRET'),
     ],
      
-    'currency' => [
+    'currency' => [ 
         'url' => env('CURRENCY_API_URL'),
         'key' => env('CURRENCY_API_KEY'),
+        'base_currency' => env('BASE_CURRENCY', 'USD'),
+        'target_currencies' => explode(',', env('TARGET_CURRENCIES', ',')),
     ],
 
 ];
