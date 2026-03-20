@@ -13,7 +13,7 @@ use App\Models\Category;
 class ProductService
 {
     
-    public function getPaginatedProducts($perPage = 10, $search = null)
+    public function getPaginatedProducts_ii($perPage = 10, $search = null)
     {
         try {
             $query = Product::with('category');
@@ -29,6 +29,41 @@ class ProductService
         } catch (Throwable $th) {
             Log::error($th->getMessage());
             return collect(); // Return empty collection or handle as needed
+        }
+    }
+
+    public function getPaginatedProducts($countryId, $perPage = 12, $search = null)
+    {
+    
+        Log::info('Territory ID: '.$countryId);
+        
+        try {
+
+            Log::info('Territory ID#: '.$countryId);
+
+            $query = Product::whereHas('countries', function ($q) use ($countryId) {
+
+                    $q->where('country_id', $countryId);
+
+            })->with([
+
+                'countries' => function ($q) use ($countryId) {
+                     $q->where('country_id', $countryId);
+                },
+
+                'category'
+
+            ]);
+
+            Log::info('Query: '.$query->toSql());
+
+            return $query->paginate($perPage);
+
+        } catch (Throwable $th) {
+
+            Log::error($th->getMessage());
+            return collect(); // Return empty collection or handle as needed
+
         }
     }
 

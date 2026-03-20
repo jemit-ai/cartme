@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-
 use App\Models\Country;
 use App\Models\Category;
 use App\Models\Order;
@@ -26,8 +25,6 @@ class Product extends Model
     
     public function category()
     {
-        //return $this->belongsTo(Category::class);
-
         return $this->belongsToMany(Category::class, 'category_product')
             ->withPivot('category_id', 'product_id')->withTimestamps();
     }    
@@ -55,5 +52,16 @@ class Product extends Model
             ->withTimestamps();
     }
 
-    
+    public function scopeCountry($query, $countryId)
+    {
+        return $query->join('product_country', 'products.id', '=', 'product_country.product_id')
+            ->where('product_country.country_id', $countryId)
+            ->select(
+                'products.*',
+                'product_country.price as country_price',
+                'product_country.currency_code',
+                'product_country.status as availability'
+            );
+    }
+
 }

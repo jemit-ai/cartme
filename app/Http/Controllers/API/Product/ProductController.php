@@ -21,7 +21,10 @@ class ProductController extends BaseApiController
     public function index(Request $request)
     {
         try {
-            $products = $this->productService->getPaginatedProducts($request->per_page, $request->search); 
+            $data = $request->all();
+            $countryId = $data['country_id'];
+            Log::info('Country ID: '.$countryId);
+            $products = $this->productService->getPaginatedProducts($countryId, $request->per_page, $request->search); 
             return $this->successResponse($products, 'Products fetched successfully');
         } catch (\Exception $e) {
             Log::error($e->getMessage());
