@@ -19,7 +19,7 @@
             </p>
             <div class="mt-6 flex items-center justify-between gap-4">
                 <span class="text-xl font-black text-brand-tan">{{ product.price }}</span>
-                <button
+                <button @click="addToCart(product.id)"
                     class="bg-brand-tan text-white px-6 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest shadow-lg shadow-brand-tan/20 hover:opacity-90 transform hover:-translate-y-0.5 transition-all">
                     Add to Bag
                 </button>
@@ -30,7 +30,8 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref } from 'vue';
+import api from '../../../services/api';
 
 const props = defineProps({
 
@@ -40,4 +41,25 @@ const props = defineProps({
     }
 
 })
+
+const addToCart = async (productId) => {
+
+    //console.log('Add to cart:', productId);
+
+    try {
+        const response = await api.post('/cart/add', {
+            product_id: productId,
+            quantity: 1
+        });
+
+        console.log(response.data);
+
+    } catch (error) {
+
+        console.log('Error adding to cart:', error);
+
+    }
+
+
+}
 </script>

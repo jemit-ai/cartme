@@ -26,7 +26,7 @@ class CartController extends BaseApiController
         $data['guest_token'] = $request->header('X-Guest-Token');
         $data['user_id'] = $request->user()?->id ?? 0;
         
-        Log::info('Add to Cart Data: ' . json_encode($data));
+       // Log::info('Add to Cart Data: ' . json_encode($data));
 
         try {
 

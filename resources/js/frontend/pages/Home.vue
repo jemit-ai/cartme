@@ -13,7 +13,8 @@
                     Up to 50% discount on electronics and fashion.
                 </p>
 
-                <button class="bg-white text-brand-tan px-6 py-3 rounded-lg font-semibold shadow-lg hover:bg-gray-50 transition-colors">
+                <button
+                    class="bg-white text-brand-tan px-6 py-3 rounded-lg font-semibold shadow-lg hover:bg-gray-50 transition-colors">
                     Shop Now
                 </button>
             </div>
@@ -69,46 +70,7 @@
             </h2>
 
             <div class="grid md:grid-cols-4 gap-8">
-
-                <!-- PRODUCT -->
-                <div class="bg-white rounded-xl shadow-sm hover:shadow-xl transition-all p-4 border border-brand-cream/50">
-
-                    <img src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9" class="rounded-lg mb-4">
-
-                    <h3 class="font-semibold text-gray-800 dark:text-white">
-                        Smart Phone
-                    </h3>
-
-                    <p class="text-brand-tan font-bold text-lg">
-                        $499
-                        <span class="line-through text-gray-400 text-sm font-normal">$699</span>
-                    </p>
-
-                    <button class="mt-4 w-full bg-brand-tan text-white py-2.5 rounded-lg font-medium hover:opacity-90 transition-all">
-                        Add to Cart
-                    </button>
-
-                </div>
-
-                <!-- PRODUCT -->
-                <div class="bg-white rounded-xl shadow-sm hover:shadow-xl transition-all p-4 border border-brand-cream/50">
-
-                    <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30" class="rounded-lg mb-4">
-
-                    <h3 class="font-semibold text-gray-800 dark:text-white">
-                        Smart Watch
-                    </h3>
-
-                    <p class="text-brand-tan font-bold text-lg">
-                        $199
-                    </p>
-
-                    <button class="mt-4 w-full bg-brand-tan text-white py-2.5 rounded-lg font-medium hover:opacity-90 transition-all">
-                        Add to Cart
-                    </button>
-
-                </div>
-
+                <ProductCard v-for="product in products" :key="product.id" :product="product" />
             </div>
 
         </div>
@@ -142,7 +104,8 @@
             Get 30% Discount
         </h2>
 
-        <button class="bg-white text-brand-tan px-8 py-3 rounded-lg font-bold shadow-lg hover:bg-gray-50 transition-colors">
+        <button
+            class="bg-white text-brand-tan px-8 py-3 rounded-lg font-bold shadow-lg hover:bg-gray-50 transition-colors">
             Shop Deals
         </button>
 
@@ -175,11 +138,13 @@
         <h2 class="text-2xl font-bold mb-4 text-gray-800 dark:text-white">
             Subscribe to Newsletter
         </h2>
-        <p class="text-gray-600 dark:text-gray-400 mb-8 max-w-md mx-auto">Stay updated with our latest collections and exclusive offers sent directly to your inbox.</p>
+        <p class="text-gray-600 dark:text-gray-400 mb-8 max-w-md mx-auto">Stay updated with our latest collections and
+            exclusive offers sent directly to your inbox.</p>
 
         <div class="flex justify-center max-w-md mx-auto">
 
-            <input type="email" placeholder="Enter your email" class="w-full px-4 py-3 bg-white dark:bg-gray-800 border-none rounded-l-xl focus:ring-2 focus:ring-brand-tan text-sm">
+            <input type="email" placeholder="Enter your email"
+                class="w-full px-4 py-3 bg-white dark:bg-gray-800 border-none rounded-l-xl focus:ring-2 focus:ring-brand-tan text-sm">
 
             <button class="bg-brand-tan text-white px-8 py-3 rounded-r-xl font-bold hover:opacity-90 transition-all">
                 Join
@@ -190,3 +155,24 @@
     </section>
 
 </template>
+
+<script setup>
+import { ref } from 'vue';
+import api from '../services/api';
+import ProductCard from '../components/sub_components/product/ProductCard.vue';
+
+
+const products = ref([]);
+
+const getProducts = async () => {
+    try {
+        const response = await api.get('/products');
+        products.value = response.data.data.data;
+    } catch (error) {
+        console.log('Error fetching products:', error);
+    }
+}
+
+getProducts();
+
+</script>
