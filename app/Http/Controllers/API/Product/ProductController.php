@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Log;
 use App\Models\Product;
 use App\Services\ProductService;
 
+
 class ProductController extends BaseApiController
 {
     public $productService;
@@ -31,4 +32,18 @@ class ProductController extends BaseApiController
             return $this->errorResponse('Failed to fetch products', 500);
         }
     }
+
+    /*public function getCategories(Request $request)
+    {
+        try {
+            $data = $request->all();
+            $countryId = $data['country_id'];
+            Log::info('Country ID: '.$countryId);
+            $categories = $this->productService->getCategories($countryId,$request->per_page); 
+            return $this->successResponse($categories, 'Categories fetched successfully');
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
+            return $this->errorResponse('Failed to fetch categories', 500);
+        }
+    }*/
 }
