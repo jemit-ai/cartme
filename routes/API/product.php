@@ -1,6 +1,7 @@
 <?php
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\Product\CategoryController;
+use App\Http\Controllers\API\Product\ProductController;
 
 Route::group(['middleware' => 'territory'], function () {
 
