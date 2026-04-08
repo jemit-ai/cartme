@@ -19,8 +19,17 @@ class GuestTokenMiddleware
     {
         if (!$request->user() && !$request->header('X-Guest-Token')) {
 
-            $guestToken = (string) Str::uuid();
-            Log::info('Guest Token:'.$guestToken);
+            /*$guestToken = (string) Str::uuid();
+            Log::info('Guest Token:'.$guestToken);*/
+
+            $ip = $request->ip(); // Get client IP
+            $userAgent = $request->header('User-Agent'); // Browser info
+
+                // Create a unique token using IP + browser + random salt
+            $guestToken = hash('sha256', $ip . '|' . $userAgent);
+
+            Log::info('Guest Token: ' . $guestToken);
+
             $request->headers->set('X-Guest-Token', $guestToken);
             
         }
