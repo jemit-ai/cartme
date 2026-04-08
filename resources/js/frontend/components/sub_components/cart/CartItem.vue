@@ -4,7 +4,7 @@
         class="bg-white dark:bg-gray-900 p-6 rounded-2xl shadow-sm border border-brand-cream/50 dark:border-gray-800 flex flex-col sm:flex-row items-center gap-6 transition-all hover:shadow-md">
 
         <div class="relative group">
-            <img src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9"
+            <img :src="item.image"
                 class="w-32 h-32 rounded-xl object-cover shadow-sm group-hover:scale-105 transition-transform duration-300">
         </div>
 
@@ -40,10 +40,19 @@
 
         <div class="sm:text-right">
             <p class="text-2xl font-black text-brand-tan">
-                $499
+                ${{ item.price }}
             </p>
         </div>
 
     </div>
 
 </template>
+
+<script setup>
+const props = defineProps({
+    item: {
+        type: Object,
+        required: true
+    }
+})
+</script>

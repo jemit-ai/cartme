@@ -8,7 +8,29 @@
             <!-- CART ITEMS -->
             <div class="lg:col-span-2 space-y-6">
 
-                <CartItem />
+                <div v-if="items.length > 0" class="space-y-6">
+                    <CartItem v-for="item in items" :key="item.id" :item="item" />
+                </div>
+
+                <div v-else-if="!loading"
+                    class="text-center py-20 bg-white dark:bg-gray-900 rounded-2xl border border-brand-cream/50">
+                    <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+                    </svg>
+                    <h3 class="mt-2 text-sm font-medium text-gray-900 dark:text-white">Empty Bag</h3>
+                    <p class="mt-1 text-sm text-gray-500">Your shopping bag is empty.</p>
+                    <div class="mt-6">
+                        <router-link to="/product"
+                            class="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-brand-tan hover:opacity-90">
+                            Start Shopping
+                        </router-link>
+                    </div>
+                </div>
+
+                <div v-else class="text-center py-20">
+                    <p class="text-gray-500 animate-pulse">Loading your bag...</p>
+                </div>
 
             </div>
 
@@ -87,5 +109,20 @@
 </template>
 
 <script setup>
+
+import { onMounted } from 'vue';
+import { ref } from 'vue';
+import api from '../services/api';
+import { useCartStore } from '../stores/cart';
+import { storeToRefs } from 'pinia';
+
 import CartItem from '../components/sub_components/cart/CartItem.vue';
+
+const cartStore = useCartStore();
+const { items, loading } = storeToRefs(cartStore);
+
+onMounted(() => {
+    cartStore.fetchCart();
+})
+
 </script>

@@ -30,8 +30,11 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import api from '../../../services/api';
+import { useCartStore } from '../../../stores/cart.js';
+
+const cartStore = useCartStore();
 
 const props = defineProps({
 
@@ -47,12 +50,9 @@ const addToCart = async (productId) => {
     //console.log('Add to cart:', productId);
 
     try {
-        const response = await api.post('/cart/add', {
-            product_id: productId,
-            quantity: 1
-        });
 
-        console.log(response.data);
+        await cartStore.addToCart(productId);
+        console.log('Product added to cart:', productId);
 
     } catch (error) {
 
