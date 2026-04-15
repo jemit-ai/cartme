@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Log;
 
 class Cart extends Model
 {
@@ -26,9 +27,10 @@ class Cart extends Model
 
     public function scopeForUserSession($query, $userId, $sessionId)
     {
+       Log::info('Cart Query#: ' . $query->toSql());
        return $query->where('user_id', $userId)
                  ->where('session_id', $sessionId);
-}
+    }
 
 
 }

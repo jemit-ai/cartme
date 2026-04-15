@@ -118,22 +118,17 @@ class CartService
         return $cart->load('items.product');
     }
 
-    public function removeFromCart($data)
-    {
+    public function removeFromCart($data){
 
-        Log::info('Remove from Cart Data: ' . json_encode($data));
-        
         $guest_token = $data['guest_token'] ?? null;
         $user_id     = $data['user_id'] ?? null;
 
+        $product_id  = $data['product_id'] ?? null;
+        $quantity    = $data['quantity'] ?? null;
 
-        $product_id = $data['product_id'] ?? null;
-        $quantity   = $data['quantity'] ?? null;
-        
-        //Cart::forUserSession($user_id, $guest_token)->toSql();
-        //$cart = Cart::forUserSession($user_id, $guest_token)->first();
-        
-        Log::info('Cart Query: ' . Cart::forUserSession($user_id, $guest_token)->toSql());
+        if (!$product_id || !$quantity) {
+            return null;
+        }
 
         $cart = Cart::forUserSession($user_id, $guest_token)->first();
 
@@ -141,17 +136,54 @@ class CartService
             return null;
         }
 
-        $cart->items()->where('product_id', $product_id)->delete();
+        $cartItem = $cart->items()->where('product_id', $product_id)->first();
 
-        return $cart->load('items.product');
+        
+        if ($cartItem) {
+           
+                $cartItem->delete();
+          
+        }
+            
+        return true;
+
     }
-
+    
     public function getCart($data)
     {
+
         $guest_token = $data['guest_token'] ?? null;
         $user_id     = $data['user_id'] ?? null;
 
-        return Cart::forUserSession($user_id, $guest_token)->with(['items.product'])->first();
+        //Log::info('Cart Query #4: ' . Cart::forUserSession($user_id, $guest_token)->with(['items.product'])->toSql());
+
+        //return Cart::forUserSession($user_id, $guest_token)->with(['items.product'])->first();
+
+        $cart = Cart::forUserSession($user_id, $guest_token)->with([ 
+                            'items.product'
+                        ])->first();
+           
+        $items = $cart->items->map(function ($item) {
+            return [
+                'id' => $item->id,
+                'product' => $item->product->name,
+                'image' => $item->product->image,
+                'quantity' => $item->quantity,
+                'price' => $item->product->price, 
+                'total' => number_format($item->quantity * $item->product->price, 2, '.', '')
+            ];
+        });
+
+        $subTotal = $cart->items->sum(function ($item) {
+            return $item->quantity * $item->product->price;
+        });
+
+        return [
+            'items' => $items,
+            'sub_total' => number_format($subTotal, 2, '.', ''),
+            'main_total' => number_format($subTotal, 2, '.', '')
+        ];
+        
     }
 
     public static function mergeGuestCartToUser($sessionId, $userId)

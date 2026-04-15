@@ -9,7 +9,7 @@
             <div class="lg:col-span-2 space-y-6">
 
                 <div v-if="items.length > 0" class="space-y-6">
-                    <CartItem v-for="item in items" :key="item.id" :item="item" />
+                    <CartItem v-for="item in items" :key="item.id" :item="item" @removeItem="handleRemove" />
                 </div>
 
                 <div v-else-if="!loading"
@@ -46,7 +46,7 @@
 
                     <div class="flex justify-between text-gray-600 dark:text-gray-400">
                         <span>Subtotal</span>
-                        <span class="font-bold text-gray-900 dark:text-white">$897</span>
+                        <span class="font-bold text-gray-900 dark:text-white">${{ subTotal }}</span>
                     </div>
 
                     <div class="flex justify-between text-gray-600 dark:text-gray-400">
@@ -54,15 +54,15 @@
                         <span class="font-bold text-green-500 uppercase text-xs">Free</span>
                     </div>
 
-                    <div class="flex justify-between text-gray-600 dark:text-gray-400">
+                    <!--div class="flex justify-between text-gray-600 dark:text-gray-400">
                         <span>Est. Tax</span>
                         <span class="font-bold text-gray-900 dark:text-white">$15</span>
-                    </div>
+                    </div-->
 
                     <div class="pt-4 mt-4 border-t border-brand-cream/30 dark:border-gray-800">
                         <div class="flex justify-between items-baseline text-gray-900 dark:text-white">
                             <span class="text-base font-bold">Total Amount</span>
-                            <span class="text-3xl font-black text-brand-tan">$912</span>
+                            <span class="text-3xl font-black text-brand-tan">${{ mainTotal }}</span>
                         </div>
                     </div>
 
@@ -109,8 +109,7 @@
 </template>
 
 <script setup>
-
-import { onMounted } from 'vue';
+import { onMounted, computed } from 'vue';
 import { ref } from 'vue';
 import api from '../services/api';
 import { useCartStore } from '../stores/cart';
@@ -119,10 +118,23 @@ import { storeToRefs } from 'pinia';
 import CartItem from '../components/sub_components/cart/CartItem.vue';
 
 const cartStore = useCartStore();
-const { items, loading } = storeToRefs(cartStore);
 
 onMounted(() => {
     cartStore.fetchCart();
 })
+
+const { items, loading, subTotal, mainTotal } = storeToRefs(cartStore);
+
+const itemCount = computed(() => items.value?.length || 0)
+
+const handleRemove = async (id, quantity) => {
+    console.log('Removing item: ' + id);
+    console.log('Removing quantity: ' + quantity);
+    await cartStore.removeItem(id, quantity);
+};
+
+//console.log('subTotal: ' + subTotal.value);
+//console.log('itemCount: ' + itemCount.value);
+
 
 </script>

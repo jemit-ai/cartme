@@ -11,7 +11,7 @@
         <div class="flex-1 text-center sm:text-left">
 
             <h3 class="font-bold text-xl text-gray-800 dark:text-white">
-                Smart Phone
+                {{ item.product }}
             </h3>
 
             <p class="text-gray-500 dark:text-gray-400 text-sm mt-1">
@@ -23,14 +23,15 @@
                 <div
                     class="flex items-center bg-brand-cream/20 dark:bg-gray-800 rounded-lg p-1 border border-brand-cream/30">
                     <button
-                        class="w-8 h-8 flex items-center justify-center rounded-md hover:bg-white dark:hover:bg-gray-700 transition-colors text-gray-600 dark:text-gray-300">-</button>
-                    <span class="px-4 font-bold text-sm">1</span>
+                        class="w-8 h-8 flex items-center justify-center rounded-md hover:bg-white dark:hover:bg-gray-700 transition-colors text-gray-600 dark:text-gray-300 cursor-pointer">-</button>
+                    <span class="px-4 font-bold text-sm">{{ item.quantity }}</span>
                     <button
-                        class="w-8 h-8 flex items-center justify-center rounded-md hover:bg-white dark:hover:bg-gray-700 transition-colors text-gray-600 dark:text-gray-300">+</button>
+                        class="w-8 h-8 flex items-center justify-center rounded-md hover:bg-white dark:hover:bg-gray-700 transition-colors text-gray-600 dark:text-gray-300 cursor-pointer">+</button>
                 </div>
 
                 <button
-                    class="text-red-400 hover:text-red-600 dark:hover:text-red-500 text-xs font-bold uppercase tracking-wider transition-colors">
+                    class="text-red-400 hover:text-red-600 dark:hover:text-red-500 text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer"
+                    @click="removeItem">
                     Remove
                 </button>
 
@@ -40,7 +41,7 @@
 
         <div class="sm:text-right">
             <p class="text-2xl font-black text-brand-tan">
-                ${{ item.price }}
+                ${{ item.total }}
             </p>
         </div>
 
@@ -49,6 +50,12 @@
 </template>
 
 <script setup>
+const emit = defineEmits(['removeItem']);
+
+const removeItem = () => {
+    emit('removeItem', props.item.id, props.item.quantity);
+}
+
 const props = defineProps({
     item: {
         type: Object,
