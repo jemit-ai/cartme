@@ -137,15 +137,14 @@ class CartService
         }
 
         $cartItem = $cart->items()->where('product_id', $product_id)->first();
-
-        
         if ($cartItem) {
            
                 $cartItem->delete();
           
         }
             
-        return true;
+        return $cart->load('items.product');
+
 
     }
     

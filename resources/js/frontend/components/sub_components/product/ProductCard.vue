@@ -21,8 +21,14 @@
                 <span class="text-xl font-black text-brand-tan">{{ product.price }}</span>
                 <button @click="addToCart(product.id)"
                     class="bg-brand-tan text-white px-6 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest shadow-lg shadow-brand-tan/20 hover:opacity-90 transform hover:-translate-y-0.5 transition-all">
-                    Add to Bag
+                    <span v-if="loading == true">
+                        Adding...
+                    </span>
+                    <span v-else>
+                        Add to Bag
+                    </span>
                 </button>
+
             </div>
         </div>
     </div>

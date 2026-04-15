@@ -14,9 +14,9 @@
                 {{ item.product }}
             </h3>
 
-            <p class="text-gray-500 dark:text-gray-400 text-sm mt-1">
+            <!--p class="text-gray-500 dark:text-gray-400 text-sm mt-1">
                 128GB | Midnight Black
-            </p>
+            </p-->
 
             <div class="flex items-center justify-center sm:justify-start gap-6 mt-4">
 

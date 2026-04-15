@@ -68,6 +68,8 @@ export const useCartStore = defineStore('cart', {
                     product_id: id,
                     quantity: quantity
                 })
+
+                this.items = this.items.filter(item => item.id !== id)
                 
                 console.log('Remove from Cart Response:', response.data)
                 // Fetch updated cart to keep state in sync
