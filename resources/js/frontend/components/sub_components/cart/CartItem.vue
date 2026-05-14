@@ -11,6 +11,7 @@
         <div class="flex-1 text-center sm:text-left">
 
             <h3 class="font-bold text-xl text-gray-800 dark:text-white">
+                {{ item.sku }}
                 {{ item.product }}
             </h3>
 
@@ -50,16 +51,22 @@
 </template>
 
 <script setup>
+
 const emit = defineEmits(['removeItem']);
 
 const removeItem = () => {
+
+    //console.log('#GHI' + props.item.id);
     emit('removeItem', props.item.id, props.item.quantity);
 }
 
 const props = defineProps({
+
     item: {
         type: Object,
         required: true
     }
+
 })
+
 </script>

@@ -136,15 +136,17 @@ class CartService
             return null;
         }
 
-        $cartItem = $cart->items()->where('product_id', $product_id)->first();
+        //$cartItem = $cart->items()->where('product_id', $product_id);
+
+        $cartItem = $cart->items()->where('id', $product_id);
+
         if ($cartItem) {
            
-                $cartItem->delete();
-          
+            $cartItem->delete();
+                
         }
             
         return $cart->load('items.product');
-
 
     }
     
@@ -165,6 +167,7 @@ class CartService
         $items = $cart->items->map(function ($item) {
             return [
                 'id' => $item->id,
+                'sku' => $item->product->sku,
                 'product' => $item->product->name,
                 'image' => $item->product->image,
                 'quantity' => $item->quantity,

@@ -128,7 +128,10 @@ const { items, loading, subTotal, mainTotal } = storeToRefs(cartStore);
 const itemCount = computed(() => items.value?.length || 0)
 
 const handleRemove = async (id, quantity) => {
+    //alert(id);
+    console.log(id, quantity);
     await cartStore.removeItem(id, quantity);
+
 };
 
 </script>
